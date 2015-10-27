@@ -39,11 +39,11 @@ Client::~Client()
 //  Async completion callback
 //------------------------------------------------------------------------------
 // This is a simply text demo, we use callback only to set an internal flag...
-void S7API Client::CliCompletion(void *usrPtr, int opCode, int opResult)
-{
-JobResult=opResult;
-JobDone = true;
-}
+//void S7API Client::CliCompletion(void *usrPtr, int opCode, int opResult)
+//{
+//JobResult=opResult;
+//JobDone = true;
+//}
 //------------------------------------------------------------------------------
 // SysSleep (copied from snap_sysutils.cpp) multiplatform millisec sleep
 //------------------------------------------------------------------------------
@@ -268,10 +268,10 @@ TS7CpuInfo Info;
 int res=S7Client->GetCpuInfo(&Info);
 if (Check(res,"Unit Info"))
 {
-//     w->on_appenedMessage_textChanged("  Nazwa modułu   : "+QString::fromStdString(Info.ModuleTypeName));
-//     w->on_appenedMessage_textChanged("  Numer seryjny  : "+QString::fromStdString(Info.SerialNumber));
-//     w->on_appenedMessage_textChanged("  Nazwa AS       : "+QString::fromStdString(Info.ASName));
-//     w->on_appenedMessage_textChanged("  Nazwa modułu   : "+QString::fromStdString(Info.ModuleName));
+qWarning() <<  "  Nazwa modułu   : "+QString::fromStdString(Info.ModuleTypeName);
+qWarning() <<  "  Numer seryjny  : "+QString::fromStdString(Info.SerialNumber);
+qWarning() <<  "  Nazwa AS       : "+QString::fromStdString(Info.ASName);
+qWarning() <<  "  Nazwa modułu   : "+QString::fromStdString(Info.ModuleName);
 };
 }
 //------------------------------------------------------------------------------
@@ -472,17 +472,11 @@ void Client::Summary()
 
 
 
-void Client::mainFunction(char& Address)
+void Client::mainFunction()
 {
 
-
-
-// Client Creation
-
-
-
-
-    S7Client->ConnectTo("192.168.10.10", 0, 2);
+    S7Client->ConnectTo("10.10.196.1", 0, 2);
+    UploadDB0();
 
 }
 
