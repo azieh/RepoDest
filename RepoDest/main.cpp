@@ -8,9 +8,10 @@ int main(int argc, char *argv[])
     //MainWindow w;
     //w.show();
 
-    Client c;
-
-    c.mainFunction();
+    Client st10;
+    st10.address="192.168.1.1";
+    st10.dbNumber=999;
+    st10.startPlcCommunication();
 
     return a.exec();
 }
