@@ -31,6 +31,17 @@ public:
 
     void mainFunction();
 
+    struct CommunicationStruct
+    {
+        bool fault;
+        bool fault_ack;
+        bool part_ok;
+        bool part_ok_ack;
+        int fault_nr;
+    };
+
+
+
 private:
 
     void S7API CliCompletion(void *usrPtr, int opCode, int opResult);
@@ -53,6 +64,7 @@ private:
     void CliDisconnect();
     void PerformTests();
     void Summary();
+    void ReadDbArea();
 
 
 
