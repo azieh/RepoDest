@@ -10,7 +10,6 @@
 #include "client.h"
 #include <QtWidgets>
 
-
 #ifdef OS_WINDOWS
 # define WIN32_LEAN_AND_MEAN
 # include <windows.h>
@@ -22,8 +21,10 @@ Client::Client() :
     address             (nullptr),
     repoDestDbStruct    (nullptr)
 {
-    _ok = 0;
-    _ko = 0;
+    dbNumber = 0;
+
+    ok = 0;
+    ko = 0;
 }
 
 Client::~Client()
@@ -76,7 +77,7 @@ bool Client::_check(int result, const char * function)
         qWarning("| Result         : OK");
         qWarning("| Execution time : %d ms",S7Client->ExecTime());
         qWarning("+-----------------------------------------------------");
-        _ok++;
+        ok++;
     }
     else {
         qWarning("| ERROR !!!");
@@ -85,7 +86,7 @@ bool Client::_check(int result, const char * function)
         else
             qWarning("| %s",CliErrorText(result).c_str());
         qWarning("+-----------------------------------------------------");
-        _ko++;
+        ko++;
     }
     return result==0;
 }
@@ -216,9 +217,9 @@ void Client::_summary()
     qWarning() << "+-----------------------------------------------------";
     qWarning() << "| Test Summary ";
     qWarning() << "+-----------------------------------------------------";
-    qWarning() << "| Performed  : "+QString::number(_ok+_ko);
-    qWarning() << "| Passed     : "+QString::number(_ok);
-    qWarning() << "| Failed     : "+QString::number(_ko);
+    qWarning() << "| Performed  : "+QString::number(ok+ko);
+    qWarning() << "| Passed     : "+QString::number(ok);
+    qWarning() << "| Failed     : "+QString::number(ko);
     qWarning() << "+-----------------------------------------------------";
 
 }
@@ -233,38 +234,28 @@ void Client::_hexdump(void *mem, unsigned int len)
 {
     unsigned int i, j;
 
-    for(i = 0; i < len + ((len % HEXDUMP_COLS) ? (HEXDUMP_COLS - len % HEXDUMP_COLS) : 0); i++)
-    {
+    for(i = 0; i < len + ((len % HEXDUMP_COLS) ? (HEXDUMP_COLS - len % HEXDUMP_COLS) : 0); i++){
         /* print offset */
-        if(i % HEXDUMP_COLS == 0)
-        {
+        if(i % HEXDUMP_COLS == 0){
             qWarning("0x%04x: ", i);
         }
         /* print hex data */
-        if(i < len)
-        {
+        if(i < len){
             qWarning("%02x ", 0xFF & ((char*)mem)[i]);
         }
-        else /* end of block, just aligning for ASCII dump */
-        {
+        else /* end of block, just aligning for ASCII dump */{
             qWarning("   ");
         }
-
         /* print ASCII dump */
-        if(i % HEXDUMP_COLS == (HEXDUMP_COLS - 1))
-        {
-            for(j = i - (HEXDUMP_COLS - 1); j <= i; j++)
-            {
-                if(j >= len) /* end of block, not really printing */
-                {
+        if(i % HEXDUMP_COLS == (HEXDUMP_COLS - 1)){
+            for(j = i - (HEXDUMP_COLS - 1); j <= i; j++){
+                if(j >= len) /* end of block, not really printing */{
                     putchar(' ');
                 }
-                else if(isprint((((char*)mem)[j] & 0x7F))) /* printable char */
-                {
+                else if(isprint((((char*)mem)[j] & 0x7F))) /* printable char */{
                     putchar(0xFF & ((char*)mem)[j]);
                 }
-                else /* other char */
-                {
+                else /* other char */{
                     putchar('.');
                 }
             }

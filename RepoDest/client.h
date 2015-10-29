@@ -30,6 +30,9 @@ public:
     };
     RepoDestDbStruct* repoDestDbStruct; // RepoDest DB buffer
 
+    int ok;// = 0; // Number of test pass
+    int ko;// = 0; // Number of test failure
+
     void startPlcCommunication();
     bool connect();
     void disconnect();
@@ -37,8 +40,7 @@ public:
 
 private:
 
-    int _ok;// = 0; // Number of test pass
-    int _ko;// = 0; // Number of test failure
+
 
     bool _check(int result, const char * function);
     void _hexdump(void *mem, unsigned int len);

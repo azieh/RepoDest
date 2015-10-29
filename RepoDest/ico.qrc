@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ico/logovaleo.png</file>
+        <file>ico/Success.ico</file>
+        <file>ico/Warning.ico</file>
+    </qresource>
+</RCC>
