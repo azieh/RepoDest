@@ -3,7 +3,6 @@
 
 
 #include "core/snap7.h"
-#include "client.h"
 #include <QApplication>
 
                         // Default value for

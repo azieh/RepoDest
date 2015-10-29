@@ -6,9 +6,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    on_lineEditTotal_textChanged("asdaaa");
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_lineEditTotal_textChanged(const QString &arg1)
+{
+ ui->lineEditTotal->setText(arg1);
 }
