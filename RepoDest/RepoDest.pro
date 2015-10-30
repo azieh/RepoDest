@@ -17,14 +17,16 @@ SOURCES     += \
                 main.cpp\
                 mainwindow.cpp \
                 client.cpp \
-                core/snap7.cpp
+                core/snap7.cpp \
+    mythread.cpp
 
 LIBS        += -L"$(MINGW)/lib" -static-libgcc c:\lib\snap7.lib
 
 HEADERS     += \
                 mainwindow.h \
                 client.h \
-                core/snap7.h
+                core/snap7.h \
+    mythread.h
 
 FORMS       += mainwindow.ui
 
