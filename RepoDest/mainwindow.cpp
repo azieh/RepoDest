@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "mythread.h"
+
 
 
 
@@ -10,8 +10,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    mainthread = new MyThread(this);
-    mainthread->start();
+
+    st10.doSetup(firstThread);
+    st10.moveToThread(&firstThread);
+    firstThread.msleep(100);
+    firstThread.start();
+
 
 }
 

@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 
-#include "mythread.h"
+#include "workarea.h"
+
+
 
 namespace Ui {
 class MainWindow;
@@ -16,7 +18,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    MyThread* mainthread;
+
+    QThread firstThread;
+    WorkArea st10;
+
 
 
 public slots:
