@@ -1,6 +1,7 @@
 #include <QApplication>
-#include "crossclass.h"
+
 #include "mainwindow.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -9,8 +10,9 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    workArea(&w);
 
 
-    return a.exec();
+    a.exec();
+
+    return 0;
 }

@@ -17,16 +17,14 @@ SOURCES     += \
                 main.cpp\
                 mainwindow.cpp \
                 client.cpp \
-                core/snap7.cpp \
-    crossclass.cpp
+                core/snap7.cpp
 
 LIBS        += -L"$(MINGW)/lib" -static-libgcc c:\lib\snap7.lib
 
 HEADERS     += \
                 mainwindow.h \
                 client.h \
-                core/snap7.h \
-    crossclass.h
+                core/snap7.h
 
 FORMS       += mainwindow.ui
 

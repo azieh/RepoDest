@@ -6,6 +6,7 @@
 #include "crossclass.h"
 
 
+
 void workArea(MainWindow* w);
 
 
