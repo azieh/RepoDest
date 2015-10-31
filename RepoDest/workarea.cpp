@@ -1,25 +1,27 @@
 #include <QDebug>
-
+#include <QTimer>
 #include "workarea.h"
 
 WorkArea::WorkArea(QObject *parent) :
     QObject(parent)
 {
     i = true;
+    j = 0;
+
 }
 
 void WorkArea::doSetup(QThread &cThread)
 {
     thread = &cThread;
     connect(&cThread,SIGNAL(started()),this,SLOT(startReading()));
+    connect(&cThread,SIGNAL(finished()), &cThread, SLOT(start()));
 }
 
 
 void WorkArea::startReading()
 {
-    int j;
-    while( i == true ){
-        qWarning() << "Thread is working" << j++;
-        thread->msleep(100);
+    for ( j=0; j<5; ++j){
+        qWarning()<< name << "Thread is working" << j;
     }
+    QTimer::singleShot(100, thread, SLOT(quit()));
 }

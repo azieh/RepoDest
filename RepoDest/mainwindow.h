@@ -19,8 +19,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    QThread firstThread;
-    WorkArea st10;
+    QThread thread1, thread2, thread3, thread4;
+    WorkArea st10, st20, st30, st40, st50, st60, st70, st80, st90, st100, st110, st120;
+
 
 
 

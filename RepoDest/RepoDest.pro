@@ -20,7 +20,7 @@ SOURCES     += \
                 core/snap7.cpp \
     workarea.cpp
 
-LIBS        += -L"$(MINGW)/lib" -static-libgcc c:\lib\snap7.lib
+LIBS        += -L"$(MINGW)/lib" "c:\lib\snap7.lib"
 
 HEADERS     += \
                 mainwindow.h \
