@@ -13,26 +13,22 @@ TEMPLATE    = app
 
 CONFIG      += c++11
 
-SOURCES     += \
-                main.cpp\
+SOURCES     +=  main.cpp\
                 mainwindow.cpp \
                 client.cpp \
                 core/snap7.cpp \
-    workarea.cpp
+                workarea.cpp
 
 LIBS        += -L"$(MINGW)/lib" "c:\lib\snap7.lib"
 
-HEADERS     += \
-                mainwindow.h \
+HEADERS     +=  mainwindow.h \
                 client.h \
                 core/snap7.h \
-    workarea.h
+                workarea.h
 
 FORMS       += mainwindow.ui
 
-DISTFILES   += \
-                core/snap7.lib \
+DISTFILES   +=  core/snap7.lib \
                 core/snap7.dll
 
-RESOURCES += \
-    ico.qrc
+RESOURCES += ico.qrc

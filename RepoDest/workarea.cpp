@@ -22,6 +22,8 @@ void WorkArea::startReading()
 {
     for ( j=0; j<5; ++j){
         qWarning()<< name << "Thread is working" << j;
+        text = name + QString::number(j) + "/n";
+        emit plainText(text);
     }
     QTimer::singleShot(100, thread, SLOT(quit()));
 }

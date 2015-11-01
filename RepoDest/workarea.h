@@ -14,12 +14,14 @@ public:
     bool i;
     int j;
     QString name;
+    QString text;
 
 private:
     QThread* thread;
 
 signals:
     bool done();
+    void plainText(const QString &);
 
 public slots:
     void startReading();
