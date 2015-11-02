@@ -24,15 +24,29 @@ public:
 
 public slots:
     void on_lineEditTotal_textChanged(const QString &arg1);
-    void on_plainTextEditSt10_textChanged(const QString &arg1);
+
 
 private slots:
+    void on_plainTextEditSt10_textChanged(const QString &arg1);
+    void on_plainTextEditSt20_textChanged(const QString &arg1);
+    void on_plainTextEditSt30_textChanged(const QString &arg1);
+    void on_plainTextEditSt40_textChanged(const QString &arg1);
+    void on_plainTextEditSt50_textChanged(const QString &arg1);
+    void on_plainTextEditSt60_textChanged(const QString &arg1);
+    void on_plainTextEditSt70_textChanged(const QString &arg1);
+    void on_plainTextEditSt80_textChanged(const QString &arg1);
+    void on_plainTextEditSt90_textChanged(const QString &arg1);
+    void on_plainTextEditSt100_textChanged(const QString &arg1);
+    void on_plainTextEditSt110_textChanged(const QString &arg1);
+    void on_plainTextEditSt120_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
 
     void setIconAndConnection();
     void threadManager();
+    void guiConnection();
+    void guiSetup();
 };
 
 #endif // MAINWINDOW_H

@@ -20,10 +20,10 @@ void WorkArea::doSetup(QThread &cThread)
 
 void WorkArea::startReading()
 {
-    for ( j=0; j<5; ++j){
-        qWarning()<< name << "Thread is working" << j;
-        text = name + QString::number(j) + "/n";
+    for ( j=0; j<11; ++j){
+        text = name + ": Thread is working   :" +  QString::number(j);
         emit plainText(text);
+        thread->msleep(100);
     }
     QTimer::singleShot(100, thread, SLOT(quit()));
 }
