@@ -20,6 +20,10 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    thread1.quit();
+    thread2.quit();
+    thread3.quit();
+    thread4.quit();
 }
 
 void MainWindow::on_lineEditTotal_textChanged(const QString &arg1)
