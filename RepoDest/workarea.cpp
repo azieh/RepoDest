@@ -10,11 +10,11 @@ WorkArea::WorkArea(QObject *parent) :
 
 }
 
-void WorkArea::doSetup(QThread &cThread)
+void WorkArea::doSetup(QThread* cThread)
 {
-    thread = &cThread;
-    connect(&cThread,SIGNAL(started()),this,SLOT(startReading()));
-    connect(&cThread,SIGNAL(finished()), &cThread, SLOT(start()));
+    thread = cThread;
+    connect(cThread,SIGNAL(started()),this,SLOT(startReading()));
+    connect(cThread,SIGNAL(finished()), cThread, SLOT(start()));
 }
 
 

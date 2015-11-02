@@ -10,7 +10,7 @@ class WorkArea : public QObject
     Q_OBJECT
 public:
     explicit WorkArea(QObject *parent = 0);
-    void doSetup(QThread &cThread);
+    void doSetup(QThread* cThread);
     bool i;
     int j;
     QString name;

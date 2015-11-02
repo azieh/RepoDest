@@ -19,9 +19,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    QThread thread1, thread2, thread3, thread4;
-    WorkArea st10, st20, st30, st40, st50, st60, st70, st80, st90, st100, st110, st120;
-
 public slots:
     void on_lineEditTotal_textChanged(const QString &arg1);
 
@@ -42,6 +39,24 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    QThread* thread1;
+    QThread* thread2;
+    QThread* thread3;
+    QThread* thread4;
+    WorkArea* st10;
+    WorkArea* st20;
+    WorkArea* st30;
+    WorkArea* st40;
+    WorkArea* st50;
+    WorkArea* st60;
+    WorkArea* st70;
+    WorkArea* st80;
+    WorkArea* st90;
+    WorkArea* st100;
+    WorkArea* st110;
+    WorkArea* st120;
+    WorkArea* st130;
 
     void setIconAndConnection();
     void threadManager();
