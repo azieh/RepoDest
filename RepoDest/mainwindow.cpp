@@ -2,10 +2,6 @@
 #include "ui_mainwindow.h"
 
 
-
-
-
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -86,60 +82,6 @@ MainWindow::~MainWindow()
     st130 = nullptr;
 }
 
-void MainWindow::on_lineEditTotal_textChanged(const QString &arg1)
-{
-    ui->lineEditTotal->setText(arg1);
-}
-
-
-void MainWindow::on_plainTextEditSt10_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt10->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt20_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt20->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt30_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt30->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt40_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt40->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt50_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt50->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt60_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt60->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt70_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt70->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt80_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt80->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt90_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt90->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt100_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt100->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt110_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt110->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt120_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt120->appendPlainText(arg1);
-}
 void MainWindow::setIconAndConnection()
 {
     QPixmap warningIcon = QPixmap(":/ico/Warning.ico");
@@ -341,3 +283,60 @@ void MainWindow::threadManager()
     thread3->start();
     thread4->start();
 }
+
+
+void MainWindow::on_lineEditTotal_textChanged(const QString &arg1)
+{
+    ui->lineEditTotal->setText(arg1);
+}
+
+void MainWindow::on_plainTextEditSt10_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt10->appendPlainText(arg1);
+}
+void MainWindow::on_plainTextEditSt20_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt20->appendPlainText(arg1);
+}
+void MainWindow::on_plainTextEditSt30_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt30->appendPlainText(arg1);
+}
+void MainWindow::on_plainTextEditSt40_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt40->appendPlainText(arg1);
+}
+void MainWindow::on_plainTextEditSt50_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt50->appendPlainText(arg1);
+}
+void MainWindow::on_plainTextEditSt60_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt60->appendPlainText(arg1);
+}
+void MainWindow::on_plainTextEditSt70_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt70->appendPlainText(arg1);
+}
+void MainWindow::on_plainTextEditSt80_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt80->appendPlainText(arg1);
+}
+void MainWindow::on_plainTextEditSt90_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt90->appendPlainText(arg1);
+}
+void MainWindow::on_plainTextEditSt100_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt100->appendPlainText(arg1);
+}
+void MainWindow::on_plainTextEditSt110_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt110->appendPlainText(arg1);
+}
+void MainWindow::on_plainTextEditSt120_textChanged(const QString &arg1)
+{
+    ui->plainTextEditSt120->appendPlainText(arg1);
+}
+
+
