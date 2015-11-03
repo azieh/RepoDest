@@ -1,5 +1,5 @@
 #include <QApplication>
-
+#include "client.h"
 #include "mainwindow.h"
 
 
@@ -9,8 +9,6 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
-
-
 
     a.exec();
 

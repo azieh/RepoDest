@@ -23,7 +23,7 @@ void WorkArea::startReading()
     for ( j=0; j<11; ++j){
         text = name + ": Thread is working   :" +  QString::number(j);
         emit plainText( text );
-        thread->msleep( 1000 );
+        thread->msleep( 100 );
     }
     if ( timerIsStarted == true){
         text = name + ": One cycle time is: " + QString::number(time.elapsed()) + " ms";

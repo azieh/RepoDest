@@ -217,9 +217,9 @@ void Client::_summary()
     qWarning() << "+-----------------------------------------------------";
     qWarning() << "| Test Summary ";
     qWarning() << "+-----------------------------------------------------";
-    qWarning() << "| Performed  : "+QString::number(ok+ko);
-    qWarning() << "| Passed     : "+QString::number(ok);
-    qWarning() << "| Failed     : "+QString::number(ko);
+    qWarning() << "| Performed  : "+QString::number( ok + ko );
+    qWarning() << "| Passed     : "+QString::number( ok );
+    qWarning() << "| Failed     : "+QString::number( ko );
     qWarning() << "+-----------------------------------------------------";
 
 }

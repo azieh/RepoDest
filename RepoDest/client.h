@@ -9,7 +9,7 @@
 const int PLCRACK  = 0; // Rack and
 const int PLCSLOT  = 2; // Slot
 
-class Client : public TS7Client
+class Client : private TS7Client
 {
 public:
     Client();
