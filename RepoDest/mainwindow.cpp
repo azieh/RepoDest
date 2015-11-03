@@ -119,19 +119,20 @@ void MainWindow::guiConnection()
 
 void MainWindow::guiSetup()
 {
+    int blockCount = 10; // number of lines in plainText window
     // implement here every settings for GUI
-    ui->plainTextEditSt10->setMaximumBlockCount(10);
-    ui->plainTextEditSt20->setMaximumBlockCount(10);
-    ui->plainTextEditSt30->setMaximumBlockCount(10);
-    ui->plainTextEditSt40->setMaximumBlockCount(10);
-    ui->plainTextEditSt50->setMaximumBlockCount(10);
-    ui->plainTextEditSt60->setMaximumBlockCount(10);
-    ui->plainTextEditSt70->setMaximumBlockCount(10);
-    ui->plainTextEditSt80->setMaximumBlockCount(10);
-    ui->plainTextEditSt90->setMaximumBlockCount(10);
-    ui->plainTextEditSt100->setMaximumBlockCount(10);
-    ui->plainTextEditSt110->setMaximumBlockCount(10);
-    ui->plainTextEditSt120->setMaximumBlockCount(10);
+    ui->plainTextEditSt10->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt20->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt30->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt40->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt50->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt60->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt70->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt80->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt90->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt100->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt110->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt120->setMaximumBlockCount(blockCount);
 }
 
 void MainWindow::threadManager()

@@ -45,7 +45,7 @@ Client::~Client()
 //------------------------------------------------------------------------------
 bool Client::connect()
 {
-    if (S7Client!=nullptr){
+    if ( S7Client != nullptr ){
         delete S7Client;
         S7Client = nullptr;
     }

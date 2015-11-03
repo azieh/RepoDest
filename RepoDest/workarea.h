@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QThread>
+#include <QElapsedTimer>
 
 
 class WorkArea : public QObject
@@ -12,9 +13,11 @@ public:
     explicit WorkArea(QObject *parent = 0);
     void doSetup(QThread* cThread);
     bool i;
+    bool timerIsStarted;
     int j;
     QString name;
     QString text;
+    QElapsedTimer time;
 
 private:
     QThread* thread;
