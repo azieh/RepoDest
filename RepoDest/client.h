@@ -1,11 +1,12 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-
-#include "core/snap7.h"
 #include <QApplication>
 
-                        // Default value for
+#include "core/snap7.h"
+
+
+// Default value for
 const int PLCRACK  = 0; // Rack and
 const int PLCSLOT  = 2; // Slot
 
@@ -18,8 +19,7 @@ public:
 
     TS7Client* S7Client;
 
-    const char* address;              // PLC IP Address
-    int  dbNumber;             // Number of RepoDest DB
+
     struct RepoDestDbStruct{    // Struct of RepoDest DB
         bool    fault;          // DBX0.0
         bool    fault_ack;      // DBX0.1
@@ -29,16 +29,22 @@ public:
     };
     RepoDestDbStruct* repoDestDbStruct; // RepoDest DB buffer
 
+    bool connected;
     int ok;// = 0; // Number of test pass
     int ko;// = 0; // Number of test failure
+    QString logText;
 
+    void setIpAddress(const char* arg1);
+    void setDbNumber(const int &arg1);
+    bool makeConnect();
+    void makeDisconnect();
+    void makeMultiRead(int& dbNumber, RepoDestDbStruct& dbStruct);
     void startPlcCommunication();
-    bool connect();
-    void disconnect();
-    void multiRead(int& dbNumber, RepoDestDbStruct& dbStruct);
 
 private:
 
+    const char* _address;              // PLC IP Address
+    int  _dbNumber;             // Number of RepoDest DB
 
 
     bool _check(int result, const char * function);
@@ -49,9 +55,6 @@ private:
     void _summary();
 
 
-    //signals:
-
-    //public slots:
 };
 
 

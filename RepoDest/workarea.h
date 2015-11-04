@@ -5,8 +5,10 @@
 #include <QThread>
 #include <QElapsedTimer>
 
+#include "client.h"
 
-class WorkArea : public QObject
+
+class WorkArea : public QObject, public Client
 {
     Q_OBJECT
 public:
@@ -18,6 +20,7 @@ public:
     QString name;
     QString text;
     QElapsedTimer time;
+    void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
 private:
     QThread* thread;
@@ -25,9 +28,11 @@ private:
 signals:
     bool done();
     void plainText(const QString &);
+    void sendMessage( QtMsgType type, const QString &msg );
 
 public slots:
-    void startReading();
+    void mainOperation();
+    void outputMessage( QtMsgType type, const QString &msg );
 };
 
 #endif // WORKAREA_H

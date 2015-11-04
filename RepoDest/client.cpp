@@ -1,6 +1,6 @@
 /*|============================================================================|
 |                                                                              |
-|  S7Client Example                                                              |
+|  S7Client Communication class                                                |
 |                                                                              |
 |=============================================================================*/
 
@@ -18,50 +18,64 @@
 
 Client::Client() :
     S7Client            (nullptr),
-    address             (nullptr),
-    repoDestDbStruct    (nullptr)
+    repoDestDbStruct    (nullptr),
+    _address            (nullptr)
 {
-    dbNumber = 0;
-
+    _dbNumber = 0;
+    connected = false;
     ok = 0;
     ko = 0;
 }
 
 Client::~Client()
 {
-    disconnect();
+    makeDisconnect();
 
     delete S7Client;
     S7Client = nullptr;
 
-    delete address;
-    address = nullptr;
+    delete _address;
+    _address = nullptr;
 
     delete repoDestDbStruct;
     repoDestDbStruct = nullptr;
 }
+void Client::setIpAddress(const char* arg1)
+{
+    if ( _address != nullptr){
+        delete _address;
+        _address = nullptr;
+    }
+    _address = arg1;
+}
+void Client::setDbNumber(const int &arg1)
+{
+    _dbNumber = arg1;
+}
+
 //------------------------------------------------------------------------------
 // Unit Connection
 //------------------------------------------------------------------------------
-bool Client::connect()
+bool Client::makeConnect()
 {
     if ( S7Client != nullptr ){
         delete S7Client;
         S7Client = nullptr;
     }
     S7Client= new TS7Client();
-    int res = S7Client->ConnectTo(address,PLCRACK,PLCSLOT);
+    int res = S7Client->ConnectTo(_address,PLCRACK,PLCSLOT);
     if (_check(res,"UNIT Connection")) {
-        qWarning("  Connected to   : %s (Rack=%d, Slot=%d)",address,PLCRACK,PLCSLOT);
-        qWarning("  PDU Requested  : %d bytes",S7Client->PDURequested());
-        qWarning("  PDU Negotiated : %d bytes",S7Client->PDULength());
+        connected = true;
+        qDebug("  Connected to   : %s (Rack=%d, Slot=%d)",_address,PLCRACK,PLCSLOT);
+        qDebug("  PDU Requested  : %d bytes",S7Client->PDURequested());
+        qDebug("  PDU Negotiated : %d bytes",S7Client->PDULength());
     };
     return res==0;
 }
 //------------------------------------------------------------------------------
 // Unit Disconnection
 //------------------------------------------------------------------------------
-void Client::disconnect()
+void Client::makeDisconnect()
 {
     S7Client->Disconnect();
 }
@@ -70,22 +84,22 @@ void Client::disconnect()
 //------------------------------------------------------------------------------
 bool Client::_check(int result, const char * function)
 {
-    qWarning("+-----------------------------------------------------");
-    qWarning("| %s",function);
-    qWarning("+-----------------------------------------------------");
+    qDebug("+-----------------------------------------------------");
+    qDebug("| %s",function);
+    qDebug("+-----------------------------------------------------");
     if (result==0) {
-        qWarning("| Result         : OK");
-        qWarning("| Execution time : %d ms",S7Client->ExecTime());
-        qWarning("+-----------------------------------------------------");
+        qDebug("| Result         : OK");
+        qDebug("| Execution time : %d ms",S7Client->ExecTime());
+        qDebug("+-----------------------------------------------------");
         ok++;
     }
     else {
-        qWarning("| ERROR !!!");
+        qDebug("| ERROR !!!");
         if (result<0)
-            qWarning("| Library Error (-1)");
+            qDebug("| Library Error (-1)");
         else
-            qWarning("| %s",CliErrorText(result).c_str());
-        qWarning("+-----------------------------------------------------");
+            qDebug("| %s",CliErrorText(result).c_str());
+        qDebug("+-----------------------------------------------------");
         ko++;
     }
     return result==0;
@@ -93,7 +107,7 @@ bool Client::_check(int result, const char * function)
 //------------------------------------------------------------------------------
 // Multi Read
 //------------------------------------------------------------------------------
-void Client::multiRead(int& dbNumber, RepoDestDbStruct& dbStruct)
+void Client::makeMultiRead(int& dbNumber, RepoDestDbStruct& dbStruct)
 {
     // Prepare struct
     TS7DataItem Items[5];
@@ -146,19 +160,19 @@ void Client::multiRead(int& dbNumber, RepoDestDbStruct& dbStruct)
         // Let shall suppose that we ask for 5 vars, 4 of them are ok but
         // the 5th is inexistent, we will have 4 results ok and 1 not ok.
 
-        qWarning("DBX0.0 : %d",Items[0].Result);
+        qDebug("DBX0.0 : %d",Items[0].Result);
         if (Items[0].Result==0)
             _hexdump(&dbStruct.fault,1);
-        qWarning("DBX0.1 : %d",Items[1].Result);
+        qDebug("DBX0.1 : %d",Items[1].Result);
         if (Items[1].Result==0)
             _hexdump(&dbStruct.fault_ack,1);
-        qWarning("DBX0.2 : %d",Items[2].Result);
+        qDebug("DBX0.2 : %d",Items[2].Result);
         if (Items[2].Result==0)
             _hexdump(&dbStruct.part_ok,1);
-        qWarning("DBX0.3 : %d",Items[3].Result);
+        qDebug("DBX0.3 : %d",Items[3].Result);
         if (Items[3].Result==0)
             _hexdump(&dbStruct.part_ok_ack,1);
-        qWarning("DBW2 : %d",Items[4].Result);
+        qDebug("DBW2 : %d",Items[4].Result);
         if (Items[4].Result==0)
             _hexdump(&dbStruct.fault_number,2);
     };
@@ -172,8 +186,8 @@ void Client::_orderCode()
     int res=S7Client->GetOrderCode(&Info);
     if (_check(res,"Catalog"))
     {
-        qWarning("  Order Code : %s",Info.Code);
-        qWarning("  Version    : %d.%d.%d",Info.V1,Info.V2,Info.V3);
+        qDebug("  Order Code : %s",Info.Code);
+        qDebug("  Version    : %d.%d.%d",Info.V1,Info.V2,Info.V3);
     };
 }
 //------------------------------------------------------------------------------
@@ -185,10 +199,10 @@ void Client::_cpuInfo()
     int res=S7Client->GetCpuInfo(&Info);
     if (_check(res,"Unit Info"))
     {
-        qWarning() <<  "  Module Type Name  : "+QString::fromStdString(Info.ModuleTypeName);
-        qWarning() <<  "  Serial Number     : "+QString::fromStdString(Info.SerialNumber);
-        qWarning() <<  "  AS Name           : "+QString::fromStdString(Info.ASName);
-        qWarning() <<  "  Module Name       : "+QString::fromStdString(Info.ModuleName);
+        qDebug() <<  "  Module Type Name  : "+QString::fromStdString(Info.ModuleTypeName);
+        qDebug() <<  "  Serial Number     : "+QString::fromStdString(Info.SerialNumber);
+        qDebug() <<  "  AS Name           : "+QString::fromStdString(Info.ASName);
+        qDebug() <<  "  Module Name       : "+QString::fromStdString(Info.ModuleName);
     };
 }
 //------------------------------------------------------------------------------
@@ -202,9 +216,9 @@ void Client::_unitStatus()
     {
         switch (Status)
         {
-        case S7CpuStatusRun : qWarning("  RUN"); break;
-        case S7CpuStatusStop: qWarning("  STOP"); break;
-        default             : qWarning("  UNKNOWN"); break;
+        case S7CpuStatusRun : qDebug("  RUN"); break;
+        case S7CpuStatusStop: qDebug("  STOP"); break;
+        default             : qDebug("  UNKNOWN"); break;
         }
     };
 }
@@ -214,13 +228,13 @@ void Client::_unitStatus()
 void Client::_summary()
 {
 
-    qWarning() << "+-----------------------------------------------------";
-    qWarning() << "| Test Summary ";
-    qWarning() << "+-----------------------------------------------------";
-    qWarning() << "| Performed  : "+QString::number( ok + ko );
-    qWarning() << "| Passed     : "+QString::number( ok );
-    qWarning() << "| Failed     : "+QString::number( ko );
-    qWarning() << "+-----------------------------------------------------";
+    qDebug() << "+-----------------------------------------------------";
+    qDebug() << "| Test Summary ";
+    qDebug() << "+-----------------------------------------------------";
+    qDebug() << "| Performed  : "+QString::number( ok + ko );
+    qDebug() << "| Passed     : "+QString::number( ok );
+    qDebug() << "| Failed     : "+QString::number( ko );
+    qDebug() << "+-----------------------------------------------------";
 
 }
 //------------------------------------------------------------------------------
@@ -237,14 +251,14 @@ void Client::_hexdump(void *mem, unsigned int len)
     for(i = 0; i < len + ((len % HEXDUMP_COLS) ? (HEXDUMP_COLS - len % HEXDUMP_COLS) : 0); i++){
         /* print offset */
         if(i % HEXDUMP_COLS == 0){
-            qWarning("0x%04x: ", i);
+            qDebug("0x%04x: ", i);
         }
         /* print hex data */
         if(i < len){
-            qWarning("%02x ", 0xFF & ((char*)mem)[i]);
+            qDebug("%02x ", 0xFF & ((char*)mem)[i]);
         }
         else /* end of block, just aligning for ASCII dump */{
-            qWarning("   ");
+            qDebug("   ");
         }
         /* print ASCII dump */
         if(i % HEXDUMP_COLS == (HEXDUMP_COLS - 1)){
@@ -268,7 +282,8 @@ void Client::_hexdump(void *mem, unsigned int len)
 //------------------------------------------------------------------------------
 void Client::startPlcCommunication()
 {
-    connect();
+    makeConnect();
+    _summary();
 }
 
 

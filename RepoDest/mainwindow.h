@@ -3,9 +3,7 @@
 
 #include <QMainWindow>
 
-#include "workarea.h"
-
-
+#include "threadmanager.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,7 +19,7 @@ public:
 
 public slots:
     void on_lineEditTotal_textChanged(const QString &arg1);
-
+    void outputMessage( QtMsgType type, const QString &msg );
 
 private slots:
     void on_plainTextEditSt10_textChanged(const QString &arg1);
@@ -39,29 +37,13 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    ThreadManager* tm;
 
-    QThread* thread1;
-    QThread* thread2;
-    QThread* thread3;
-    QThread* thread4;
-    WorkArea* st10;
-    WorkArea* st20;
-    WorkArea* st30;
-    WorkArea* st40;
-    WorkArea* st50;
-    WorkArea* st60;
-    WorkArea* st70;
-    WorkArea* st80;
-    WorkArea* st90;
-    WorkArea* st100;
-    WorkArea* st110;
-    WorkArea* st120;
-    WorkArea* st130;
+    void createThreadManager();
+    void setIconAndConnectionTextStatus();
+    void setGuiConnection();
+    void setGuiSetup();
 
-    void setIconAndConnection();
-    void threadManager();
-    void guiConnection();
-    void guiSetup();
 };
 
 #endif // MAINWINDOW_H
