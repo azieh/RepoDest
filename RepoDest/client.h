@@ -1,6 +1,6 @@
 #ifndef CLIENT_H
 #define CLIENT_H
-
+#include <QObject>
 #include <QApplication>
 
 #include "core/snap7.h"
@@ -10,15 +10,12 @@
 const int PLCRACK  = 0; // Rack and
 const int PLCSLOT  = 2; // Slot
 
-class Client : private TS7Client
+class Client : public QObject, private TS7Client
 {
+    Q_OBJECT
 public:
-    Client();
+    explicit Client(QObject *parent = 0);
     ~Client();
-
-
-    TS7Client* S7Client;
-
 
     struct RepoDestDbStruct{    // Struct of RepoDest DB
         bool    fault;          // DBX0.0
@@ -27,11 +24,13 @@ public:
         bool    part_ok_ack;    // DBX0.3
         int     fault_number;   // DBW2
     };
+
+    TS7Client* S7Client;
     RepoDestDbStruct* repoDestDbStruct; // RepoDest DB buffer
 
-    bool connected;
     int ok;// = 0; // Number of test pass
     int ko;// = 0; // Number of test failure
+
     QString logText;
 
     void setIpAddress(const char* arg1);
@@ -39,7 +38,8 @@ public:
     bool makeConnect();
     void makeDisconnect();
     void makeMultiRead(int& dbNumber, RepoDestDbStruct& dbStruct);
-    void startPlcCommunication();
+
+    bool cosik;
 
 private:
 
@@ -54,9 +54,13 @@ private:
     void _unitStatus();
     void _summary();
 
+signals:
+
+    void messageText(const QString &);
+    void messageOk(int &);
+    void messageKo(int &);
+    void messageTotal(int &);
+    void connectionStatus(bool);
 
 };
-
-
-
 #endif // CLIENT_H

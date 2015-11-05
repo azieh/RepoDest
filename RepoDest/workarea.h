@@ -3,36 +3,50 @@
 
 #include <QObject>
 #include <QThread>
+#include <QApplication>
 #include <QElapsedTimer>
 
 #include "client.h"
 
 
-class WorkArea : public QObject, public Client
+class WorkArea : public QObject
 {
     Q_OBJECT
 public:
     explicit WorkArea(QObject *parent = 0);
-    void doSetup(QThread* cThread);
-    bool i;
-    bool timerIsStarted;
-    int j;
-    QString name;
-    QString text;
-    QElapsedTimer time;
-    void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+    ~WorkArea();
+
+    void doSetup        (QThread* cThread);
+    void setIpAddress   (const char* arg1);
+    void setDbNumber    (const int &arg1);
+    void setName        (const char* arg1);
 
 private:
-    QThread* thread;
+    QThread* _thread;
+    Client* _client;
+
+    QString _name;
+    int _repeatThreadTime;
+
+    void repeatThread();
 
 signals:
     bool done();
-    void plainText(const QString &);
-    void sendMessage( QtMsgType type, const QString &msg );
+    void messageText(const QString &);
+    void messageOk(int &);
+    void messageKo(int &);
+    void messageTotal(int &);
+    void connectionStatus(bool);
+
+
+private slots:
+    void on_MessageTextChanged(const QString &arg1);
+    void labelStatus_Changed(bool arg1);
+    void lineEditOk_Changed(int &arg1);
+    void lineEditNok_Changed(int &arg1);
 
 public slots:
     void mainOperation();
-    void outputMessage( QtMsgType type, const QString &msg );
 };
 
 #endif // WORKAREA_H

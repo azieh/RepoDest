@@ -113,21 +113,21 @@ void ThreadManager::createClientDeclaration()
         st10 = nullptr;
     }
     st10 = new WorkArea;
-    st10->doSetup(thread1);  // declarate thread for program
-    st10->moveToThread(thread1); // declarate thread for program
-    st10->setIpAddress("192.168.10.20");
-    st10->setDbNumber(998);
-    st10->name = "St10"; // not important
+    st10->doSetup       ( thread1 );  // declarate thread for program
+    st10->moveToThread  ( thread1 ); // declarate thread for program
+    st10->setIpAddress  ( "192.168.10.20" );
+    st10->setDbNumber   ( 998 );
+    st10->setName       ( "St10" ); // not important
 
     if ( st20 != nullptr){
         delete st20;
         st20 = nullptr;
     }
     st20 = new WorkArea;
-    st20->doSetup(thread1);
-    st20->moveToThread(thread1);
-    st20->setIpAddress("192.168.10.10");
-    st20->name = "St20";
+    st20->doSetup       ( thread1 );
+    st20->moveToThread  ( thread1 );
+    st20->setIpAddress  ( "192.168.10.10" );
+    st20->setName       ( "St20" );
 
 //    if ( st30 != nullptr){
 //        delete st30;

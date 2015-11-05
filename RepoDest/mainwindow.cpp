@@ -11,9 +11,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     createThreadManager();
-    setIconAndConnectionTextStatus(); //set default icon for connection status
     setGuiSetup(); //initial settings for GUI
     setGuiConnection(); //generete and manage connection between GUI and WorkArea stations
+    setIconAndConnectionTextStatus(); //set default icon for connection status
 
 }
 
@@ -36,26 +36,24 @@ void MainWindow::createThreadManager()
 
 void MainWindow::setIconAndConnectionTextStatus()
 {
-    QPixmap warningIcon = QPixmap(":/ico/Warning.ico");
-    warningIcon = warningIcon.scaled(QSize(25, 25), Qt::KeepAspectRatio);
-
-    ui->labelSt10Ico->setPixmap(warningIcon);
-    ui->labelSt20Ico->setPixmap(warningIcon);
-    ui->labelSt30Ico->setPixmap(warningIcon);
-    ui->labelSt40Ico->setPixmap(warningIcon);
-    ui->labelSt50Ico->setPixmap(warningIcon);
-    ui->labelSt60Ico->setPixmap(warningIcon);
-    ui->labelSt70Ico->setPixmap(warningIcon);
-    ui->labelSt80Ico->setPixmap(warningIcon);
-    ui->labelSt90Ico->setPixmap(warningIcon);
-    ui->labelSt100Ico->setPixmap(warningIcon);
-    ui->labelSt110Ico->setPixmap(warningIcon);
-    ui->labelSt120Ico->setPixmap(warningIcon);
+    ui->labelSt10Ico->setPixmap(_warningIcon);
+    ui->labelSt20Ico->setPixmap(_warningIcon);
+    ui->labelSt30Ico->setPixmap(_warningIcon);
+    ui->labelSt40Ico->setPixmap(_warningIcon);
+    ui->labelSt50Ico->setPixmap(_warningIcon);
+    ui->labelSt60Ico->setPixmap(_warningIcon);
+    ui->labelSt70Ico->setPixmap(_warningIcon);
+    ui->labelSt80Ico->setPixmap(_warningIcon);
+    ui->labelSt90Ico->setPixmap(_warningIcon);
+    ui->labelSt100Ico->setPixmap(_warningIcon);
+    ui->labelSt110Ico->setPixmap(_warningIcon);
+    ui->labelSt120Ico->setPixmap(_warningIcon);
 }
 
 void MainWindow::setGuiConnection()
 {
-    connect(tm->st10,SIGNAL(plainText(QString)),this,SLOT(on_plainTextEditSt10_textChanged(QString)));
+    connect(tm->st10, SIGNAL( messageText( QString ) ), this, SLOT( on_plainTextEditSt10_textChanged( QString ) ) );
+    connect(tm->st10, SIGNAL( connectionStatus( bool ) ), this, SLOT( on_labelSt10Status_Changed( bool ) ) );
     //    connect(tm->st20,SIGNAL(plainText(QString)),this,SLOT(on_plainTextEditSt20_textChanged(QString)));
     //    connect(tm->st30,SIGNAL(plainText(QString)),this,SLOT(on_plainTextEditSt30_textChanged(QString)));
     //    connect(tm->st40,SIGNAL(plainText(QString)),this,SLOT(on_plainTextEditSt40_textChanged(QString)));
@@ -74,7 +72,6 @@ void MainWindow::setGuiSetup()
     int blockCount = 10; // number of lines in plainText window
     // implement here every settings for GUI
 
-
     ui->plainTextEditSt10->setMaximumBlockCount(blockCount);
     ui->plainTextEditSt20->setMaximumBlockCount(blockCount);
     ui->plainTextEditSt30->setMaximumBlockCount(blockCount);
@@ -87,27 +84,11 @@ void MainWindow::setGuiSetup()
     ui->plainTextEditSt100->setMaximumBlockCount(blockCount);
     ui->plainTextEditSt110->setMaximumBlockCount(blockCount);
     ui->plainTextEditSt120->setMaximumBlockCount(blockCount);
-}
 
-void MainWindow::outputMessage(QtMsgType type, const QString &msg)
-{
-    switch (type) {
-    case QtDebugMsg:
-        ui->plainTextEditSt10->appendPlainText(msg);
-        break;
-
-    case QtWarningMsg:
-        ui->plainTextEditSt10->appendPlainText(tr("— WARNING: %1").arg(msg));
-        break;
-
-    case QtCriticalMsg:
-        ui->plainTextEditSt10->appendPlainText(tr("— CRITICAL: %1").arg(msg));
-        break;
-
-    case QtFatalMsg:
-        ui->plainTextEditSt10->appendPlainText(tr("— FATAL: %1").arg(msg));
-        break;
-    }
+    _connectedIcon = QPixmap(":/ico/Success.ico");
+    _connectedIcon = _connectedIcon.scaled(QSize(25, 25), Qt::KeepAspectRatio);
+    _warningIcon = QPixmap(":/ico/Warning.ico");
+    _warningIcon = _warningIcon.scaled(QSize(25, 25), Qt::KeepAspectRatio);
 }
 
 void MainWindow::on_lineEditTotal_textChanged(const QString &arg1)
@@ -117,8 +98,34 @@ void MainWindow::on_lineEditTotal_textChanged(const QString &arg1)
 }
 void MainWindow::on_plainTextEditSt10_textChanged(const QString &arg1)
 {
-    ui->plainTextEditSt10->insertPlainText(arg1);
+    ui->plainTextEditSt10->appendPlainText(arg1);
 }
+void MainWindow::on_labelSt10Status_Changed(bool arg1)
+{
+    if ( arg1 == true ){
+        ui->labelSt10Status->setText("Connected");
+        ui->labelSt10Ico->setPixmap(_connectedIcon);
+    } else {
+        ui->labelSt10Status->setText("Dissconected");
+        ui->labelSt10Ico->setPixmap(_warningIcon);
+    }
+}
+
+void MainWindow::on_lineEditSt10Ok_Changed(int &arg1)
+{
+
+}
+
+void MainWindow::on_lineEditSt10Nok_Changed(int &arg1)
+{
+
+}
+
+void MainWindow::on_lineEditSt10Total_Changed(int &arg1)
+{
+
+}
+
 void MainWindow::on_plainTextEditSt20_textChanged(const QString &arg1)
 {
     ui->plainTextEditSt20->appendPlainText(arg1);

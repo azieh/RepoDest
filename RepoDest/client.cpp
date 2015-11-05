@@ -3,12 +3,11 @@
 |  S7Client Communication class                                                |
 |                                                                              |
 |=============================================================================*/
+#include <QDebug>
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "core/snap7.h"
 #include "client.h"
-#include <QtWidgets>
+
 
 #ifdef OS_WINDOWS
 # define WIN32_LEAN_AND_MEAN
@@ -16,13 +15,13 @@
 #endif
 
 
-Client::Client() :
+Client::Client(QObject *parent) :
+    QObject             (parent),
     S7Client            (nullptr),
     repoDestDbStruct    (nullptr),
     _address            (nullptr)
 {
     _dbNumber = 0;
-    connected = false;
     ok = 0;
     ko = 0;
 }
@@ -63,12 +62,19 @@ bool Client::makeConnect()
         S7Client = nullptr;
     }
     S7Client= new TS7Client();
+
+    emit messageText( "UNIT Connection" );
+    emit messageText( "Connected to " + QString::fromStdString(_address) );
+    cosik = true;
+    emit connectionStatus( cosik );
+
     int res = S7Client->ConnectTo(_address,PLCRACK,PLCSLOT);
     if (_check(res,"UNIT Connection")) {
-        connected = true;
         qDebug("  Connected to   : %s (Rack=%d, Slot=%d)",_address,PLCRACK,PLCSLOT);
         qDebug("  PDU Requested  : %d bytes",S7Client->PDURequested());
         qDebug("  PDU Negotiated : %d bytes",S7Client->PDULength());
+        emit messageText( "UNIT Connection" );
+        emit messageText( "Connected to " + QString::fromStdString(_address) );
     };
     return res==0;
 }
@@ -277,13 +283,6 @@ void Client::_hexdump(void *mem, unsigned int len)
         }
     }
 }
-//------------------------------------------------------------------------------
-// Main S7Client area
-//------------------------------------------------------------------------------
-void Client::startPlcCommunication()
-{
-    makeConnect();
-    _summary();
-}
+
 
 

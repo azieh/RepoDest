@@ -1,46 +1,89 @@
 #include <QDebug>
 #include <QTimer>
-#include "qapplication.h"
+
 #include "workarea.h"
 
+
 WorkArea::WorkArea(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    _thread (nullptr),
+    _client (nullptr)
+
 {
-    i = true;
-    j = 0;
-    timerIsStarted = false;
-    qRegisterMetaType<QtMsgType>("QtMsgType");
+    _repeatThreadTime = 10000;
+
+    _client = new Client;
+
+}
+
+WorkArea::~WorkArea()
+{
+    delete _thread;
+    _thread = nullptr;
+
+    delete _client;
+    _client = nullptr;
 }
 
 void WorkArea::doSetup(QThread* cThread)
 {
-    thread = cThread;
-    connect(cThread,SIGNAL(started()),this,SLOT(mainOperation()));
-    connect(cThread,SIGNAL(finished()), cThread, SLOT(start()));
-    qInstallMessageHandler(myMessageOutput);
+    if ( _thread != nullptr ){
+        delete _thread;
+        _thread = nullptr;
+    }
+    _thread = cThread;
+    connect(_thread, SIGNAL( started() ), this, SLOT(mainOperation()));
+    connect(_thread, SIGNAL( finished() ), _thread, SLOT(start()));
+    connect(_client, SIGNAL( messageText( QString )), this, SLOT( on_MessageTextChanged( QString ) ));
+    connect(_client, SIGNAL( connectionStatus( bool )), this, SLOT( labelStatus_Changed( bool ) ));
+    connect(_client, SIGNAL( messageOk( int& )), this, SLOT( lineEditOk_Changed( int & ) ));
+    connect(_client, SIGNAL( messageKo( int& )), this, SLOT( lineEditNok_Changed( int & ) ));
+}
+void WorkArea::setIpAddress(const char *arg1)
+{
+    _client->setIpAddress( arg1 );
+}
 
-}
-void WorkArea::myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void WorkArea::setDbNumber(const int &arg1)
 {
- outputMessage( type, msg );
+    _client->setDbNumber( arg1 );
 }
-void WorkArea::outputMessage(QtMsgType type, const QString &msg)
+
+void WorkArea::setName(const char *arg1)
 {
- emit sendMessage( type, msg );
+    _name = arg1;
 }
+
+void WorkArea::repeatThread()
+{
+    QTimer::singleShot(_repeatThreadTime, _thread, SLOT(quit()));
+}
+void WorkArea::on_MessageTextChanged(const QString &arg1)
+{
+    emit messageText(arg1);
+}
+void WorkArea::labelStatus_Changed(bool arg1)
+{
+    emit connectionStatus(arg1);
+}
+
+void WorkArea::lineEditOk_Changed(int &arg1)
+{
+    emit messageOk(arg1);
+}
+
+void WorkArea::lineEditNok_Changed(int &arg1)
+{
+    emit messageKo(arg1);
+}
+
 
 void WorkArea::mainOperation()
 {
+    _client->makeConnect();
 
-    if ( connected == false ){
-        makeConnect();
-        emit plainText( logText );
-    }
-
-
-    QTimer::singleShot(10000, thread, SLOT(quit()));
+    repeatThread();
 }
-
 
 
 
