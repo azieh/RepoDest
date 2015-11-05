@@ -31,12 +31,11 @@ private:
     void repeatThread();
 
 signals:
-    bool done();
-    void messageText(const QString &);
-    void messageOk(int &);
-    void messageKo(int &);
-    void messageTotal(int &);
-    void connectionStatus(bool);
+    void messageText(const QString &, const QString &);
+    void messageOk(const QString &, int &);
+    void messageKo(const QString &, int &);
+    void messageTotal(const QString &, int &);
+    void connectionStatus(const QString &, bool);
 
 
 private slots:

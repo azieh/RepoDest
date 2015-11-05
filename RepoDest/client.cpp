@@ -24,6 +24,7 @@ Client::Client(QObject *parent) :
     _dbNumber = 0;
     ok = 0;
     ko = 0;
+    cosik = true;
 }
 
 Client::~Client()
@@ -63,11 +64,6 @@ bool Client::makeConnect()
     }
     S7Client= new TS7Client();
 
-    emit messageText( "UNIT Connection" );
-    emit messageText( "Connected to " + QString::fromStdString(_address) );
-    cosik = true;
-    emit connectionStatus( cosik );
-
     int res = S7Client->ConnectTo(_address,PLCRACK,PLCSLOT);
     if (_check(res,"UNIT Connection")) {
         qDebug("  Connected to   : %s (Rack=%d, Slot=%d)",_address,PLCRACK,PLCSLOT);
@@ -93,20 +89,35 @@ bool Client::_check(int result, const char * function)
     qDebug("+-----------------------------------------------------");
     qDebug("| %s",function);
     qDebug("+-----------------------------------------------------");
+    emit messageText("+-----------------------------------------------------");
+    emit messageText("| " + QString::fromStdString(function));
+    emit messageText("+-----------------------------------------------------");
     if (result==0) {
         qDebug("| Result         : OK");
         qDebug("| Execution time : %d ms",S7Client->ExecTime());
         qDebug("+-----------------------------------------------------");
+        emit messageText("| Result         : OK");
+        emit messageText("| Execution time : " + QString::number(S7Client->ExecTime()) + "ms");
+        emit messageText("+-----------------------------------------------------");
+
         ok++;
+        emit messageOk(ok);
     }
     else {
         qDebug("| ERROR !!!");
-        if (result<0)
+        emit messageText("| ERROR !!!");
+        if (result<0){
             qDebug("| Library Error (-1)");
-        else
+            emit messageText("| Library Error (-1)");
+        }
+        else {
             qDebug("| %s",CliErrorText(result).c_str());
+            emit messageText("| " + QString::fromStdString(CliErrorText(result).c_str()));
+        }
         qDebug("+-----------------------------------------------------");
+        emit messageText("+-----------------------------------------------------");
         ko++;
+        emit messageKo(ko);
     }
     return result==0;
 }

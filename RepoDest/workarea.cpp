@@ -10,7 +10,7 @@ WorkArea::WorkArea(QObject *parent) :
     _client (nullptr)
 
 {
-    _repeatThreadTime = 10000;
+    _repeatThreadTime = 1;
 
     _client = new Client;
 
@@ -60,21 +60,21 @@ void WorkArea::repeatThread()
 }
 void WorkArea::on_MessageTextChanged(const QString &arg1)
 {
-    emit messageText(arg1);
+    emit messageText(_name, arg1);
 }
 void WorkArea::labelStatus_Changed(bool arg1)
 {
-    emit connectionStatus(arg1);
+    emit connectionStatus(_name, arg1);
 }
 
 void WorkArea::lineEditOk_Changed(int &arg1)
 {
-    emit messageOk(arg1);
+    emit messageOk(_name, arg1);
 }
 
 void WorkArea::lineEditNok_Changed(int &arg1)
 {
-    emit messageKo(arg1);
+    emit messageKo(_name, arg1);
 }
 
 

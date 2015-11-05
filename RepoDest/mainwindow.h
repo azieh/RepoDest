@@ -18,26 +18,13 @@ public:
     ~MainWindow();
 
 public slots:
-    void on_lineEditTotal_textChanged(const QString &arg1);
 
 private slots:
-    void on_plainTextEditSt10_textChanged(const QString &arg1);
-    void on_labelSt10Status_Changed(bool arg1);
-    void on_lineEditSt10Ok_Changed(int &arg1);
-    void on_lineEditSt10Nok_Changed(int &arg1);
-    void on_lineEditSt10Total_Changed(int &arg1);
-
-    void on_plainTextEditSt20_textChanged(const QString &arg1);
-    void on_plainTextEditSt30_textChanged(const QString &arg1);
-    void on_plainTextEditSt40_textChanged(const QString &arg1);
-    void on_plainTextEditSt50_textChanged(const QString &arg1);
-    void on_plainTextEditSt60_textChanged(const QString &arg1);
-    void on_plainTextEditSt70_textChanged(const QString &arg1);
-    void on_plainTextEditSt80_textChanged(const QString &arg1);
-    void on_plainTextEditSt90_textChanged(const QString &arg1);
-    void on_plainTextEditSt100_textChanged(const QString &arg1);
-    void on_plainTextEditSt110_textChanged(const QString &arg1);
-    void on_plainTextEditSt120_textChanged(const QString &arg1);
+    void on_plainTextEdit_textChanged(const QString &stName, const QString &arg1);
+    void on_labelStatus_Changed(const QString &stName, bool arg1);
+    void on_lineEditOk_Changed(const QString &stName, int &arg1);
+    void on_lineEditNok_Changed(const QString &stName, int &arg1);
+    void on_lineEditTotal_Changed(const QString &stName, int &arg1);
 
 private:
     Ui::MainWindow* ui;

@@ -52,8 +52,10 @@ void MainWindow::setIconAndConnectionTextStatus()
 
 void MainWindow::setGuiConnection()
 {
-    connect(tm->st10, SIGNAL( messageText( QString ) ), this, SLOT( on_plainTextEditSt10_textChanged( QString ) ) );
-    connect(tm->st10, SIGNAL( connectionStatus( bool ) ), this, SLOT( on_labelSt10Status_Changed( bool ) ) );
+    connect(tm->st10, SIGNAL( messageText(const QString &, const QString &) ), this, SLOT( on_plainTextEdit_textChanged(const QString &, const QString &) ) );
+    connect(tm->st10, SIGNAL( connectionStatus(const QString &, bool ) ), this, SLOT( on_labelStatus_Changed(const QString &, bool ) ) );
+    connect(tm->st20, SIGNAL( messageText(const QString &, const QString &) ), this, SLOT( on_plainTextEdit_textChanged(const QString &, const QString &) ) );
+    connect(tm->st20, SIGNAL( connectionStatus(const QString &, bool ) ), this, SLOT( on_labelStatus_Changed(const QString &, bool ) ) );
     //    connect(tm->st20,SIGNAL(plainText(QString)),this,SLOT(on_plainTextEditSt20_textChanged(QString)));
     //    connect(tm->st30,SIGNAL(plainText(QString)),this,SLOT(on_plainTextEditSt30_textChanged(QString)));
     //    connect(tm->st40,SIGNAL(plainText(QString)),this,SLOT(on_plainTextEditSt40_textChanged(QString)));
@@ -91,84 +93,52 @@ void MainWindow::setGuiSetup()
     _warningIcon = _warningIcon.scaled(QSize(25, 25), Qt::KeepAspectRatio);
 }
 
-void MainWindow::on_lineEditTotal_textChanged(const QString &arg1)
+void MainWindow::on_plainTextEdit_textChanged(const QString &stName, const QString &arg1)
 {
-    ui->lineEditTotal->setText(arg1);
+    if ( stName == "St10" ){
+        ui->plainTextEditSt10->appendPlainText(arg1);
+    }
+    if ( stName == "St20" ){
+        ui->plainTextEditSt20->appendPlainText(arg1);
+    }
 
 }
-void MainWindow::on_plainTextEditSt10_textChanged(const QString &arg1)
+void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
 {
-    ui->plainTextEditSt10->appendPlainText(arg1);
-}
-void MainWindow::on_labelSt10Status_Changed(bool arg1)
-{
-    if ( arg1 == true ){
-        ui->labelSt10Status->setText("Connected");
-        ui->labelSt10Ico->setPixmap(_connectedIcon);
-    } else {
-        ui->labelSt10Status->setText("Dissconected");
-        ui->labelSt10Ico->setPixmap(_warningIcon);
+    if ( stName == "St10" ){
+        if ( arg1 == true ){
+            ui->labelSt10Status->setText("Connected");
+            ui->labelSt10Ico->setPixmap(_connectedIcon);
+        } else {
+            ui->labelSt10Status->setText("Dissconected");
+            ui->labelSt10Ico->setPixmap(_warningIcon);
+        }
+    }
+
+    if ( stName == "St20" ){
+        if ( arg1 == true ){
+            ui->labelSt20Status->setText("Connected");
+            ui->labelSt20Ico->setPixmap(_connectedIcon);
+        } else {
+            ui->labelSt20Status->setText("Dissconected");
+            ui->labelSt20Ico->setPixmap(_warningIcon);
+        }
     }
 }
 
-void MainWindow::on_lineEditSt10Ok_Changed(int &arg1)
+void MainWindow::on_lineEditOk_Changed(const QString &stName, int &arg1)
 {
 
 }
 
-void MainWindow::on_lineEditSt10Nok_Changed(int &arg1)
+void MainWindow::on_lineEditNok_Changed(const QString &stName, int &arg1)
 {
 
 }
 
-void MainWindow::on_lineEditSt10Total_Changed(int &arg1)
+void MainWindow::on_lineEditTotal_Changed(const QString &stName, int &arg1)
 {
 
-}
-
-void MainWindow::on_plainTextEditSt20_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt20->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt30_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt30->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt40_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt40->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt50_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt50->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt60_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt60->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt70_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt70->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt80_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt80->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt90_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt90->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt100_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt100->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt110_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt110->appendPlainText(arg1);
-}
-void MainWindow::on_plainTextEditSt120_textChanged(const QString &arg1)
-{
-    ui->plainTextEditSt120->appendPlainText(arg1);
 }
 
 
