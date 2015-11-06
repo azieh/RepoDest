@@ -15,7 +15,8 @@ class WorkArea : public QObject
 public:
     explicit WorkArea(QObject *parent = 0);
     ~WorkArea();
-
+    
+    RepoDestDbStruct asd;
     void doSetup        (QThread* cThread);
     void setIpAddress   (const char* arg1);
     void setDbNumber    (const int &arg1);

@@ -129,7 +129,7 @@ bool Client::_check(int result, const char * function)
 //------------------------------------------------------------------------------
 // Multi Read
 //------------------------------------------------------------------------------
-void Client::makeMultiRead(int& dbNumber, RepoDestDbStruct& dbStruct)
+void Client::makeMultiRead(RepoDestDbStruct& dbStruct)
 {
     // Prepare struct
     TS7DataItem Items[5];
@@ -139,35 +139,35 @@ void Client::makeMultiRead(int& dbNumber, RepoDestDbStruct& dbStruct)
     // DBX0.0 - fault
     Items[0].Area     = S7AreaDB;
     Items[0].WordLen  = S7WLBit;
-    Items[0].DBNumber = dbNumber;
+    Items[0].DBNumber = _dbNumber;
     Items[0].Start    = 0;
     Items[0].Amount   = 1;
     Items[0].pdata    = &dbStruct.fault;
     // DBX0.1 - fault_ack
     Items[1].Area     = S7AreaDB;
     Items[1].WordLen  = S7WLBit;
-    Items[1].DBNumber = dbNumber;
+    Items[1].DBNumber = _dbNumber;
     Items[1].Start    = 1;
     Items[1].Amount   = 1;
     Items[1].pdata    = &dbStruct.fault_ack;
     // DBX0.2 - product_ok
     Items[2].Area     = S7AreaDB;
     Items[2].WordLen  = S7WLBit;
-    Items[2].DBNumber = dbNumber;
+    Items[2].DBNumber = _dbNumber;
     Items[2].Start    = 2;
     Items[2].Amount   = 1;
     Items[2].pdata    = &dbStruct.part_ok;
     // DBX0.3 - product_ok_ack
     Items[3].Area     = S7AreaDB;
     Items[3].WordLen  = S7WLBit;
-    Items[3].DBNumber = dbNumber;
+    Items[3].DBNumber = _dbNumber;
     Items[3].Start    = 3;
     Items[3].Amount   = 1;
     Items[3].pdata    = &dbStruct.part_ok_ack;
     // DBW2 - fault_number
     Items[4].Area     = S7AreaDB;
     Items[4].WordLen  = S7WLByte;
-    Items[4].DBNumber = dbNumber;
+    Items[4].DBNumber = _dbNumber;
     Items[4].Start    = 2;
     Items[4].Amount   = 2;
     Items[4].pdata    = &dbStruct.fault_number;

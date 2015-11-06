@@ -22,9 +22,9 @@ public slots:
 private slots:
     void on_plainTextEdit_textChanged(const QString &stName, const QString &arg1);
     void on_labelStatus_Changed(const QString &stName, bool arg1);
-    void on_lineEditOk_Changed(const QString &stName, int &arg1);
-    void on_lineEditNok_Changed(const QString &stName, int &arg1);
-    void on_lineEditTotal_Changed(const QString &stName, int &arg1);
+    void on_lineEditOk_Changed(const QString &stName, int arg1);
+    void on_lineEditNok_Changed(const QString &stName, int arg1);
+    void on_lineEditTime_Changed(const QString &stName, const QString &arg1);
 
 private:
     Ui::MainWindow* ui;

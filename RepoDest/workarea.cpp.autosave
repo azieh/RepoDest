@@ -59,7 +59,8 @@ void WorkArea::mainOperation()
 {
     initOperation();
     if ( _client->connected == true ){
-
+        
+        _client->makeMultiRead();
 
 
         _client->makeDisconnect();
