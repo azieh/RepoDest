@@ -48,6 +48,7 @@ void MainWindow::setIconAndConnectionTextStatus()
     ui->labelSt100Ico->setPixmap(_warningIcon);
     ui->labelSt110Ico->setPixmap(_warningIcon);
     ui->labelSt120Ico->setPixmap(_warningIcon);
+    ui->labelSt130Ico->setPixmap(_warningIcon);
 }
 
 void MainWindow::setGuiConnection()
@@ -123,6 +124,12 @@ void MainWindow::setGuiConnection()
     connect(tm->st120, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
     connect(tm->st120, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
     connect(tm->st120, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+
+    connect(tm->st130, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st130, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
+    connect(tm->st130, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
+    connect(tm->st130, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
+    connect(tm->st130, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
 }
 
 void MainWindow::setGuiSetup()
@@ -142,6 +149,37 @@ void MainWindow::setGuiSetup()
     ui->plainTextEditSt100->setMaximumBlockCount(blockCount);
     ui->plainTextEditSt110->setMaximumBlockCount(blockCount);
     ui->plainTextEditSt120->setMaximumBlockCount(blockCount);
+    ui->plainTextEditSt130->setMaximumBlockCount(blockCount);
+
+    ui->lineEditSt10Ok->setText(QString::number(0));
+    ui->lineEditSt20Ok->setText(QString::number(0));
+    ui->lineEditSt30Ok->setText(QString::number(0));
+    ui->lineEditSt40Ok->setText(QString::number(0));
+    ui->lineEditSt50Ok->setText(QString::number(0));
+    ui->lineEditSt60Ok->setText(QString::number(0));
+    ui->lineEditSt70Ok->setText(QString::number(0));
+    ui->lineEditSt80Ok->setText(QString::number(0));
+    ui->lineEditSt90Ok->setText(QString::number(0));
+    ui->lineEditSt100Ok->setText(QString::number(0));
+    ui->lineEditSt110Ok->setText(QString::number(0));
+    ui->lineEditSt120Ok->setText(QString::number(0));
+    ui->lineEditSt130Ok->setText(QString::number(0));
+
+
+    ui->lineEditSt10Nok->setText(QString::number(0));
+    ui->lineEditSt20Nok->setText(QString::number(0));
+    ui->lineEditSt30Nok->setText(QString::number(0));
+    ui->lineEditSt40Nok->setText(QString::number(0));
+    ui->lineEditSt50Nok->setText(QString::number(0));
+    ui->lineEditSt60Nok->setText(QString::number(0));
+    ui->lineEditSt70Nok->setText(QString::number(0));
+    ui->lineEditSt80Nok->setText(QString::number(0));
+    ui->lineEditSt90Nok->setText(QString::number(0));
+    ui->lineEditSt100Nok->setText(QString::number(0));
+    ui->lineEditSt110Nok->setText(QString::number(0));
+    ui->lineEditSt120Nok->setText(QString::number(0));
+    ui->lineEditSt130Nok->setText(QString::number(0));
+
 
     _connectedIcon = QPixmap(":/ico/Success.ico");
     _connectedIcon = _connectedIcon.scaled(QSize(25, 25), Qt::KeepAspectRatio);
@@ -186,6 +224,9 @@ void MainWindow::on_plainTextEdit_textChanged(const QString &stName, const QStri
     }
     if ( stName == "St120" ){
         ui->plainTextEditSt120->appendPlainText(arg1);
+    }
+    if ( stName == "St130" ){
+        ui->plainTextEditSt130->appendPlainText(arg1);
     }
 
 }
@@ -310,6 +351,16 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt120Ico->setPixmap(_warningIcon);
         }
     }
+
+    if ( stName == "St130" ){
+        if ( arg1 == true ){
+            ui->labelSt130Status->setText("Connected");
+            ui->labelSt130Ico->setPixmap(_connectedIcon);
+        } else {
+            ui->labelSt130Status->setText("Dissconected");
+            ui->labelSt130Ico->setPixmap(_warningIcon);
+        }
+    }
 }
 
 void MainWindow::on_lineEditOk_Changed(const QString &stName, int arg1)
@@ -349,6 +400,9 @@ void MainWindow::on_lineEditOk_Changed(const QString &stName, int arg1)
     }
     if ( stName == "St120" ){
         ui->lineEditSt120Ok->setText(QString::number(arg1));
+    }
+    if ( stName == "St130" ){
+        ui->lineEditSt130Ok->setText(QString::number(arg1));
     }
 
 
@@ -392,6 +446,9 @@ void MainWindow::on_lineEditNok_Changed(const QString &stName, int arg1)
     if ( stName == "St120" ){
         ui->lineEditSt120Nok->setText(QString::number(arg1));
     }
+    if ( stName == "St130" ){
+        ui->lineEditSt130Nok->setText(QString::number(arg1));
+    }
 }
 void MainWindow::on_lineEditTime_Changed(const QString &stName, const QString &arg1)
 {
@@ -430,6 +487,9 @@ void MainWindow::on_lineEditTime_Changed(const QString &stName, const QString &a
     }
     if ( stName == "St120" ){
         ui->lineEditSt120Time->setText(arg1);
+    }
+    if ( stName == "St130" ){
+        ui->lineEditSt130Time->setText(arg1);
     }
 }
 

@@ -239,6 +239,17 @@ void ThreadManager::createClientDeclaration()
     st120->setIpAddress  ( "10.10.190.1" );
     st120->setDbNumber   ( 998 );
     st120->setName       ( "St120" );
+
+    if ( st130 != nullptr){
+        delete st130;
+        st130 = nullptr;
+    }
+    st130 = new WorkArea;
+    st130->doSetup       ( thread4 );
+    st130->moveToThread  ( thread4 );
+    st130->setIpAddress  ( "10.10.190.1" );
+    st130->setDbNumber   ( 998 );
+    st130->setName       ( "St130" );
 }
 
 void ThreadManager::startThreads()

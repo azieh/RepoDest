@@ -59,33 +59,13 @@ void WorkArea::mainOperation()
 {
     initOperation();
     if ( _client->connected == true ){
-
+        
 
 
         _client->makeDisconnect();
     }
     repeatThread();               //method to make loop thread
 }
-
-
-
-
-//    for ( j=0; j<11; ++j){
-//        text = name + ": Thread is working   :" +  QString::number(j) + "\n";
-//        emit plainText( text );
-//        thread->msleep( 100 );
-//    }
-//    if ( timerIsStarted == true){
-//        text = name + ": One cycle time is: " + QString::number(time.elapsed()) + " ms \n";
-//        emit plainText ( text );
-//        timerIsStarted=false;
-//    }
-//    if ( timerIsStarted == false ){
-//        time.start();
-//        timerIsStarted = true;
-//    }
-
-
 
 void WorkArea::setIpAddress(const char *arg1)
 {
