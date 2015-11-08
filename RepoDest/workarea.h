@@ -20,17 +20,23 @@ public:
     void setIpAddress   (const char* arg1);
     void setDbNumber    (const int &arg1);
     void setName        (const char* arg1);
+    RepoDestDbStruct*    dbStruct;
 
 private:
     QThread* _thread;
     Client* _client;
 
+
     QString _name;
     QElapsedTimer loopTimer;
+    QElapsedTimer faultTimer;
     int _repeatThreadTime;
+    int _faultNumberMemory;
+    int _faultTimeElapsedMemory;
 
     void repeatThread();
     void initOperation();
+    void checkDbStruct(RepoDestDbStruct* dbStruct);
 
 signals:
     void messageText(const QString &, const QString &);

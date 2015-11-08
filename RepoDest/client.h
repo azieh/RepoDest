@@ -10,6 +10,14 @@
 const int PLCRACK  = 0; // Rack and
 const int PLCSLOT  = 2; // Slot
 
+struct RepoDestDbStruct{    // Struct of RepoDest DB
+    bool    fault;          // DBX0.0
+    bool    fault_ack;      // DBX0.1
+    bool    part_ok;        // DBX0.2
+    bool    part_ok_ack;    // DBX0.3
+    int     fault_number;   // DBW2
+};
+
 class Client : public QObject, private TS7Client
 {
     Q_OBJECT
@@ -17,18 +25,9 @@ public:
     explicit Client(QObject *parent = 0);
     ~Client();
 
-    struct RepoDestDbStruct{    // Struct of RepoDest DB
-        bool    fault;          // DBX0.0
-        bool    fault_ack;      // DBX0.1
-        bool    part_ok;        // DBX0.2
-        bool    part_ok_ack;    // DBX0.3
-        int     fault_number;   // DBW2
-    };
-
     TS7Client* S7Client;
-    RepoDestDbStruct* repoDestDbStruct; // RepoDest DB buffer
 
-    bool connected;
+    bool isConnected;
 
     int ok;// = 0; // Number of test pass
     int ko;// = 0; // Number of test failure
@@ -37,7 +36,8 @@ public:
     void setDbNumber(const int &arg1);
     bool makeConnect();
     void makeDisconnect();
-    void makeMultiRead(int& dbNumber, RepoDestDbStruct& dbStruct);
+    void makeMultiRead(RepoDestDbStruct* dbStruct);
+    void testRead(RepoDestDbStruct* dbStruct);
 
 private:
 

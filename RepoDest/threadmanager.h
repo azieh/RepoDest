@@ -32,11 +32,12 @@ public:
 
     void createThreads();
     void createClientDeclaration();
-    void startThreads();
+
 
 signals:
 
 public slots:
+    void startThreads();
 };
 
 #endif // THREADMANAGER_H

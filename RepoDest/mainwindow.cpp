@@ -4,8 +4,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui ( new Ui::MainWindow ),
-    tm ( nullptr )
+    tm ( nullptr ),
+    ui ( new Ui::MainWindow )
 
 {
     ui->setupUi(this);
@@ -31,7 +31,6 @@ void MainWindow::createThreadManager()
     tm = new ThreadManager;
     tm->createThreads();
     tm->createClientDeclaration();
-    tm->startThreads();
 }
 
 void MainWindow::setIconAndConnectionTextStatus()
@@ -191,40 +190,40 @@ void MainWindow::on_plainTextEdit_textChanged(const QString &stName, const QStri
 {
     if ( stName == "St10" ){
         ui->plainTextEditSt10->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St20" ){
         ui->plainTextEditSt20->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St30" ){
         ui->plainTextEditSt30->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St40" ){
         ui->plainTextEditSt40->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St50" ){
         ui->plainTextEditSt50->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St60" ){
         ui->plainTextEditSt60->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St70" ){
         ui->plainTextEditSt70->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St80" ){
         ui->plainTextEditSt80->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St90" ){
         ui->plainTextEditSt90->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St100" ){
         ui->plainTextEditSt100->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St110" ){
         ui->plainTextEditSt110->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St120" ){
         ui->plainTextEditSt120->appendPlainText(arg1);
-    }
+    } else
     if ( stName == "St130" ){
         ui->plainTextEditSt130->appendPlainText(arg1);
     }
@@ -240,7 +239,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt10Status->setText("Dissconected");
             ui->labelSt10Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St20" ){
         if ( arg1 == true ){
@@ -250,7 +249,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt20Status->setText("Dissconected");
             ui->labelSt20Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St30" ){
         if ( arg1 == true ){
@@ -260,7 +259,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt30Status->setText("Dissconected");
             ui->labelSt30Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St40" ){
         if ( arg1 == true ){
@@ -270,7 +269,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt40Status->setText("Dissconected");
             ui->labelSt40Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St50" ){
         if ( arg1 == true ){
@@ -280,7 +279,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt50Status->setText("Dissconected");
             ui->labelSt50Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St60" ){
         if ( arg1 == true ){
@@ -290,7 +289,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt60Status->setText("Dissconected");
             ui->labelSt60Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St70" ){
         if ( arg1 == true ){
@@ -300,7 +299,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt70Status->setText("Dissconected");
             ui->labelSt70Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St80" ){
         if ( arg1 == true ){
@@ -310,7 +309,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt80Status->setText("Dissconected");
             ui->labelSt80Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St90" ){
         if ( arg1 == true ){
@@ -320,7 +319,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt90Status->setText("Dissconected");
             ui->labelSt90Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St100" ){
         if ( arg1 == true ){
@@ -330,7 +329,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt100Status->setText("Dissconected");
             ui->labelSt100Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St110" ){
         if ( arg1 == true ){
@@ -340,7 +339,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt110Status->setText("Dissconected");
             ui->labelSt110Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St120" ){
         if ( arg1 == true ){
@@ -350,7 +349,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
             ui->labelSt120Status->setText("Dissconected");
             ui->labelSt120Ico->setPixmap(_warningIcon);
         }
-    }
+    } else
 
     if ( stName == "St130" ){
         if ( arg1 == true ){
@@ -367,40 +366,40 @@ void MainWindow::on_lineEditOk_Changed(const QString &stName, int arg1)
 {
     if ( stName == "St10" ){
         ui->lineEditSt10Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St20" ){
         ui->lineEditSt20Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St30" ){
         ui->lineEditSt30Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St40" ){
         ui->lineEditSt40Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St50" ){
         ui->lineEditSt50Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St60" ){
         ui->lineEditSt60Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St70" ){
         ui->lineEditSt70Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St80" ){
         ui->lineEditSt80Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St90" ){
         ui->lineEditSt90Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St100" ){
         ui->lineEditSt100Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St110" ){
         ui->lineEditSt110Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St120" ){
         ui->lineEditSt120Ok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St130" ){
         ui->lineEditSt130Ok->setText(QString::number(arg1));
     }
@@ -412,40 +411,40 @@ void MainWindow::on_lineEditNok_Changed(const QString &stName, int arg1)
 {
     if ( stName == "St10" ){
         ui->lineEditSt10Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St20" ){
         ui->lineEditSt20Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St30" ){
         ui->lineEditSt30Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St40" ){
         ui->lineEditSt40Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St50" ){
         ui->lineEditSt50Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St60" ){
         ui->lineEditSt60Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St70" ){
         ui->lineEditSt70Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St80" ){
         ui->lineEditSt80Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St90" ){
         ui->lineEditSt90Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St100" ){
         ui->lineEditSt100Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St110" ){
         ui->lineEditSt110Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St120" ){
         ui->lineEditSt120Nok->setText(QString::number(arg1));
-    }
+    } else
     if ( stName == "St130" ){
         ui->lineEditSt130Nok->setText(QString::number(arg1));
     }
@@ -492,4 +491,20 @@ void MainWindow::on_lineEditTime_Changed(const QString &stName, const QString &a
         ui->lineEditSt130Time->setText(arg1);
     }
 }
+void MainWindow::on_pushButtonQuit_clicked()
+{
+    QCoreApplication::exit();
+    QApplication::quit();
+}
 
+void MainWindow::on_pushButtonStartProblem_clicked()
+{
+    tm->st10->dbStruct->fault = true;
+
+    tm->st10->dbStruct->fault_number = 99;
+}
+
+void MainWindow::on_pushButtonStopProblem_clicked()
+{
+    tm->st10->dbStruct->part_ok = true;
+}

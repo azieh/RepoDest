@@ -3,5 +3,6 @@
         <file>ico/logovaleo.png</file>
         <file>ico/Success.ico</file>
         <file>ico/Warning.ico</file>
+        <file>ico/close.png</file>
     </qresource>
 </RCC>

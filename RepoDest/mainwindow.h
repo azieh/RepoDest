@@ -16,6 +16,18 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    ThreadManager* tm;
+
+private:
+    Ui::MainWindow* ui;
+
+    QPixmap _connectedIcon;
+    QPixmap _warningIcon;
+
+    void createThreadManager();
+    void setIconAndConnectionTextStatus();
+    void setGuiConnection();
+    void setGuiSetup();
 
 public slots:
 
@@ -26,17 +38,14 @@ private slots:
     void on_lineEditNok_Changed(const QString &stName, int arg1);
     void on_lineEditTime_Changed(const QString &stName, const QString &arg1);
 
-private:
-    Ui::MainWindow* ui;
-    ThreadManager* tm;
+    void on_pushButtonQuit_clicked();
 
-    QPixmap _connectedIcon;
-    QPixmap _warningIcon;
+    void on_pushButtonStartProblem_clicked();
 
-    void createThreadManager();
-    void setIconAndConnectionTextStatus();
-    void setGuiConnection();
-    void setGuiSetup();
+    void on_pushButtonStopProblem_clicked();
+
+signals:
+    void startThread();
 
 };
 
