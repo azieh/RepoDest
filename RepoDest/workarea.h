@@ -28,14 +28,18 @@ private:
 
 
     QString _name;
-    QElapsedTimer loopTimer;
-    QElapsedTimer faultTimer;
+    QElapsedTimer _loopTimer;
+    QElapsedTimer _faultTimer;
+    bool _makeWriting;
+    int _step;
     int _repeatThreadTime;
     int _faultNumberMemory;
     int _faultTimeElapsedMemory;
+    int _faultTimeElapsedMemoryMinutes;
+    int _faultTimeElapsedMemorySeconds;
 
     void repeatThread();
-    void initOperation();
+    void plcArea();
     void checkDbStruct(RepoDestDbStruct* dbStruct);
 
 signals:

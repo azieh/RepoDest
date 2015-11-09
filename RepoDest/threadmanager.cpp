@@ -115,7 +115,7 @@ void ThreadManager::createClientDeclaration()
     st10 = new WorkArea;
     st10->doSetup       ( thread1 );  // declarate thread for program
     st10->moveToThread  ( thread1 ); // declarate thread for program
-    st10->setIpAddress  ( "10.10.190.1" );
+    st10->setIpAddress  ( "192.168.10.20" );
     st10->setDbNumber   ( 998 );
     st10->setName       ( "St10" ); // not important
 

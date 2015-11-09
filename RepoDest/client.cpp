@@ -54,23 +54,34 @@ void Client::setDbNumber(const int &arg1)
 //------------------------------------------------------------------------------
 bool Client::makeConnect()
 {
-    int res;
-    if ( S7Client != nullptr ){
-        delete S7Client;
-        S7Client = nullptr;
-    }
-    S7Client= new TS7Client();
-
-    res = S7Client->ConnectTo(_address,PLCRACK,PLCSLOT);
-    if ( isConnected == false){
-        if (_check(res,"UNIT Connection")) {
-            emit messageText( "UNIT Connection" );
-            emit messageText( "Connected to " + QString::fromStdString(_address) + " (Rack=" + QString::number(PLCRACK) + ", Slot=" + QString::number(PLCSLOT) + ")" );
+    int result;
+    if ( _address != nullptr ){ // checking if Ip address is correctly set
+        if ( S7Client != nullptr ){
+            delete S7Client;
+            S7Client = nullptr;
         }
+        S7Client= new TS7Client();
+
+        result = S7Client->ConnectTo(_address,PLCRACK,PLCSLOT);
+        if ( isConnected == false){
+            if ( result == 0 ) {
+                emit messageText( "Connected to " + QString::fromStdString(_address) + " (Rack=" + QString::number(PLCRACK) + ", Slot=" + QString::number(PLCSLOT) + ")" );
+                emit messageText( "Execution time : " + QString::number(S7Client->ExecTime()) + "ms");
+                ok++;
+                emit messageOk(ok);
+            } else {
+                emit messageText( "Connection NOK" );
+                emit messageText( "Problem is :" + QString::fromStdString(CliErrorText(result).c_str()) );
+                ko++;
+                emit messageKo(ko);
+            }
+            isConnected = S7Client->Connected();
+            emit connectionStatus( isConnected );
+        }
+    } else {
+        emit messageText( "Ip address of client is not set" );
     }
-    isConnected = S7Client->Connected();
-    emit connectionStatus( isConnected );
-    return res==0;
+    return result==0;
 }
 //------------------------------------------------------------------------------
 // Unit Disconnection
@@ -84,26 +95,11 @@ void Client::makeDisconnect()
 //------------------------------------------------------------------------------
 bool Client::_check(int result, const char * function)
 {
-    emit messageText("+-----------------------------------------------------");
-    emit messageText("| " + QString::fromStdString(function));
-    emit messageText("+-----------------------------------------------------");
     if (result==0) {
-        emit messageText("| Result         : OK");
-        emit messageText("| Execution time : " + QString::number(S7Client->ExecTime()) + "ms");
-        emit messageText("+-----------------------------------------------------");
-
         ok++;
         emit messageOk(ok);
-    }
-    else {
-        emit messageText("| ERROR !!!");
-        if (result<0){
-            emit messageText("| Library Error (-1)");
-        }
-        else {
-            emit messageText("| " + QString::fromStdString(CliErrorText(result).c_str()));
-        }
-        emit messageText("+-----------------------------------------------------");
+    } else {
+        emit messageText( "Something goes wrong with " + QString::fromStdString( function ));
         ko++;
         emit messageKo(ko);
     }
@@ -112,75 +108,138 @@ bool Client::_check(int result, const char * function)
 //------------------------------------------------------------------------------
 // Multi Read
 //------------------------------------------------------------------------------
-void Client::makeMultiRead(RepoDestDbStruct* dbStruct)
+bool Client::makeMultiRead(RepoDestDbStruct* dbStruct)
 {
-    // Prepare struct
-    TS7DataItem Items[5];
+    int result;
+    if ( _dbNumber != 0 ){
+        // Prepare struct
+        TS7DataItem Items[5];
 
-    // NOTE : *AMOUNT IS NOT SIZE* , it's the number of items
+        // NOTE : *AMOUNT IS NOT SIZE* , it's the number of items
 
-    // DBX0.0 - fault
-    Items[0].Area     = S7AreaDB;
-    Items[0].WordLen  = S7WLBit;
-    Items[0].DBNumber = _dbNumber;
-    Items[0].Start    = 0;
-    Items[0].Amount   = 1;
-    Items[0].pdata    = &dbStruct->fault;
-    // DBX0.1 - fault_ack
-    Items[1].Area     = S7AreaDB;
-    Items[1].WordLen  = S7WLBit;
-    Items[1].DBNumber = _dbNumber;
-    Items[1].Start    = 1;
-    Items[1].Amount   = 1;
-    Items[1].pdata    = &dbStruct->fault_ack;
-    // DBX0.2 - product_ok
-    Items[2].Area     = S7AreaDB;
-    Items[2].WordLen  = S7WLBit;
-    Items[2].DBNumber = _dbNumber;
-    Items[2].Start    = 2;
-    Items[2].Amount   = 1;
-    Items[2].pdata    = &dbStruct->part_ok;
-    // DBX0.3 - product_ok_ack
-    Items[3].Area     = S7AreaDB;
-    Items[3].WordLen  = S7WLBit;
-    Items[3].DBNumber = _dbNumber;
-    Items[3].Start    = 3;
-    Items[3].Amount   = 1;
-    Items[3].pdata    = &dbStruct->part_ok_ack;
-    // DBW2 - fault_number
-    Items[4].Area     = S7AreaDB;
-    Items[4].WordLen  = S7WLByte;
-    Items[4].DBNumber = _dbNumber;
-    Items[4].Start    = 2;
-    Items[4].Amount   = 2;
-    Items[4].pdata    = &dbStruct->fault_number;
+        // DBX0.0 - fault
+        Items[0].Area     = S7AreaDB;
+        Items[0].WordLen  = S7WLBit;
+        Items[0].DBNumber = _dbNumber;
+        Items[0].Start    = 0;
+        Items[0].Amount   = 1;
+        Items[0].pdata    = &dbStruct->fault;
+        // DBX0.1 - fault_ack
+        Items[1].Area     = S7AreaDB;
+        Items[1].WordLen  = S7WLBit;
+        Items[1].DBNumber = _dbNumber;
+        Items[1].Start    = 1;
+        Items[1].Amount   = 1;
+        Items[1].pdata    = &dbStruct->fault_ack;
+        // DBX0.2 - product_ok
+        Items[2].Area     = S7AreaDB;
+        Items[2].WordLen  = S7WLBit;
+        Items[2].DBNumber = _dbNumber;
+        Items[2].Start    = 2;
+        Items[2].Amount   = 1;
+        Items[2].pdata    = &dbStruct->part_ok;
+        // DBX0.3 - product_ok_ack
+        Items[3].Area     = S7AreaDB;
+        Items[3].WordLen  = S7WLBit;
+        Items[3].DBNumber = _dbNumber;
+        Items[3].Start    = 3;
+        Items[3].Amount   = 1;
+        Items[3].pdata    = &dbStruct->part_ok_ack;
+        // DBW2 - fault_number
+        Items[4].Area     = S7AreaDB;
+        Items[4].WordLen  = S7WLByte;
+        Items[4].DBNumber = _dbNumber;
+        Items[4].Start    = 1;
+        Items[4].Amount   = 1;
+        Items[4].pdata    = &dbStruct->fault_number;
 
-    int res=S7Client->ReadMultiVars(&Items[0],5);
-    if (_check(res,"Multiread Vars"))
-    {
-        // Result of S7Client->ReadMultivars is the "global result" of
-        // the function, it's OK if something was exchanged.
+        result = S7Client->ReadMultiVars(&Items[0],5);
+        if (_check(result,"Multiread Vars"))
+        {
+            // Result of S7Client->ReadMultivars is the "global result" of
+            // the function, it's OK if something was exchanged.
 
-        // But we need to check single Var results.
-        // Let shall suppose that we ask for 5 vars, 4 of them are ok but
-        // the 5th is inexistent, we will have 4 results ok and 1 not ok.
+            // But we need to check single Var results.
+            // Let shall suppose that we ask for 5 vars, 4 of them are ok but
+            // the 5th is inexistent, we will have 4 results ok and 1 not ok.
 
-        qDebug("DBX0.0 : %d",Items[0].Result);
-        if (Items[0].Result==0)
-            _hexdump(&dbStruct->fault,1);
-        qDebug("DBX0.1 : %d",Items[1].Result);
-        if (Items[1].Result==0)
-            _hexdump(&dbStruct->fault_ack,1);
-        qDebug("DBX0.2 : %d",Items[2].Result);
-        if (Items[2].Result==0)
-            _hexdump(&dbStruct->part_ok,1);
-        qDebug("DBX0.3 : %d",Items[3].Result);
-        if (Items[3].Result==0)
-            _hexdump(&dbStruct->part_ok_ack,1);
-        qDebug("DBW2 : %d",Items[4].Result);
-        if (Items[4].Result==0)
-            _hexdump(&dbStruct->fault_number,2);
-    };
+            if (Items[0].Result != 0)
+                emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + ".DBX0.0" );
+
+            if (Items[1].Result != 0)
+                emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + ".DBX0.1" );
+
+            if (Items[2].Result != 0)
+                emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + ".DBX0.2" );
+
+            if (Items[3].Result != 0)
+                emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + ".DBX0.3" );
+
+            if (Items[4].Result != 0)
+                emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + ".DBB1" );
+        };
+    } else {
+        result = 99;
+        emit messageText( "Number of client DB is not set" );
+    }
+  return result == 0;
+}
+//------------------------------------------------------------------------------
+// Multi Write
+//------------------------------------------------------------------------------
+bool Client::makeMultiWrite(RepoDestDbStruct* dbStruct)
+{
+    int result;
+    if ( _dbNumber != 0 ){
+        // Prepare struct
+        TS7DataItem Items[5];
+
+        // NOTE : *AMOUNT IS NOT SIZE* , it's the number of items
+
+        // DBX0.0 - fault
+        Items[0].Area     = S7AreaDB;
+        Items[0].WordLen  = S7WLBit;
+        Items[0].DBNumber = _dbNumber;
+        Items[0].Start    = 0;
+        Items[0].Amount   = 1;
+        Items[0].pdata    = &dbStruct->fault;
+        // DBX0.1 - fault_ack
+        Items[1].Area     = S7AreaDB;
+        Items[1].WordLen  = S7WLBit;
+        Items[1].DBNumber = _dbNumber;
+        Items[1].Start    = 1;
+        Items[1].Amount   = 1;
+        Items[1].pdata    = &dbStruct->fault_ack;
+        // DBX0.2 - product_ok
+        Items[2].Area     = S7AreaDB;
+        Items[2].WordLen  = S7WLBit;
+        Items[2].DBNumber = _dbNumber;
+        Items[2].Start    = 2;
+        Items[2].Amount   = 1;
+        Items[2].pdata    = &dbStruct->part_ok;
+        // DBX0.3 - product_ok_ack
+        Items[3].Area     = S7AreaDB;
+        Items[3].WordLen  = S7WLBit;
+        Items[3].DBNumber = _dbNumber;
+        Items[3].Start    = 3;
+        Items[3].Amount   = 1;
+        Items[3].pdata    = &dbStruct->part_ok_ack;
+        // DBW2 - fault_number
+        Items[4].Area     = S7AreaDB;
+        Items[4].WordLen  = S7WLByte;
+        Items[4].DBNumber = _dbNumber;
+        Items[4].Start    = 1;
+        Items[4].Amount   = 1;
+        Items[4].pdata    = &dbStruct->fault_number;
+
+        result=S7Client->WriteMultiVars(&Items[0],5);
+        _check(result,"Multiwrite Vars");
+
+    } else {
+        result = 99;
+        emit messageText( "Number of client DB is not set" );
+    }
+     return result == 0;
 }
 //------------------------------------------------------------------------------
 // CPU Info : catalog
@@ -240,51 +299,6 @@ void Client::_summary()
     qDebug() << "| Passed     : "+QString::number( ok );
     qDebug() << "| Failed     : "+QString::number( ko );
     qDebug() << "+-----------------------------------------------------";
-
-}
-//------------------------------------------------------------------------------
-// hexdump, a very nice function, it's not mine.
-// I found it on the net somewhere some time ago... thanks to the author ;-)
-//------------------------------------------------------------------------------
-#ifndef HEXDUMP_COLS
-#define HEXDUMP_COLS 16
-#endif
-void Client::_hexdump(void *mem, unsigned int len)
-{
-    unsigned int i, j;
-
-    for(i = 0; i < len + ((len % HEXDUMP_COLS) ? (HEXDUMP_COLS - len % HEXDUMP_COLS) : 0); i++){
-        /* print offset */
-        if(i % HEXDUMP_COLS == 0){
-            qDebug("0x%04x: ", i);
-        }
-        /* print hex data */
-        if(i < len){
-            qDebug("%02x ", 0xFF & ((char*)mem)[i]);
-        }
-        else /* end of block, just aligning for ASCII dump */{
-            qDebug("   ");
-        }
-        /* print ASCII dump */
-        if(i % HEXDUMP_COLS == (HEXDUMP_COLS - 1)){
-            for(j = i - (HEXDUMP_COLS - 1); j <= i; j++){
-                if(j >= len) /* end of block, not really printing */{
-                    putchar(' ');
-                }
-                else if(isprint((((char*)mem)[j] & 0x7F))) /* printable char */{
-                    putchar(0xFF & ((char*)mem)[j]);
-                }
-                else /* other char */{
-                    putchar('.');
-                }
-            }
-            putchar('\n');
-        }
-    }
-}
-
-void Client::testRead(RepoDestDbStruct* dbStruct)
-{
 
 }
 

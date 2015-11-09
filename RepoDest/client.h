@@ -36,8 +36,8 @@ public:
     void setDbNumber(const int &arg1);
     bool makeConnect();
     void makeDisconnect();
-    void makeMultiRead(RepoDestDbStruct* dbStruct);
-    void testRead(RepoDestDbStruct* dbStruct);
+    bool makeMultiRead(RepoDestDbStruct* dbStruct);
+    bool makeMultiWrite(RepoDestDbStruct* dbStruct);
 
 private:
 
@@ -46,7 +46,6 @@ private:
 
 
     bool _check(int result, const char * function);
-    void _hexdump(void *mem, unsigned int len);
     void _orderCode();
     void _cpuInfo();
     void _unitStatus();
