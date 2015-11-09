@@ -70,7 +70,9 @@ ThreadManager::~ThreadManager()
     delete st130;
     st130 = nullptr;
 }
-
+//------------------------------------------------------------------------------
+// Create threads
+//------------------------------------------------------------------------------
 void ThreadManager::createThreads()
 {
     //first generete thread instance
@@ -103,7 +105,9 @@ void ThreadManager::createThreads()
     thread4 = new QThread;
 
 }
-
+//------------------------------------------------------------------------------
+// Create client objects and give them settings
+//------------------------------------------------------------------------------
 void ThreadManager::createClientDeclaration()
 {
     //genereting WorkArea class instance for each station on production line
@@ -251,7 +255,9 @@ void ThreadManager::createClientDeclaration()
     st130->setDbNumber   ( 998 );
     st130->setName       ( "St130" );
 }
-
+//------------------------------------------------------------------------------
+// Start threads
+//------------------------------------------------------------------------------
 void ThreadManager::startThreads()
 {
     //start threads

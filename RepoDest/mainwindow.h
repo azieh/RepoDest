@@ -40,10 +40,6 @@ private slots:
 
     void on_pushButtonQuit_clicked();
 
-    void on_pushButtonStartProblem_clicked();
-
-    void on_pushButtonStopProblem_clicked();
-
 signals:
     void startThread();
 

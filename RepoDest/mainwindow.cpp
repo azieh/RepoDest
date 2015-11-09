@@ -22,6 +22,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//------------------------------------------------------------------------------
+// Create thread manager
+//------------------------------------------------------------------------------
 void MainWindow::createThreadManager()
 {
     if ( tm != nullptr ){
@@ -33,6 +36,9 @@ void MainWindow::createThreadManager()
     tm->createClientDeclaration();
 }
 
+//------------------------------------------------------------------------------
+// Set initial icon for connection status
+//------------------------------------------------------------------------------
 void MainWindow::setIconAndConnectionTextStatus()
 {
     ui->labelSt10Ico->setPixmap(_warningIcon);
@@ -50,6 +56,9 @@ void MainWindow::setIconAndConnectionTextStatus()
     ui->labelSt130Ico->setPixmap(_warningIcon);
 }
 
+//------------------------------------------------------------------------------
+// Create GUI with station object conenction
+//------------------------------------------------------------------------------
 void MainWindow::setGuiConnection()
 {
     connect(tm->st10, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
@@ -131,6 +140,9 @@ void MainWindow::setGuiConnection()
     connect(tm->st130, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
 }
 
+//------------------------------------------------------------------------------
+// GUI setup
+//------------------------------------------------------------------------------
 void MainWindow::setGuiSetup()
 {
     int blockCount = 50; // number of lines in plainText window
@@ -186,6 +198,10 @@ void MainWindow::setGuiSetup()
     _warningIcon = _warningIcon.scaled(QSize(25, 25), Qt::KeepAspectRatio);
 }
 
+//------------------------------------------------------------------------------
+// Text changed slot
+//------------------------------------------------------------------------------
+
 void MainWindow::on_plainTextEdit_textChanged(const QString &stName, const QString &arg1)
 {
     if ( stName == "St10" ){
@@ -229,6 +245,9 @@ void MainWindow::on_plainTextEdit_textChanged(const QString &stName, const QStri
     }
 
 }
+//------------------------------------------------------------------------------
+// Connection status slot
+//------------------------------------------------------------------------------
 void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
 {
     if ( stName == "St10" ){
@@ -361,7 +380,9 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
         }
     }
 }
-
+//------------------------------------------------------------------------------
+// Operations OK slot
+//------------------------------------------------------------------------------
 void MainWindow::on_lineEditOk_Changed(const QString &stName, int arg1)
 {
     if ( stName == "St10" ){
@@ -403,10 +424,10 @@ void MainWindow::on_lineEditOk_Changed(const QString &stName, int arg1)
     if ( stName == "St130" ){
         ui->lineEditSt130Ok->setText(QString::number(arg1));
     }
-
-
 }
-
+//------------------------------------------------------------------------------
+// Operations NOK slot
+//------------------------------------------------------------------------------
 void MainWindow::on_lineEditNok_Changed(const QString &stName, int arg1)
 {
     if ( stName == "St10" ){
@@ -449,6 +470,9 @@ void MainWindow::on_lineEditNok_Changed(const QString &stName, int arg1)
         ui->lineEditSt130Nok->setText(QString::number(arg1));
     }
 }
+//------------------------------------------------------------------------------
+// Loop time slot
+//------------------------------------------------------------------------------
 void MainWindow::on_lineEditTime_Changed(const QString &stName, const QString &arg1)
 {
     if ( stName == "St10" ){
@@ -491,20 +515,11 @@ void MainWindow::on_lineEditTime_Changed(const QString &stName, const QString &a
         ui->lineEditSt130Time->setText(arg1);
     }
 }
+//------------------------------------------------------------------------------
+// Quit button slot
+//------------------------------------------------------------------------------
 void MainWindow::on_pushButtonQuit_clicked()
 {
     QCoreApplication::exit();
     QApplication::quit();
-}
-
-void MainWindow::on_pushButtonStartProblem_clicked()
-{
-    tm->st10->dbStruct->fault = true;
-
-    tm->st10->dbStruct->fault_number = 99;
-}
-
-void MainWindow::on_pushButtonStopProblem_clicked()
-{
-    tm->st10->dbStruct->part_ok = true;
 }

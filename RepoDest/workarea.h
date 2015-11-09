@@ -31,7 +31,6 @@ private:
     QElapsedTimer _loopTimer;
     QElapsedTimer _faultTimer;
     bool _makeWriting;
-    int _step;
     int _repeatThreadTime;
     int _faultNumberMemory;
     int _faultTimeElapsedMemory;

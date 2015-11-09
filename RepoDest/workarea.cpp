@@ -10,11 +10,10 @@ WorkArea::WorkArea(QObject *parent) :
     _thread     (nullptr),
     _client     (nullptr)
 {
-    _makeWriting = false;
-    _repeatThreadTime = 1000;
+    _makeWriting            = false;
+    _repeatThreadTime       = 1000;
     _faultTimeElapsedMemory = 0.000;
-    _faultNumberMemory = 0;
-    _step = 0;
+    _faultNumberMemory      = 0;
 
     if ( _client != nullptr ){
         delete _client;
@@ -28,11 +27,11 @@ WorkArea::WorkArea(QObject *parent) :
     }
     dbStruct = new RepoDestDbStruct;
     if ( dbStruct != nullptr ){
-        dbStruct->fault = false;
-        dbStruct->fault_ack = false;
-        dbStruct->part_ok = false;
-        dbStruct->part_ok_ack = false;
-        dbStruct->fault_number = 0;
+        dbStruct->fault         = false;
+        dbStruct->fault_ack     = false;
+        dbStruct->part_ok       = false;
+        dbStruct->part_ok_ack   = false;
+        dbStruct->fault_number  = 0;
     }
 }
 
@@ -45,6 +44,9 @@ WorkArea::~WorkArea()
     _client = nullptr;
 }
 
+//------------------------------------------------------------------------------
+// Do setup for object
+//------------------------------------------------------------------------------
 void WorkArea::doSetup(QThread* cThread)
 {
     if ( _thread != nullptr ){
@@ -62,12 +64,17 @@ void WorkArea::doSetup(QThread* cThread)
     connect(_client, SIGNAL( messageKo( int )),                 this, SLOT( lineEditNok_Changed( int ) ));
 
 }
-
+//------------------------------------------------------------------------------
+// Repeat thread
+//------------------------------------------------------------------------------
 void WorkArea::repeatThread()
 {  
     QTimer::singleShot(_repeatThreadTime, _thread, SLOT(quit()));
 }
 
+//------------------------------------------------------------------------------
+// Check DB structure
+//------------------------------------------------------------------------------
 void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
 {
     if ( dbStruct->fault == true ){
@@ -98,7 +105,9 @@ void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
     }
 
 }
-
+//------------------------------------------------------------------------------
+// PLC work area
+//------------------------------------------------------------------------------
 void WorkArea::plcArea()
 {
     if ( _client->makeConnect() == true ){                      // check connection
@@ -114,7 +123,9 @@ void WorkArea::plcArea()
         _client->makeDisconnect();                              // disconnect after every work
     }
 }
-
+//------------------------------------------------------------------------------
+// Main work area
+//------------------------------------------------------------------------------
 void WorkArea::mainOperation()
 {
     _loopTimer.start(); // start one loop timer
@@ -137,7 +148,9 @@ void WorkArea::mainOperation()
 
 
 
-
+//------------------------------------------------------------------------------
+// Signals and slot area
+//------------------------------------------------------------------------------
 
 void WorkArea::setIpAddress(const char *arg1)
 {

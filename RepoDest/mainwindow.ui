@@ -112,8 +112,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1099</width>
-         <height>803</height>
+         <width>1095</width>
+         <height>802</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -2623,34 +2623,7 @@
            </widget>
           </item>
           <item row="3" column="3">
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item>
-             <widget class="QPushButton" name="pushButtonStartProblem">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Start problem</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButtonStopProblem">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Stop Problem</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <layout class="QVBoxLayout" name="verticalLayout_3"/>
           </item>
          </layout>
         </item>
@@ -2667,7 +2640,7 @@
      <x>0</x>
      <y>0</y>
      <width>1118</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
