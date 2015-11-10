@@ -3,7 +3,6 @@
 
 #include "workarea.h"
 
-
 WorkArea::WorkArea(QObject *parent) :
     QObject     (parent),
     dbStruct    (nullptr),
@@ -11,8 +10,8 @@ WorkArea::WorkArea(QObject *parent) :
     _client     (nullptr)
 {
     _makeWriting            = false;
-    _repeatThreadTime       = 1000;
-    _faultTimeElapsedMemory = 0.000;
+    _repeatThreadTime       = 100;
+    _faultTimeElapsedMemory = 0;
     _faultNumberMemory      = 0;
 
     if ( _client != nullptr ){
@@ -34,7 +33,6 @@ WorkArea::WorkArea(QObject *parent) :
         dbStruct->fault_number  = 0;
     }
 }
-
 WorkArea::~WorkArea()
 {
     delete _thread;
@@ -43,7 +41,6 @@ WorkArea::~WorkArea()
     delete _client;
     _client = nullptr;
 }
-
 //------------------------------------------------------------------------------
 // Do setup for object
 //------------------------------------------------------------------------------
@@ -71,7 +68,6 @@ void WorkArea::repeatThread()
 {  
     QTimer::singleShot(_repeatThreadTime, _thread, SLOT(quit()));
 }
-
 //------------------------------------------------------------------------------
 // Check DB structure
 //------------------------------------------------------------------------------
@@ -136,22 +132,9 @@ void WorkArea::mainOperation()
     emit loopTime ( _name, QString::number( _loopTimer.elapsed() ) + " ms"); // read elapsed time of one loop timer
     repeatThread();                                                         //method to make loop thread
 }
-
-
-
-
-
-
-
-
-
-
-
-
 //------------------------------------------------------------------------------
 // Signals and slot area
 //------------------------------------------------------------------------------
-
 void WorkArea::setIpAddress(const char *arg1)
 {
     _client->setIpAddress( arg1 );

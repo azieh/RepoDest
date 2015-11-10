@@ -182,6 +182,9 @@
               <height>64</height>
              </size>
             </property>
+            <property name="autoExclusive">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="0" column="1">

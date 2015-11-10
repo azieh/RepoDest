@@ -21,6 +21,7 @@ Client::Client(QObject *parent) :
     _address            (nullptr)
 {
     isConnected = false;
+    isDisconnected = false;
     _dbNumber = 0;
     ok = 0;
     ko = 0;
@@ -48,12 +49,12 @@ void Client::setDbNumber(const int &arg1)
 {
     _dbNumber = arg1;
 }
-
 //------------------------------------------------------------------------------
 // Unit Connection
 //------------------------------------------------------------------------------
 bool Client::makeConnect()
 {
+    _checkOkKo();
     int result;
     if ( _address != nullptr ){ // checking if Ip address is correctly set
         if ( S7Client != nullptr ){
@@ -63,23 +64,30 @@ bool Client::makeConnect()
         S7Client= new TS7Client();
 
         result = S7Client->ConnectTo(_address,PLCRACK,PLCSLOT);
-        if ( isConnected == false){
+        if ( isConnected == false ){
             if ( result == 0 ) {
                 emit messageText( "Connected to " + QString::fromStdString(_address) + " (Rack=" + QString::number(PLCRACK) + ", Slot=" + QString::number(PLCSLOT) + ")" );
                 emit messageText( "Execution time : " + QString::number(S7Client->ExecTime()) + "ms");
+                isConnected = true;
+                isDisconnected = false;
                 ok++;
                 emit messageOk(ok);
-            } else {
+            }
+            if ( isDisconnected == false && result != 0){
                 emit messageText( "Connection NOK" );
                 emit messageText( "Problem is :" + QString::fromStdString(CliErrorText(result).c_str()) );
+                isConnected = false;
+                isDisconnected = true;
                 ko++;
                 emit messageKo(ko);
             }
             isConnected = S7Client->Connected();
             emit connectionStatus( isConnected );
+        } else {
+            emit messageText( "Ip address of client is not set" );
+            ko++;
+            emit messageKo(ko);
         }
-    } else {
-        emit messageText( "Ip address of client is not set" );
     }
     return result==0;
 }
@@ -89,21 +97,6 @@ bool Client::makeConnect()
 void Client::makeDisconnect()
 {
     S7Client->Disconnect();
-}
-//------------------------------------------------------------------------------
-// Check error
-//------------------------------------------------------------------------------
-bool Client::_check(int result, const char * function)
-{
-    if (result==0) {
-        ok++;
-        emit messageOk(ok);
-    } else {
-        emit messageText( "Something goes wrong with " + QString::fromStdString( function ));
-        ko++;
-        emit messageKo(ko);
-    }
-    return result==0;
 }
 //------------------------------------------------------------------------------
 // Multi Read
@@ -154,7 +147,7 @@ bool Client::makeMultiRead(RepoDestDbStruct* dbStruct)
         Items[4].pdata    = &dbStruct->fault_number;
 
         result = S7Client->ReadMultiVars(&Items[0],5);
-        if (_check(result,"Multiread Vars"))
+        if ( result == 0 )
         {
             // Result of S7Client->ReadMultivars is the "global result" of
             // the function, it's OK if something was exchanged.
@@ -163,26 +156,35 @@ bool Client::makeMultiRead(RepoDestDbStruct* dbStruct)
             // Let shall suppose that we ask for 5 vars, 4 of them are ok but
             // the 5th is inexistent, we will have 4 results ok and 1 not ok.
 
-            if (Items[0].Result != 0)
+            if (Items[0].Result != 0){
                 emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + ".DBX0.0" );
-
-            if (Items[1].Result != 0)
+                result = 99;
+            }
+            if (Items[1].Result != 0){
                 emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + ".DBX0.1" );
-
-            if (Items[2].Result != 0)
+                result = 98;
+            }
+            if (Items[2].Result != 0){
                 emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + ".DBX0.2" );
-
-            if (Items[3].Result != 0)
+                result = 97;
+            }
+            if (Items[3].Result != 0){
                 emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + ".DBX0.3" );
-
-            if (Items[4].Result != 0)
+                result = 96;
+            }
+            if (Items[4].Result != 0){
                 emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + ".DBB1" );
+                result = 95;
+            }
+            _check(result,"Multiread Vars"); // check result of reading
         };
     } else {
         result = 99;
         emit messageText( "Number of client DB is not set" );
+        ko++;
+        emit messageKo(ko);
     }
-  return result == 0;
+    return result == 0;
 }
 //------------------------------------------------------------------------------
 // Multi Write
@@ -239,7 +241,22 @@ bool Client::makeMultiWrite(RepoDestDbStruct* dbStruct)
         result = 99;
         emit messageText( "Number of client DB is not set" );
     }
-     return result == 0;
+    return result == 0;
+}
+//------------------------------------------------------------------------------
+// Check error
+//------------------------------------------------------------------------------
+bool Client::_check(int result, const char * function)
+{
+    if (result==0) {
+        ok++;
+        emit messageOk(ok);
+    } else {
+        emit messageText( "Something goes wrong with " + QString::fromStdString( function ));
+        ko++;
+        emit messageKo(ko);
+    }
+    return result==0;
 }
 //------------------------------------------------------------------------------
 // CPU Info : catalog
@@ -291,7 +308,6 @@ void Client::_unitStatus()
 //------------------------------------------------------------------------------
 void Client::_summary()
 {
-
     qDebug() << "+-----------------------------------------------------";
     qDebug() << "| Test Summary ";
     qDebug() << "+-----------------------------------------------------";
@@ -299,8 +315,16 @@ void Client::_summary()
     qDebug() << "| Passed     : "+QString::number( ok );
     qDebug() << "| Failed     : "+QString::number( ko );
     qDebug() << "+-----------------------------------------------------";
-
 }
-
-
+//------------------------------------------------------------------------------
+// Check OK and KO value
+//------------------------------------------------------------------------------
+void Client::_checkOkKo()
+{
+    int okAndKo = ok + ko;
+    if ( okAndKo >= 1000 ){
+        ok = 0;
+        ko = 0;
+    }
+}
 

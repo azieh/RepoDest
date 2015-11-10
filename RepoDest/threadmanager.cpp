@@ -103,7 +103,6 @@ void ThreadManager::createThreads()
         thread4 = nullptr;
     }
     thread4 = new QThread;
-
 }
 //------------------------------------------------------------------------------
 // Create client objects and give them settings
@@ -119,7 +118,7 @@ void ThreadManager::createClientDeclaration()
     st10 = new WorkArea;
     st10->doSetup       ( thread1 );  // declarate thread for program
     st10->moveToThread  ( thread1 ); // declarate thread for program
-    st10->setIpAddress  ( "192.168.10.20" );
+    st10->setIpAddress  ( "192.168.1.10" );
     st10->setDbNumber   ( 998 );
     st10->setName       ( "St10" ); // not important
 

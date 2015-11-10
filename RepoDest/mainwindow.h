@@ -32,11 +32,11 @@ private:
 public slots:
 
 private slots:
-    void on_plainTextEdit_textChanged(const QString &stName, const QString &arg1);
-    void on_labelStatus_Changed(const QString &stName, bool arg1);
-    void on_lineEditOk_Changed(const QString &stName, int arg1);
-    void on_lineEditNok_Changed(const QString &stName, int arg1);
-    void on_lineEditTime_Changed(const QString &stName, const QString &arg1);
+    void plainTextEdit_textChanged(const QString &stName, const QString &arg1);
+    void labelStatus_Changed(const QString &stName, bool arg1);
+    void lineEditOk_Changed(const QString &stName, int arg1);
+    void lineEditNok_Changed(const QString &stName, int arg1);
+    void lineEditTime_Changed(const QString &stName, const QString &arg1);
 
     void on_pushButtonQuit_clicked();
 

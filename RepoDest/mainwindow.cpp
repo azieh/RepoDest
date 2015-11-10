@@ -21,7 +21,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
 //------------------------------------------------------------------------------
 // Create thread manager
 //------------------------------------------------------------------------------
@@ -35,7 +34,6 @@ void MainWindow::createThreadManager()
     tm->createThreads();
     tm->createClientDeclaration();
 }
-
 //------------------------------------------------------------------------------
 // Set initial icon for connection status
 //------------------------------------------------------------------------------
@@ -55,91 +53,89 @@ void MainWindow::setIconAndConnectionTextStatus()
     ui->labelSt120Ico->setPixmap(_warningIcon);
     ui->labelSt130Ico->setPixmap(_warningIcon);
 }
-
 //------------------------------------------------------------------------------
 // Create GUI with station object conenction
 //------------------------------------------------------------------------------
 void MainWindow::setGuiConnection()
 {
-    connect(tm->st10, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st10, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st10, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st10, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st10, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st10, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st10, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st10, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st10, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st10, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st20, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st20, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st20, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st20, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st20, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st20, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st20, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st20, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st20, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st20, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st30, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st30, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st30, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st30, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st30, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st30, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st30, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st30, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st30, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st30, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st40, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st40, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st40, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st40, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st40, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st40, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st40, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st40, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st40, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st40, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st50, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st50, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st50, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st50, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st50, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st50, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st50, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st50, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st50, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st50, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st60, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st60, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st60, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st60, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st60, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st60, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st60, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st60, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st60, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st60, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st70, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st70, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st70, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st70, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st70, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st70, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st70, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st70, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st70, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st70, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st80, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st80, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st80, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st80, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st80, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st80, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st80, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st80, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st80, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st80, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st90, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st90, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st90, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st90, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st90, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st90, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st90, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st90, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st90, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st90, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st100, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st100, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st100, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st100, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st100, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st100, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st100, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st100, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st100, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st100, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st110, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st110, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st110, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st110, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st110, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st110, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st110, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st110, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st110, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st110, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st120, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st120, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st120, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st120, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st120, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st120, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st120, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st120, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st120, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st120, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 
-    connect(tm->st130, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( on_plainTextEdit_textChanged( const QString &, const QString & )));
-    connect(tm->st130, SIGNAL( messageOk( const QString &, int )),               this, SLOT( on_lineEditOk_Changed( const QString &, int )));
-    connect(tm->st130, SIGNAL( messageKo( const QString &, int )),               this, SLOT( on_lineEditNok_Changed( const QString &, int )));
-    connect(tm->st130, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( on_labelStatus_Changed( const QString &, bool )));
-    connect(tm->st130, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( on_lineEditTime_Changed( const QString &, const QString &)));
+    connect(tm->st130, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->st130, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->st130, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+    connect(tm->st130, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
+    connect(tm->st130, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
 }
-
 //------------------------------------------------------------------------------
 // GUI setup
 //------------------------------------------------------------------------------
@@ -197,12 +193,10 @@ void MainWindow::setGuiSetup()
     _warningIcon = QPixmap(":/ico/Warning.ico");
     _warningIcon = _warningIcon.scaled(QSize(25, 25), Qt::KeepAspectRatio);
 }
-
 //------------------------------------------------------------------------------
 // Text changed slot
 //------------------------------------------------------------------------------
-
-void MainWindow::on_plainTextEdit_textChanged(const QString &stName, const QString &arg1)
+void MainWindow::plainTextEdit_textChanged(const QString &stName, const QString &arg1)
 {
     if ( stName == "St10" ){
         ui->plainTextEditSt10->appendPlainText(arg1);
@@ -243,12 +237,11 @@ void MainWindow::on_plainTextEdit_textChanged(const QString &stName, const QStri
     if ( stName == "St130" ){
         ui->plainTextEditSt130->appendPlainText(arg1);
     }
-
 }
 //------------------------------------------------------------------------------
 // Connection status slot
 //------------------------------------------------------------------------------
-void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
+void MainWindow::labelStatus_Changed(const QString &stName, bool arg1)
 {
     if ( stName == "St10" ){
         if ( arg1 == true ){
@@ -383,7 +376,7 @@ void MainWindow::on_labelStatus_Changed(const QString &stName, bool arg1)
 //------------------------------------------------------------------------------
 // Operations OK slot
 //------------------------------------------------------------------------------
-void MainWindow::on_lineEditOk_Changed(const QString &stName, int arg1)
+void MainWindow::lineEditOk_Changed(const QString &stName, int arg1)
 {
     if ( stName == "St10" ){
         ui->lineEditSt10Ok->setText(QString::number(arg1));
@@ -428,7 +421,7 @@ void MainWindow::on_lineEditOk_Changed(const QString &stName, int arg1)
 //------------------------------------------------------------------------------
 // Operations NOK slot
 //------------------------------------------------------------------------------
-void MainWindow::on_lineEditNok_Changed(const QString &stName, int arg1)
+void MainWindow::lineEditNok_Changed(const QString &stName, int arg1)
 {
     if ( stName == "St10" ){
         ui->lineEditSt10Nok->setText(QString::number(arg1));
@@ -473,7 +466,7 @@ void MainWindow::on_lineEditNok_Changed(const QString &stName, int arg1)
 //------------------------------------------------------------------------------
 // Loop time slot
 //------------------------------------------------------------------------------
-void MainWindow::on_lineEditTime_Changed(const QString &stName, const QString &arg1)
+void MainWindow::lineEditTime_Changed(const QString &stName, const QString &arg1)
 {
     if ( stName == "St10" ){
         ui->lineEditSt10Time->setText(arg1);

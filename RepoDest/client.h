@@ -28,6 +28,7 @@ public:
     TS7Client* S7Client;
 
     bool isConnected;
+    bool isDisconnected;
 
     int ok;// = 0; // Number of test pass
     int ko;// = 0; // Number of test failure
@@ -50,6 +51,7 @@ private:
     void _cpuInfo();
     void _unitStatus();
     void _summary();
+    void _checkOkKo();
 
 signals:
 
