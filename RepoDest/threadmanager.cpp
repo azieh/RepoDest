@@ -118,7 +118,7 @@ void ThreadManager::createClientDeclaration()
     st10 = new WorkArea;
     st10->doSetup       ( thread1 );  // declarate thread for program
     st10->moveToThread  ( thread1 ); // declarate thread for program
-    st10->setIpAddress  ( "192.168.1.10" );
+    st10->setIpAddress  ( "10.10.190.1" );
     st10->setDbNumber   ( 998 );
     st10->setName       ( "St10" ); // not important
 
@@ -184,7 +184,7 @@ void ThreadManager::createClientDeclaration()
     st70 = new WorkArea;
     st70->doSetup       ( thread2 );
     st70->moveToThread  ( thread2 );
-    st70->setIpAddress  ( "10.10.190.1" );
+    st70->setIpAddress  ( "10.10.191.1" );
     st70->setDbNumber   ( 998 );
     st70->setName       ( "St70" );
 
@@ -195,7 +195,7 @@ void ThreadManager::createClientDeclaration()
     st80 = new WorkArea;
     st80->doSetup       ( thread3 );
     st80->moveToThread  ( thread3 );
-    st80->setIpAddress  ( "10.10.190.1" );
+    st80->setIpAddress  ( "10.10.191.1" );
     st80->setDbNumber   ( 998 );
     st80->setName       ( "St80" );
 
@@ -206,7 +206,7 @@ void ThreadManager::createClientDeclaration()
     st90 = new WorkArea;
     st90->doSetup       ( thread3 );
     st90->moveToThread  ( thread3 );
-    st90->setIpAddress  ( "10.10.190.1" );
+    st90->setIpAddress  ( "10.10.191.1" );
     st90->setDbNumber   ( 998 );
     st90->setName       ( "St90" );
 
@@ -217,7 +217,7 @@ void ThreadManager::createClientDeclaration()
     st100 = new WorkArea;
     st100->doSetup       ( thread3 );
     st100->moveToThread  ( thread3 );
-    st100->setIpAddress  ( "10.10.190.1" );
+    st100->setIpAddress  ( "10.10.192.1" );
     st100->setDbNumber   ( 998 );
     st100->setName       ( "St100" );
 
@@ -228,7 +228,7 @@ void ThreadManager::createClientDeclaration()
     st110 = new WorkArea;
     st110->doSetup       ( thread4 );
     st110->moveToThread  ( thread4 );
-    st110->setIpAddress  ( "10.10.190.1" );
+    st110->setIpAddress  ( "10.10.192.1" );
     st110->setDbNumber   ( 998 );
     st110->setName       ( "St110" );
 
@@ -239,7 +239,7 @@ void ThreadManager::createClientDeclaration()
     st120 = new WorkArea;
     st120->doSetup       ( thread4 );
     st120->moveToThread  ( thread4 );
-    st120->setIpAddress  ( "10.10.190.1" );
+    st120->setIpAddress  ( "10.10.192.1" );
     st120->setDbNumber   ( 998 );
     st120->setName       ( "St120" );
 
@@ -250,7 +250,7 @@ void ThreadManager::createClientDeclaration()
     st130 = new WorkArea;
     st130->doSetup       ( thread4 );
     st130->moveToThread  ( thread4 );
-    st130->setIpAddress  ( "10.10.190.1" );
+    st130->setIpAddress  ( "10.10.193.1" );
     st130->setDbNumber   ( 998 );
     st130->setName       ( "St130" );
 }

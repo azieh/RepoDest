@@ -71,15 +71,17 @@ bool Client::makeConnect()
                 isConnected = true;
                 isDisconnected = false;
                 ok++;
-                emit messageOk(ok);
-            }
-            if ( isDisconnected == false && result != 0){
+                emit messageKo( ok );
+            } else if ( isDisconnected == false && result != 0){
                 emit messageText( "Connection NOK" );
                 emit messageText( "Problem is :" + QString::fromStdString(CliErrorText(result).c_str()) );
                 isConnected = false;
                 isDisconnected = true;
                 ko++;
-                emit messageKo(ko);
+                emit messageKo( ko );
+            } else {
+                ko++;
+                emit messageKo( ko );
             }
             isConnected = S7Client->Connected();
             emit connectionStatus( isConnected );
