@@ -22,6 +22,7 @@ public:
     void setDbNumber    (const int &arg1);
     void setName        (const char* arg1);
     RepoDestDbStruct*    dbStruct;
+    SqlDataStruct*       sqlDataStruct;
 
 private:
     QThread* _thread;
@@ -38,10 +39,12 @@ private:
     int _faultTimeElapsedMemory;
     int _faultTimeElapsedMemoryMinutes;
     int _faultTimeElapsedMemorySeconds;
+    double _faultTimeElapsedMemoryD;
 
     void repeatThread();
     void plcArea();
     void checkDbStruct(RepoDestDbStruct* dbStruct);
+    void prepareSqlData();
 
 signals:
     void messageText(const QString &, const QString &);

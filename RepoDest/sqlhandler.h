@@ -8,6 +8,14 @@
 const QDir    DATABASEPATH  ("D:/Baza_przestojow");
 const QString DBFILENAME    ("M1.sqlite");
 
+struct SqlDataStruct{    // Struct for SQL data
+    QString     stationName;
+    QString     date;
+    QString     hour;
+    int         faultNumber;
+    double      timeElapsed;
+};
+
 class SqlHandler : public QObject
 {
     Q_OBJECT
@@ -19,12 +27,8 @@ public:
     QSqlQuery* query;
 
     bool openDatabase();
-    bool executeQuery();
-    void createTable();
-    void insertValue();
-    QString name;
-
-    QString actualstatus;
+    void createTable(SqlDataStruct* data);
+    void insertValue(SqlDataStruct* data);
 
 signals:
     void messageText(const QString &, const QString &);

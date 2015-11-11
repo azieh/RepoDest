@@ -43,13 +43,14 @@ bool SqlHandler::openDatabase()
     }
     return database->isOpen ();
 }
-void SqlHandler::createTable()
+void SqlHandler::createTable(SqlDataStruct* data)
 {
-        if ( !database->tables().contains( name )){
+    if ( database->isOpen() ){
+        if ( !database->tables().contains( data->stationName )){
 
             QString command;
             command = QString("create table %1 (id int primary key,"
-                              "Date varchar(8), Hour varchar(5), Time_elapsed varchar(20), Fault_nr int)").arg( name );
+                              "Date varchar(8), Hour varchar(5), Time_elapsed varchar(20), Fault_nr int)").arg( data->stationName );
 
             if ( query != nullptr ){
                 delete query;
@@ -58,15 +59,15 @@ void SqlHandler::createTable()
             query = new QSqlQuery;
             query->prepare( command );
             if ( !query->exec() ){
-                emit messageText( "LogMsg",  "SQL error when Table was created for " + name + ": " + query->lastError().text() );
+                emit messageText( "LogMsg",  "SQL error when Table was created for " + data->stationName + ": " + query->lastError().text() );
             } else {
-                emit messageText( "LogMsg",  "SQL query: Correctly created table for " + name );
+                emit messageText( "LogMsg",  "SQL query: Correctly created table for " + data->stationName );
             }
             query->clear();
         }
-
+    }
 }
-void SqlHandler::insertValue()
+void SqlHandler::insertValue(SqlDataStruct* data)
 {
     if ( query != nullptr ){
         delete query;
@@ -75,8 +76,5 @@ void SqlHandler::insertValue()
     query = new QSqlQuery;
 }
 
-bool SqlHandler::executeQuery()
-{
 
-}
 

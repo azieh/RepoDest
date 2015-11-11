@@ -18,10 +18,6 @@ WorkArea::WorkArea(SqlHandler* sqlHandler, QObject *parent) :
     _faultTimeElapsedMemory = 0;
     _faultNumberMemory      = 0;
 
-    if ( dbStruct != nullptr ){
-        delete dbStruct;
-        dbStruct = nullptr;
-    }
     dbStruct = new RepoDestDbStruct;
     if ( dbStruct != nullptr ){
         dbStruct->fault         = false;
@@ -30,12 +26,13 @@ WorkArea::WorkArea(SqlHandler* sqlHandler, QObject *parent) :
         dbStruct->part_ok_ack   = false;
         dbStruct->fault_number  = 0;
     }
-    if ( _client != nullptr ){
-        delete _client;
-        _client = nullptr;
+
+    sqlDataStruct = new SqlDataStruct;
+    if (sqlDataStruct != nullptr ){
+        // only intiger value have to be init with 0
+        sqlDataStruct->faultNumber = 0;
     }
     _client = new Client;
-
 }
 WorkArea::~WorkArea()
 {
@@ -77,11 +74,17 @@ void WorkArea::repeatThread()
 //------------------------------------------------------------------------------
 void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
 {
+
+
     if ( dbStruct->fault == true ){
         _faultTimer.start(); // if we have fault on mstation -> start timer
-        _faultNumberMemory = dbStruct->fault_number; // coppy fault number
+        QDate date;
+        date.currentDate();
 
-        emit messageText( _name, "Fault on machine number " + QString::number( _faultNumberMemory ) );
+        sqlDataStruct->date = date.toString("yyMMdd");
+        sqlDataStruct->faultNumber = dbStruct->fault_number; // coppy fault number
+
+        emit messageText( _name, "Fault on machine number " + QString::number( sqlDataStruct->faultNumber ) );
 
         // after read problem data, set ack bit for PLC
         dbStruct->fault = false;
@@ -94,6 +97,7 @@ void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
         _faultTimeElapsedMemory =  _faultTimer.elapsed(); // if we have first good part after fault, read time since start timer
         _faultTimeElapsedMemoryMinutes =   _faultTimeElapsedMemory / 60000; // coppy time from ms to minute
         _faultTimeElapsedMemorySeconds = ( _faultTimeElapsedMemory % 60000 ) / 1000; // coppy time from ms to seconds
+        _faultTimeElapsedMemoryD = (double)_faultTimeElapsedMemoryMinutes + ( (double)_faultTimeElapsedMemorySeconds / 100 );
 
         emit messageText( _name, "Fault time = " + ( QString::number( _faultTimeElapsedMemoryMinutes) + " min ") + ( QString::number ( _faultTimeElapsedMemorySeconds ) + " sec") );
 
@@ -110,6 +114,10 @@ void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
 //------------------------------------------------------------------------------
 void WorkArea::plcArea()
 {
+    QDate date;
+    date.currentDate();
+
+    sqlDataStruct->date = date.toString("yyMMdd");
     if ( _client->makeConnect() == true ){                      // check connection
         if          ( _makeWriting == false ){                  // check statement to Read or Write data
             if ( _client->makeMultiRead ( dbStruct ) == true ){ // read data from PLC and coppy them to dbStruct
@@ -123,6 +131,13 @@ void WorkArea::plcArea()
         _client->makeDisconnect();                              // disconnect after every work
     }
 }
+void WorkArea::prepareSqlData()
+{
+
+
+
+}
+
 //------------------------------------------------------------------------------
 // Main work area
 //------------------------------------------------------------------------------
@@ -132,10 +147,13 @@ void WorkArea::mainOperation()
 
     plcArea();
 
+    if ( _faultTimeElapsedMemoryD != 0 ){
+         prepareSqlData();
+    }
 
     mutex.lock();
-    _sqlHandler->name = _name;
-    _sqlHandler->createTable();
+    sqlDataStruct->stationName = _name;
+    _sqlHandler->createTable(sqlDataStruct);
     mutex.unlock();
 
     emit loopTime ( _name, QString::number( _loopTimer.elapsed() ) + " ms"); // read elapsed time of one loop timer
