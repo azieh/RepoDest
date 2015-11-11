@@ -73,8 +73,6 @@ ThreadManager::~ThreadManager()
     st120 = nullptr;
     delete st130;
     st130 = nullptr;
-
-
 }
 //------------------------------------------------------------------------------
 // Create threads
@@ -272,6 +270,7 @@ void ThreadManager::createClientDeclaration()
 void ThreadManager::startThreads()
 {
     //start threads
+    sqlH->openDatabase();
     thread1->start();
     thread2->start();
     thread3->start();

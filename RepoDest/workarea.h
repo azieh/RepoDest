@@ -47,7 +47,6 @@ signals:
     void messageText(const QString &, const QString &);
     void messageOk(const QString &, int );
     void messageKo(const QString &, int );
-    void messageTotal(const QString &, int &);
     void connectionStatus(const QString &, bool);
     void loopTime(const QString &, const QString &);
 

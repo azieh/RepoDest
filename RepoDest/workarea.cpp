@@ -3,9 +3,10 @@
 #include <QMutex>
 
 #include "workarea.h"
+
 QMutex mutex;
 
-WorkArea::WorkArea(SqlHandler* sqlHandler,QObject *parent) :
+WorkArea::WorkArea(SqlHandler* sqlHandler, QObject *parent) :
     QObject     (parent),
     dbStruct    (nullptr),
     _thread     (nullptr),

@@ -58,6 +58,10 @@ void MainWindow::setIconAndConnectionTextStatus()
 //------------------------------------------------------------------------------
 void MainWindow::setGuiConnection()
 {
+    connect(tm->sqlH, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
+    connect(tm->sqlH, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
+    connect(tm->sqlH, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
+
     connect(tm->st10, SIGNAL( messageText( const QString &, const QString & )), this, SLOT( plainTextEdit_textChanged( const QString &, const QString & )));
     connect(tm->st10, SIGNAL( messageOk( const QString &, int )),               this, SLOT( lineEditOk_Changed( const QString &, int )));
     connect(tm->st10, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
@@ -135,6 +139,9 @@ void MainWindow::setGuiConnection()
     connect(tm->st130, SIGNAL( messageKo( const QString &, int )),               this, SLOT( lineEditNok_Changed( const QString &, int )));
     connect(tm->st130, SIGNAL( connectionStatus( const QString &, bool )),       this, SLOT( labelStatus_Changed( const QString &, bool )));
     connect(tm->st130, SIGNAL( loopTime( const QString &, const QString &)),     this, SLOT( lineEditTime_Changed( const QString &, const QString &)));
+
+
+
 }
 //------------------------------------------------------------------------------
 // GUI setup
@@ -144,6 +151,7 @@ void MainWindow::setGuiSetup()
     int blockCount = 50; // number of lines in plainText window
     // implement here every settings for GUI
 
+    ui->plainTextSystemLog->setMaximumBlockCount(blockCount);
     ui->plainTextEditSt10->setMaximumBlockCount(blockCount);
     ui->plainTextEditSt20->setMaximumBlockCount(blockCount);
     ui->plainTextEditSt30->setMaximumBlockCount(blockCount);
@@ -236,6 +244,9 @@ void MainWindow::plainTextEdit_textChanged(const QString &stName, const QString 
     } else
     if ( stName == "St130" ){
         ui->plainTextEditSt130->appendPlainText(arg1);
+    } else
+    if ( stName == "LogMsg" ){
+        ui->plainTextSystemLog->appendPlainText(arg1);
     }
 }
 //------------------------------------------------------------------------------

@@ -2591,9 +2591,6 @@
             </layout>
            </widget>
           </item>
-          <item row="3" column="3">
-           <layout class="QVBoxLayout" name="verticalLayout_3"/>
-          </item>
           <item row="3" column="4">
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <property name="spacing">
@@ -2709,6 +2706,34 @@
              </widget>
             </item>
            </layout>
+          </item>
+          <item row="3" column="2" colspan="2">
+           <widget class="QGroupBox" name="systemLogBox">
+            <property name="title">
+             <string>System log:</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_14">
+             <property name="leftMargin">
+              <number>4</number>
+             </property>
+             <property name="topMargin">
+              <number>4</number>
+             </property>
+             <property name="rightMargin">
+              <number>4</number>
+             </property>
+             <property name="bottomMargin">
+              <number>4</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QPlainTextEdit" name="plainTextSystemLog">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </item>
          </layout>
         </item>

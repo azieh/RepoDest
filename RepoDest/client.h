@@ -58,7 +58,6 @@ signals:
     void messageText( const QString & );
     void messageOk( int );
     void messageKo( int );
-    void messageTotal( int );
     void connectionStatus( bool );
 
 };

@@ -1,14 +1,18 @@
 #ifndef SQLHANDLER_H
 #define SQLHANDLER_H
+#include <QObject>
+#include <QApplication>
 #include <QDebug>
 #include <QtSql>
 
-const QString DATABASEPATH = "D:/Baza_przestojow/M1.sqlite";
+const QDir    DATABASEPATH  ("C:/Baza_przestojow");
+const QString DBFILENAME    ("M1.sqlite");
 
-class SqlHandler
+class SqlHandler : public QObject
 {
+    Q_OBJECT
 public:
-    SqlHandler();
+    explicit SqlHandler( QObject *parent = 0 );
     ~SqlHandler();
 
     QSqlDatabase* database;
@@ -23,6 +27,9 @@ public:
     QString actualstatus;
 
 signals:
+    void messageText(const QString &, const QString &);
+    void messageOk(const QString &, int );
+    void messageKo(const QString &, int );
 
 public slots:
 };
