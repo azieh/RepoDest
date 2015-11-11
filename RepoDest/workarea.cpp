@@ -14,7 +14,7 @@ WorkArea::WorkArea(SqlHandler* sqlHandler, QObject *parent) :
     _sqlHandler (sqlHandler)
 {
     _makeWriting            = false;
-    _repeatThreadTime       = 100;
+    _repeatThreadTime       = 0;
     _faultTimeElapsedMemory = 0;
     _faultNumberMemory      = 0;
 

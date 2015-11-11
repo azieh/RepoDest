@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QtSql>
 
-const QDir    DATABASEPATH  ("C:/Baza_przestojow");
+const QDir    DATABASEPATH  ("D:/Baza_przestojow");
 const QString DBFILENAME    ("M1.sqlite");
 
 class SqlHandler : public QObject

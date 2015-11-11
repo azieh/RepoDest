@@ -31,7 +31,7 @@ bool SqlHandler::openDatabase()
     }
     database = new QSqlDatabase( QSqlDatabase::addDatabase("QSQLITE") );
     database->setHostName ( "localhost" );
-    database->setDatabaseName ( DATABASEPATH.path() + DBFILENAME );
+    database->setDatabaseName ( DATABASEPATH.path()+ "/" + DBFILENAME );
 
     if (database->isOpen ()){
         database->close ();
@@ -45,7 +45,6 @@ bool SqlHandler::openDatabase()
 }
 void SqlHandler::createTable()
 {
-    if ( database->isOpen() ){
         if ( !database->tables().contains( name )){
 
             QString command;
@@ -65,7 +64,7 @@ void SqlHandler::createTable()
             }
             query->clear();
         }
-    }
+
 }
 void SqlHandler::insertValue()
 {
