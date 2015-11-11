@@ -7,13 +7,14 @@
 #include <QElapsedTimer>
 
 #include "client.h"
+#include "sqlhandler.h"
 
 
 class WorkArea : public QObject
 {
     Q_OBJECT
 public:
-    explicit WorkArea(QObject *parent = 0);
+    explicit WorkArea(SqlHandler* sqlHandler, QObject *parent = 0);
     ~WorkArea();
 
     void doSetup        (QThread* cThread);
@@ -25,6 +26,7 @@ public:
 private:
     QThread* _thread;
     Client* _client;
+    SqlHandler* _sqlHandler;
 
 
     QString _name;

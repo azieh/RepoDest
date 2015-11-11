@@ -1,24 +1,21 @@
 #include <QDebug>
 #include <QTimer>
+#include <QMutex>
 
 #include "workarea.h"
+QMutex mutex;
 
-WorkArea::WorkArea(QObject *parent) :
+WorkArea::WorkArea(SqlHandler* sqlHandler,QObject *parent) :
     QObject     (parent),
     dbStruct    (nullptr),
     _thread     (nullptr),
-    _client     (nullptr)
+    _client     (nullptr),
+    _sqlHandler (sqlHandler)
 {
     _makeWriting            = false;
     _repeatThreadTime       = 100;
     _faultTimeElapsedMemory = 0;
     _faultNumberMemory      = 0;
-
-    if ( _client != nullptr ){
-        delete _client;
-        _client = nullptr;
-    }
-    _client = new Client;
 
     if ( dbStruct != nullptr ){
         delete dbStruct;
@@ -32,6 +29,12 @@ WorkArea::WorkArea(QObject *parent) :
         dbStruct->part_ok_ack   = false;
         dbStruct->fault_number  = 0;
     }
+    if ( _client != nullptr ){
+        delete _client;
+        _client = nullptr;
+    }
+    _client = new Client;
+
 }
 WorkArea::~WorkArea()
 {
@@ -128,6 +131,11 @@ void WorkArea::mainOperation()
 
     plcArea();
 
+
+    mutex.lock();
+    _sqlHandler->name = _name;
+    _sqlHandler->createTable();
+    mutex.unlock();
 
     emit loopTime ( _name, QString::number( _loopTimer.elapsed() ) + " ms"); // read elapsed time of one loop timer
     repeatThread();                                                         //method to make loop thread

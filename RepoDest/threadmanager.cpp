@@ -2,6 +2,7 @@
 
 ThreadManager::ThreadManager(QObject *parent) :
     QObject(parent),
+    sqlH (nullptr),
     thread1(nullptr),
     thread2(nullptr),
     thread3(nullptr),
@@ -25,6 +26,9 @@ ThreadManager::ThreadManager(QObject *parent) :
 
 ThreadManager::~ThreadManager()
 {
+    delete sqlH;
+    sqlH = nullptr;
+
     //Quit and clear every thread
     thread1->quit();
     delete thread1;
@@ -69,12 +73,20 @@ ThreadManager::~ThreadManager()
     st120 = nullptr;
     delete st130;
     st130 = nullptr;
+
+
 }
 //------------------------------------------------------------------------------
 // Create threads
 //------------------------------------------------------------------------------
 void ThreadManager::createThreads()
 {
+    if ( sqlH != nullptr ){
+        delete sqlH;
+        sqlH = nullptr;
+    }
+    sqlH = new SqlHandler;
+
     //first generete thread instance
     if ( thread1 != nullptr){
         thread1->quit();
@@ -115,7 +127,7 @@ void ThreadManager::createClientDeclaration()
         delete st10;
         st10 = nullptr;
     }
-    st10 = new WorkArea;
+    st10 = new WorkArea(sqlH);
     st10->doSetup       ( thread1 );  // declarate thread for program
     st10->moveToThread  ( thread1 ); // declarate thread for program
     st10->setIpAddress  ( "10.10.190.1" );
@@ -126,7 +138,7 @@ void ThreadManager::createClientDeclaration()
         delete st20;
         st20 = nullptr;
     }
-    st20 = new WorkArea;
+    st20 = new WorkArea(sqlH);
     st20->doSetup       ( thread1 );
     st20->moveToThread  ( thread1 );
     st20->setIpAddress  ( "10.10.190.1" );
@@ -137,7 +149,7 @@ void ThreadManager::createClientDeclaration()
         delete st30;
         st30 = nullptr;
     }
-    st30 = new WorkArea;
+    st30 = new WorkArea(sqlH);
     st30->doSetup       ( thread1 );
     st30->moveToThread  ( thread1 );
     st30->setIpAddress  ( "10.10.190.1" );
@@ -148,7 +160,7 @@ void ThreadManager::createClientDeclaration()
         delete st40;
         st40 = nullptr;
     }
-    st40 = new WorkArea;
+    st40 = new WorkArea(sqlH);
     st40->doSetup       ( thread1 );
     st40->moveToThread  ( thread1 );
     st40->setIpAddress  ( "10.10.190.1" );
@@ -159,7 +171,7 @@ void ThreadManager::createClientDeclaration()
         delete st50;
         st50 = nullptr;
     }
-    st50 = new WorkArea;
+    st50 = new WorkArea(sqlH);
     st50->doSetup       ( thread2 );
     st50->moveToThread  ( thread2 );
     st50->setIpAddress  ( "10.10.190.1" );
@@ -170,7 +182,7 @@ void ThreadManager::createClientDeclaration()
         delete st60;
         st60 = nullptr;
     }
-    st60 = new WorkArea;
+    st60 = new WorkArea(sqlH);
     st60->doSetup       ( thread2 );
     st60->moveToThread  ( thread2 );
     st60->setIpAddress  ( "10.10.190.1" );
@@ -181,7 +193,7 @@ void ThreadManager::createClientDeclaration()
         delete st70;
         st70 = nullptr;
     }
-    st70 = new WorkArea;
+    st70 = new WorkArea(sqlH);
     st70->doSetup       ( thread2 );
     st70->moveToThread  ( thread2 );
     st70->setIpAddress  ( "10.10.191.1" );
@@ -192,7 +204,7 @@ void ThreadManager::createClientDeclaration()
         delete st80;
         st80 = nullptr;
     }
-    st80 = new WorkArea;
+    st80 = new WorkArea(sqlH);
     st80->doSetup       ( thread3 );
     st80->moveToThread  ( thread3 );
     st80->setIpAddress  ( "10.10.191.1" );
@@ -203,7 +215,7 @@ void ThreadManager::createClientDeclaration()
         delete st90;
         st90 = nullptr;
     }
-    st90 = new WorkArea;
+    st90 = new WorkArea(sqlH);
     st90->doSetup       ( thread3 );
     st90->moveToThread  ( thread3 );
     st90->setIpAddress  ( "10.10.191.1" );
@@ -214,7 +226,7 @@ void ThreadManager::createClientDeclaration()
         delete st100;
         st100 = nullptr;
     }
-    st100 = new WorkArea;
+    st100 = new WorkArea(sqlH);
     st100->doSetup       ( thread3 );
     st100->moveToThread  ( thread3 );
     st100->setIpAddress  ( "10.10.192.1" );
@@ -225,7 +237,7 @@ void ThreadManager::createClientDeclaration()
         delete st110;
         st110 = nullptr;
     }
-    st110 = new WorkArea;
+    st110 = new WorkArea(sqlH);
     st110->doSetup       ( thread4 );
     st110->moveToThread  ( thread4 );
     st110->setIpAddress  ( "10.10.192.1" );
@@ -236,7 +248,7 @@ void ThreadManager::createClientDeclaration()
         delete st120;
         st120 = nullptr;
     }
-    st120 = new WorkArea;
+    st120 = new WorkArea(sqlH);
     st120->doSetup       ( thread4 );
     st120->moveToThread  ( thread4 );
     st120->setIpAddress  ( "10.10.192.1" );
@@ -247,7 +259,7 @@ void ThreadManager::createClientDeclaration()
         delete st130;
         st130 = nullptr;
     }
-    st130 = new WorkArea;
+    st130 = new WorkArea(sqlH);
     st130->doSetup       ( thread4 );
     st130->moveToThread  ( thread4 );
     st130->setIpAddress  ( "10.10.193.1" );

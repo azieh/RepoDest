@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "workarea.h"
+#include "sqlhandler.h"
 
 class ThreadManager : public QObject
 {
@@ -11,7 +12,7 @@ class ThreadManager : public QObject
 public:
     explicit ThreadManager(QObject *parent = 0);
     ~ThreadManager();
-
+    SqlHandler* sqlH;
     QThread* thread1;
     QThread* thread2;
     QThread* thread3;

@@ -3,6 +3,7 @@
 #include "workarea.h"
 #include "mainwindow.h"
 
+
 int main(int argc, char *argv[])
 {
 
@@ -12,6 +13,7 @@ int main(int argc, char *argv[])
     w.show();
 //    w.showFullScreen();
     w.tm->startThreads();
+
 
     a.exec();
 
