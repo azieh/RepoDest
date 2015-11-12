@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1118</width>
+    <width>1119</width>
     <height>846</height>
    </rect>
   </property>
@@ -35,7 +35,7 @@
    <string>RepoDest - Raportowanie przestojów</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="ico.qrc">
+   <iconset>
     <normaloff>:/ico/RepoDest.png</normaloff>:/ico/RepoDest.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -100,7 +100,7 @@
        </size>
       </property>
       <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOn</enum>
+       <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -116,8 +116,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1099</width>
-         <height>803</height>
+         <width>1096</width>
+         <height>802</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -2658,7 +2658,7 @@
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap resource="ico.qrc">:/ico/RepoDest.png</pixmap>
+                 <pixmap>:/ico/RepoDest.png</pixmap>
                 </property>
                 <property name="scaledContents">
                  <bool>true</bool>
@@ -2691,7 +2691,7 @@
                <string>Close</string>
               </property>
               <property name="icon">
-               <iconset resource="ico.qrc">
+               <iconset>
                 <normaloff>:/ico/close.png</normaloff>:/ico/close.png</iconset>
               </property>
               <property name="iconSize">
@@ -2749,15 +2749,13 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1118</width>
-     <height>21</height>
+     <width>1119</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="ico.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

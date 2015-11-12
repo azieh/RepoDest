@@ -38,7 +38,7 @@ public:
 signals:
 
 public slots:
-    void startThreads();
+    void start();
 };
 
 #endif // THREADMANAGER_H

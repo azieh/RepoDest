@@ -29,8 +29,6 @@ private:
     void setGuiConnection();
     void setGuiSetup();
 
-public slots:
-
 private slots:
     void plainTextEdit_textChanged(const QString &stName, const QString &arg1);
     void labelStatus_Changed(const QString &stName, bool arg1);

@@ -267,7 +267,7 @@ void ThreadManager::createClientDeclaration()
 //------------------------------------------------------------------------------
 // Start threads
 //------------------------------------------------------------------------------
-void ThreadManager::startThreads()
+void ThreadManager::start()
 {
     //start threads
     sqlH->openDatabase();

@@ -13,6 +13,7 @@ WorkArea::WorkArea(SqlHandler* sqlHandler, QObject *parent) :
     _client     (nullptr),
     _sqlHandler (sqlHandler)
 {
+    _faultIsDetected        = false;
     _makeInitWritigPlc      = true;
     _makeWritingPlc         = false;
     _makeWritingSql         = false;
@@ -77,7 +78,7 @@ void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
 {
 
 
-    if ( dbStruct->fault == true ){
+    if ( dbStruct->fault == true  && _faultIsDetected == false ){
         _faultTimer.start(); // if we have fault on mstation -> start timer
 
         QDate date = date.currentDate();
@@ -94,7 +95,8 @@ void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
         dbStruct->fault         = false;
         dbStruct->fault_number  = 0;
         dbStruct->fault_ack     = true;
-
+        
+        _faultIsDetected        = true;
         _makeWritingPlc         = true;
     }
     if ( dbStruct->part_ok == true ){
@@ -110,8 +112,9 @@ void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
         dbStruct->part_ok       = false;
         dbStruct->part_ok_ack   = true;
 
-        _makeWritingPlc = true;
-        _makeWritingSql = true;
+        _faultIsDetected = false;
+        _makeWritingPlc  = true;
+        _makeWritingSql  = true;
     }
 
 }

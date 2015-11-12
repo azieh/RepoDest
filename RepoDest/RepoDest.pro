@@ -23,7 +23,7 @@ SOURCES     +=  main.cpp\
                 threadmanager.cpp \
                 sqlhandler.cpp
 
-LIBS        += -L"$(MINGW)/lib" "D:\lib\snap7.lib"
+LIBS        += -L"$(MINGW)/lib" "C:\lib\snap7.lib"
 
 HEADERS     +=  mainwindow.h \
                 client.h \
