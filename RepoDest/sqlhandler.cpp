@@ -66,12 +66,6 @@ void SqlHandler::createTable(SqlDataStruct* data)
             if ( !query->exec() ){
                 emit messageText( "LogMsg",  "SQL error when Table was created for " + data->stationName + ": " + query->lastError().text() );
             } else {
-                data->stationName.clear();
-                data->date.clear();
-                data->hour.clear();
-                data->timeElapsed = 0.0;
-                data->faultNumber = 0;
-
                 emit messageText( "LogMsg",  "SQL query: Correctly created table for " + data->stationName );
             }
             query->clear();
@@ -98,8 +92,10 @@ void SqlHandler::insertValue(SqlDataStruct* data)
                 .arg( data->faultNumber );
 
         if ( !query->exec( command ) ){
+            emit messageText( "LogMsg",  "SQL error when Insert value for " + data->stationName + ": " + query->lastError().text() );
             emit messageText( data->stationName,  "SQL error when Insert value for " + data->stationName + ": " + query->lastError().text() );
         } else {
+            emit messageText( "LogMsg",  "SQL query: Correctly inserted value for " + data->stationName );
             emit messageText( data->stationName,  "SQL query: Correctly inserted" );
         }
         query->clear();

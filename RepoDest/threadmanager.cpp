@@ -8,7 +8,6 @@ ThreadManager::ThreadManager(QObject *parent) :
     thread3(nullptr),
     thread4(nullptr),
     st10(nullptr),
-    st20(nullptr),
     st30(nullptr),
     st40(nullptr),
     st50(nullptr),
@@ -23,7 +22,6 @@ ThreadManager::ThreadManager(QObject *parent) :
 {
 
 }
-
 ThreadManager::~ThreadManager()
 {
     delete sqlH;
@@ -49,8 +47,6 @@ ThreadManager::~ThreadManager()
     //Clear memory about every station instance
     delete st10;
     st10 = nullptr;
-    delete st20;
-    st20 = nullptr;
     delete st30;
     st30 = nullptr;
     delete st40;
@@ -129,19 +125,9 @@ void ThreadManager::createClientDeclaration()
     st10->doSetup       ( thread1 );  // declarate thread for program
     st10->moveToThread  ( thread1 ); // declarate thread for program
     st10->setIpAddress  ( "10.10.190.1" );
-    st10->setDbNumber   ( 998 );
-    st10->setName       ( "St10" ); // not important
+    st10->setDbNumber   ( 193 );
+    st10->setName       ( "St10&St20" );
 
-    if ( st20 != nullptr){
-        delete st20;
-        st20 = nullptr;
-    }
-    st20 = new WorkArea(sqlH);
-    st20->doSetup       ( thread1 );
-    st20->moveToThread  ( thread1 );
-    st20->setIpAddress  ( "10.10.190.1" );
-    st20->setDbNumber   ( 998 );
-    st20->setName       ( "St20" );
 
     if ( st30 != nullptr){
         delete st30;
@@ -151,7 +137,7 @@ void ThreadManager::createClientDeclaration()
     st30->doSetup       ( thread1 );
     st30->moveToThread  ( thread1 );
     st30->setIpAddress  ( "10.10.190.1" );
-    st30->setDbNumber   ( 998 );
+    st30->setDbNumber   ( 293 );
     st30->setName       ( "St30" );
 
     if ( st40 != nullptr){
@@ -162,7 +148,7 @@ void ThreadManager::createClientDeclaration()
     st40->doSetup       ( thread1 );
     st40->moveToThread  ( thread1 );
     st40->setIpAddress  ( "10.10.190.1" );
-    st40->setDbNumber   ( 998 );
+    st40->setDbNumber   ( 393 );
     st40->setName       ( "St40" );
 
     if ( st50 != nullptr){
@@ -173,7 +159,7 @@ void ThreadManager::createClientDeclaration()
     st50->doSetup       ( thread2 );
     st50->moveToThread  ( thread2 );
     st50->setIpAddress  ( "10.10.190.1" );
-    st50->setDbNumber   ( 998 );
+    st50->setDbNumber   ( 493 );
     st50->setName       ( "St50" );
 
     if ( st60 != nullptr){
@@ -184,7 +170,7 @@ void ThreadManager::createClientDeclaration()
     st60->doSetup       ( thread2 );
     st60->moveToThread  ( thread2 );
     st60->setIpAddress  ( "10.10.190.1" );
-    st60->setDbNumber   ( 998 );
+    st60->setDbNumber   ( 593 );
     st60->setName       ( "St60" );
 
     if ( st70 != nullptr){
@@ -195,7 +181,7 @@ void ThreadManager::createClientDeclaration()
     st70->doSetup       ( thread2 );
     st70->moveToThread  ( thread2 );
     st70->setIpAddress  ( "10.10.191.1" );
-    st70->setDbNumber   ( 998 );
+    st70->setDbNumber   ( 193 );
     st70->setName       ( "St70" );
 
     if ( st80 != nullptr){
@@ -206,7 +192,7 @@ void ThreadManager::createClientDeclaration()
     st80->doSetup       ( thread3 );
     st80->moveToThread  ( thread3 );
     st80->setIpAddress  ( "10.10.191.1" );
-    st80->setDbNumber   ( 998 );
+    st80->setDbNumber   ( 293 );
     st80->setName       ( "St80" );
 
     if ( st90 != nullptr){
@@ -217,7 +203,7 @@ void ThreadManager::createClientDeclaration()
     st90->doSetup       ( thread3 );
     st90->moveToThread  ( thread3 );
     st90->setIpAddress  ( "10.10.191.1" );
-    st90->setDbNumber   ( 998 );
+    st90->setDbNumber   ( 393 );
     st90->setName       ( "St90" );
 
     if ( st100 != nullptr){
@@ -228,7 +214,7 @@ void ThreadManager::createClientDeclaration()
     st100->doSetup       ( thread3 );
     st100->moveToThread  ( thread3 );
     st100->setIpAddress  ( "10.10.192.1" );
-    st100->setDbNumber   ( 998 );
+    st100->setDbNumber   ( 193 );
     st100->setName       ( "St100" );
 
     if ( st110 != nullptr){
@@ -239,7 +225,7 @@ void ThreadManager::createClientDeclaration()
     st110->doSetup       ( thread4 );
     st110->moveToThread  ( thread4 );
     st110->setIpAddress  ( "10.10.192.1" );
-    st110->setDbNumber   ( 998 );
+    st110->setDbNumber   ( 293 );
     st110->setName       ( "St110" );
 
     if ( st120 != nullptr){
@@ -250,7 +236,7 @@ void ThreadManager::createClientDeclaration()
     st120->doSetup       ( thread4 );
     st120->moveToThread  ( thread4 );
     st120->setIpAddress  ( "10.10.192.1" );
-    st120->setDbNumber   ( 998 );
+    st120->setDbNumber   ( 393 );
     st120->setName       ( "St120" );
 
     if ( st130 != nullptr){
@@ -261,7 +247,7 @@ void ThreadManager::createClientDeclaration()
     st130->doSetup       ( thread4 );
     st130->moveToThread  ( thread4 );
     st130->setIpAddress  ( "10.10.193.1" );
-    st130->setDbNumber   ( 998 );
+    st130->setDbNumber   ( 193 );
     st130->setName       ( "St130" );
 }
 //------------------------------------------------------------------------------

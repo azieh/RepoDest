@@ -22,7 +22,9 @@ Client::Client(QObject *parent) :
 {
     isConnected = false;
     isDisconnected = false;
+    initRun = true;
     _dbNumber = 0;
+    _connectionTryWasFault = 0;
     ok = 0;
     ko = 0;
 }
@@ -54,42 +56,44 @@ void Client::setDbNumber(const int &arg1)
 //------------------------------------------------------------------------------
 bool Client::makeConnect()
 {
-    _checkOkKo();
-    int result;
+    _checkOkKo(); // check OK and KO value - reset to 0 when OK + KO >= 1000
+
+    int result = 0;
     if ( _address != nullptr ){ // checking if Ip address is correctly set
         if ( S7Client != nullptr ){
+            S7Client->Disconnect();
             delete S7Client;
             S7Client = nullptr;
         }
         S7Client= new TS7Client();
-
         result = S7Client->ConnectTo(_address,PLCRACK,PLCSLOT);
-        if ( isConnected == false ){
-            if ( result == 0 ) {
+        if ( ( result ==0 && isConnected == false ) ){
+            if ( initRun == true || _connectionTryWasFault >= 5 ){
                 emit messageText( "Connected to " + QString::fromStdString(_address) + " (Rack=" + QString::number(PLCRACK) + ", Slot=" + QString::number(PLCSLOT) + ")" );
                 emit messageText( "Execution time : " + QString::number(S7Client->ExecTime()) + "ms");
-                isConnected = true;
-                isDisconnected = false;
-                ok++;
-                emit messageKo( ok );
-            } else if ( isDisconnected == false && result != 0){
+            }
+            isConnected = true;
+            isDisconnected = false;
+            _connectionTryWasFault = 0;
+            ok++;
+            emit messageOk( ok );
+        } else if ( result != 0 ){
+            if ( isDisconnected == false && _connectionTryWasFault >= 3){
                 emit messageText( "Connection NOK" );
                 emit messageText( "Problem is :" + QString::fromStdString(CliErrorText(result).c_str()) );
-                isConnected = false;
                 isDisconnected = true;
-                ko++;
-                emit messageKo( ko );
-            } else {
-                ko++;
-                emit messageKo( ko );
             }
-            isConnected = S7Client->Connected();
-            emit connectionStatus( isConnected );
-        } else {
-            emit messageText( "Ip address of client is not set" );
+            isConnected = false;
+            _connectionTryWasFault++;
             ko++;
-            emit messageKo(ko);
+            emit messageKo( ko );
         }
+        isConnected = S7Client->Connected();
+        emit connectionStatus( isConnected );
+    }else {
+        emit messageText( "Ip address of client is not set" );
+        ko++;
+        emit messageKo(ko);
     }
     return result==0;
 }
@@ -257,6 +261,7 @@ bool Client::_check(int result, const char * function)
         emit messageText( "Something goes wrong with " + QString::fromStdString( function ));
         ko++;
         emit messageKo(ko);
+        makeDisconnect();
     }
     return result==0;
 }
@@ -327,6 +332,8 @@ void Client::_checkOkKo()
     if ( okAndKo >= 1000 ){
         ok = 0;
         ko = 0;
+        emit messageOk( ok );
+        emit messageKo( ko );
     }
 }
 

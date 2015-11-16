@@ -13,10 +13,10 @@ WorkArea::WorkArea(SqlHandler* sqlHandler, QObject *parent) :
     _client     (nullptr),
     _sqlHandler (sqlHandler)
 {
-    _makeInitWritigPlc      = true;
+    _faultIsDetected        = false;
     _makeWritingPlc         = false;
     _makeWritingSql         = false;
-    _repeatThreadTime       = 0;
+    _repeatThreadTime       = 100;
 
     dbStruct = new RepoDestDbStruct;
     if ( dbStruct != nullptr ){
@@ -77,7 +77,7 @@ void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
 {
 
 
-    if ( dbStruct->fault == true ){
+    if ( dbStruct->fault == true  && _faultIsDetected == false ){
         _faultTimer.start(); // if we have fault on mstation -> start timer
 
         QDate date = date.currentDate();
@@ -95,9 +95,10 @@ void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
         dbStruct->fault_number  = 0;
         dbStruct->fault_ack     = true;
 
+        _faultIsDetected        = true;
         _makeWritingPlc         = true;
     }
-    if ( dbStruct->part_ok == true ){
+    if ( _faultIsDetected == true && dbStruct->part_ok == true ){
         int _faultTimeElapsedMemory         =  _faultTimer.elapsed(); // if we have first good part after fault, read time since start timer
         int _faultTimeElapsedMemoryMinutes  =   _faultTimeElapsedMemory / 60000; // coppy time from ms to minute
         int _faultTimeElapsedMemorySeconds  = ( _faultTimeElapsedMemory % 60000 ) / 1000; // coppy time from ms to seconds
@@ -110,8 +111,9 @@ void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
         dbStruct->part_ok       = false;
         dbStruct->part_ok_ack   = true;
 
-        _makeWritingPlc = true;
-        _makeWritingSql = true;
+        _faultIsDetected = false;
+        _makeWritingPlc  = true;
+        _makeWritingSql  = true;
     }
 
 }
@@ -120,18 +122,18 @@ void WorkArea::checkDbStruct(RepoDestDbStruct* dbStruct)
 //------------------------------------------------------------------------------
 void WorkArea::plcArea()
 {
-    if ( _client->makeConnect() ){                      // check connection
-        if ( _makeWritingPlc == false && _makeInitWritigPlc == false ){// check statement to Read or Write data
+    _client->makeConnect();
+    if ( _client->isConnected ){                      // check connection
+        if ( _makeWritingPlc == false && _client->initRun == false ){// check statement to Read or Write data
             if ( _client->makeMultiRead ( dbStruct ) ){ // read data from PLC and coppy them to dbStruct
                 checkDbStruct( dbStruct );              // check condition of already read data and coppy them to sqlDataStruct
             }
-        }else if ( _makeWritingPlc == true || _makeInitWritigPlc == true ){ // make writing data at initial loop and when program send bit to write
+        }else if ( _makeWritingPlc == true || _client->initRun == true ){ // make writing data at initial loop and when program send bit to write
             if ( _client->makeMultiWrite ( dbStruct ) ){// write data to PLC an
-                _makeInitWritigPlc  = false;            // at first clear DB on PLC
+                _client->initRun    = false;            // at first clear DB on PLC
                 _makeWritingPlc     = false;
             }
         }
-        _client->makeDisconnect();                      // disconnect after every work
     }
 }
 //------------------------------------------------------------------------------
@@ -154,12 +156,15 @@ void WorkArea::sqlArea()
 //------------------------------------------------------------------------------
 void WorkArea::mainOperation()
 {
+    if ( _loopTimer.isValid() ){
+        emit loopTime ( _name, QString::number( _loopTimer.elapsed() ) + " ms"); // read elapsed time of one loop timer
+    }
     _loopTimer.start(); // start one loop timer
 
     plcArea();
     sqlArea();
 
-    emit loopTime ( _name, QString::number( _loopTimer.elapsed() ) + " ms"); // read elapsed time of one loop timer
+
     repeatThread();                                                         //method to make loop thread
 }
 //------------------------------------------------------------------------------

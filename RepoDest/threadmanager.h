@@ -18,7 +18,6 @@ public:
     QThread* thread3;
     QThread* thread4;
     WorkArea* st10;
-    WorkArea* st20;
     WorkArea* st30;
     WorkArea* st40;
     WorkArea* st50;

@@ -33,6 +33,7 @@ public:
     int ok;// = 0; // Number of test pass
     int ko;// = 0; // Number of test failure
 
+    bool initRun;
     void setIpAddress(const char* arg1);
     void setDbNumber(const int &arg1);
     bool makeConnect();
@@ -44,8 +45,7 @@ private:
 
     const char* _address;              // PLC IP Address
     int  _dbNumber;             // Number of RepoDest DB
-
-
+    int  _connectionTryWasFault;        // Number of fault connection
     bool _check(int result, const char * function);
     void _orderCode();
     void _cpuInfo();

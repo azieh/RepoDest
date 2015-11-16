@@ -33,7 +33,7 @@ private:
     QString _name;
     QElapsedTimer _loopTimer;
     QElapsedTimer _faultTimer;
-    bool _makeInitWritigPlc;
+    bool _faultIsDetected;
     bool _makeWritingPlc;
     bool _makeWritingSql;
     int _repeatThreadTime;
