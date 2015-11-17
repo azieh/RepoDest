@@ -157,7 +157,7 @@ void WorkArea::sqlArea()
 void WorkArea::mainOperation()
 {
     if ( _loopTimer.isValid() ){
-        emit loopTime ( _name, QString::number( _loopTimer.elapsed() ) + " ms"); // read elapsed time of one loop timer
+        emit loopTime ( _name, QString::number( _loopTimer.elapsed() ) + "ms"); // read elapsed time of one loop timer
     }
     _loopTimer.start(); // start one loop timer
 

@@ -126,7 +126,7 @@ void ThreadManager::createClientDeclaration()
     st10->moveToThread  ( thread1 ); // declarate thread for program
     st10->setIpAddress  ( "10.10.190.1" );
     st10->setDbNumber   ( 193 );
-    st10->setName       ( "St10&St20" );
+    st10->setName       ( "St10_St20" );
 
 
     if ( st30 != nullptr){

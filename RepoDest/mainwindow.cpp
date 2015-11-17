@@ -185,7 +185,7 @@ void MainWindow::setGuiSetup()
 //------------------------------------------------------------------------------
 void MainWindow::plainTextEdit_textChanged(const QString &stName, const QString &arg1)
 {
-    if ( stName == "St10&St20" ){
+    if ( stName == "St10_St20" ){
         ui->plainTextEditSt10->appendPlainText(arg1);
     } else if ( stName == "St30" ){
         ui->plainTextEditSt30->appendPlainText(arg1);
@@ -218,7 +218,7 @@ void MainWindow::plainTextEdit_textChanged(const QString &stName, const QString 
 //------------------------------------------------------------------------------
 void MainWindow::labelStatus_Changed(const QString &stName, bool arg1)
 {
-    if ( stName == "St10&St20" ){
+    if ( stName == "St10_St20" ){
         if ( arg1 == true ){
             ui->labelSt10Status->setText("Connected");
             ui->labelSt10Ico->setPixmap(_connectedIcon);
@@ -321,7 +321,7 @@ void MainWindow::labelStatus_Changed(const QString &stName, bool arg1)
 //------------------------------------------------------------------------------
 void MainWindow::lineEditOk_Changed(const QString &stName, int arg1)
 {
-    if ( stName == "St10&St20" ){
+    if ( stName == "St10_St20" ){
         ui->lineEditSt10Ok->setText(QString::number(arg1));
     } else if ( stName == "St30" ){
         ui->lineEditSt30Ok->setText(QString::number(arg1));
@@ -352,7 +352,7 @@ void MainWindow::lineEditOk_Changed(const QString &stName, int arg1)
 //------------------------------------------------------------------------------
 void MainWindow::lineEditNok_Changed(const QString &stName, int arg1)
 {
-    if ( stName == "St10&St20" ){
+    if ( stName == "St10_St20" ){
         ui->lineEditSt10Nok->setText(QString::number(arg1));
     } else if ( stName == "St30" ){
         ui->lineEditSt30Nok->setText(QString::number(arg1));
@@ -383,7 +383,7 @@ void MainWindow::lineEditNok_Changed(const QString &stName, int arg1)
 //------------------------------------------------------------------------------
 void MainWindow::lineEditTime_Changed(const QString &stName, const QString &arg1)
 {
-    if ( stName == "St10&St20" ){
+    if ( stName == "St10_St20" ){
         ui->lineEditSt10Time->setText(arg1);
     }
     if ( stName == "St30" ){

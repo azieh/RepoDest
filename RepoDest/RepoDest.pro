@@ -38,3 +38,5 @@ DISTFILES   +=  core/snap7.lib \
                 core/snap7.dll
 
 RESOURCES   +=  ico.qrc
+
+RC_FILE     =   RepoDest.rc
