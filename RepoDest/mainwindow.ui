@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1300</width>
+    <width>1345</width>
     <height>867</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1300</width>
+    <width>1345</width>
     <height>867</height>
    </size>
   </property>
@@ -116,7 +116,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1298</width>
+         <width>1343</width>
          <height>814</height>
         </rect>
        </property>
@@ -196,6 +196,12 @@
                </property>
                <item row="0" column="4">
                 <widget class="QLabel" name="labelSt10Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -213,24 +219,20 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt10Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
@@ -238,6 +240,12 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt10_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -281,7 +289,7 @@
                    <widget class="QLineEdit" name="lineEditSt10Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="text">
@@ -349,6 +357,19 @@
                  </layout>
                 </widget>
                </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
               </layout>
              </item>
              <item row="2" column="0">
@@ -387,20 +408,7 @@
                <number>2</number>
               </property>
               <item>
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_2">
+               <widget class="QLabel" name="logo">
                 <property name="maximumSize">
                  <size>
                   <width>100</width>
@@ -419,23 +427,56 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label">
-                <property name="maximumSize">
-                 <size>
-                  <width>80</width>
-                  <height>80</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>:/ico/RepoDest.png</pixmap>
-                </property>
-                <property name="scaledContents">
-                 <bool>true</bool>
-                </property>
-               </widget>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <item>
+                 <widget class="QLabel" name="label">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Raportowaniwe przestojów</string>
+                  </property>
+                  <property name="textFormat">
+                   <enum>Qt::AutoText</enum>
+                  </property>
+                  <property name="scaledContents">
+                   <bool>false</bool>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_2">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>na linii M1</string>
+                  </property>
+                  <property name="textFormat">
+                   <enum>Qt::AutoText</enum>
+                  </property>
+                  <property name="scaledContents">
+                   <bool>false</bool>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </item>
@@ -519,6 +560,18 @@
                </property>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt30Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
@@ -526,6 +579,12 @@
                </item>
                <item row="0" column="3">
                 <widget class="QLabel" name="labelSt30Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -543,24 +602,14 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacerS30">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt30_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -604,7 +653,7 @@
                    <widget class="QLineEdit" name="lineEditSt30Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="readOnly">
@@ -663,6 +712,19 @@
                  </layout>
                 </widget>
                </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
               </layout>
              </item>
              <item row="2" column="0">
@@ -719,24 +781,20 @@
                <property name="spacing">
                 <number>0</number>
                </property>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacerSt40">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt40Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
@@ -744,6 +802,12 @@
                </item>
                <item row="0" column="3">
                 <widget class="QLabel" name="labelSt40Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -763,6 +827,12 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt40_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -806,7 +876,7 @@
                    <widget class="QLineEdit" name="lineEditSt40Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="readOnly">
@@ -864,6 +934,19 @@
                   </item>
                  </layout>
                 </widget>
+               </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
@@ -923,6 +1006,12 @@
                </property>
                <item row="0" column="3">
                 <widget class="QLabel" name="labelSt50Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -942,29 +1031,31 @@
                </item>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt50Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacerSt50">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt50_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -1008,7 +1099,7 @@
                    <widget class="QLineEdit" name="lineEditSt50Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="readOnly">
@@ -1066,6 +1157,19 @@
                   </item>
                  </layout>
                 </widget>
+               </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
@@ -1125,6 +1229,12 @@
                </property>
                <item row="0" column="3">
                 <widget class="QLabel" name="labelSt60Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -1142,24 +1252,20 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacerSt60">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt60Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
@@ -1167,6 +1273,12 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt60_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -1210,7 +1322,7 @@
                    <widget class="QLineEdit" name="lineEditSt60Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="readOnly">
@@ -1268,6 +1380,19 @@
                   </item>
                  </layout>
                 </widget>
+               </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_6">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
@@ -1327,6 +1452,12 @@
                </property>
                <item row="0" column="3">
                 <widget class="QLabel" name="labelSt70Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -1344,24 +1475,20 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacerSt70">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt70Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
@@ -1369,6 +1496,12 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt70_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -1412,7 +1545,7 @@
                    <widget class="QLineEdit" name="lineEditSt70Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="readOnly">
@@ -1470,6 +1603,19 @@
                   </item>
                  </layout>
                 </widget>
+               </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_7">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
@@ -1529,6 +1675,12 @@
                </property>
                <item row="0" column="3">
                 <widget class="QLabel" name="labelSt80Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -1546,24 +1698,20 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacerSt80">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt80Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
@@ -1571,6 +1719,12 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt80_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -1614,7 +1768,7 @@
                    <widget class="QLineEdit" name="lineEditSt80Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="readOnly">
@@ -1672,6 +1826,19 @@
                   </item>
                  </layout>
                 </widget>
+               </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_8">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
@@ -1731,6 +1898,12 @@
                </property>
                <item row="0" column="3">
                 <widget class="QLabel" name="labelSt90Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -1748,24 +1921,20 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacerSt90">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt90Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
@@ -1773,6 +1942,12 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt90_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -1816,7 +1991,7 @@
                    <widget class="QLineEdit" name="lineEditSt90Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="readOnly">
@@ -1874,6 +2049,19 @@
                   </item>
                  </layout>
                 </widget>
+               </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_9">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
@@ -1933,6 +2121,12 @@
                </property>
                <item row="0" column="3">
                 <widget class="QLabel" name="labelSt100Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -1950,24 +2144,20 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacerSt100">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt100Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
@@ -1975,6 +2165,12 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt100_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -2018,7 +2214,7 @@
                    <widget class="QLineEdit" name="lineEditSt100Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="readOnly">
@@ -2076,6 +2272,19 @@
                   </item>
                  </layout>
                 </widget>
+               </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_10">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
@@ -2135,29 +2344,31 @@
                </property>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt110Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacerSt110">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="3">
                 <widget class="QLabel" name="labelSt110Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -2177,6 +2388,12 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt110_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -2220,7 +2437,7 @@
                    <widget class="QLineEdit" name="lineEditSt110Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="readOnly">
@@ -2279,6 +2496,19 @@
                  </layout>
                 </widget>
                </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_11">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
               </layout>
              </item>
              <item row="2" column="0">
@@ -2334,29 +2564,31 @@
                </property>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt120Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacerSt120">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="3">
                 <widget class="QLabel" name="labelSt120Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -2376,6 +2608,12 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt120_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -2419,7 +2657,7 @@
                    <widget class="QLineEdit" name="lineEditSt120Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="readOnly">
@@ -2478,6 +2716,19 @@
                  </layout>
                 </widget>
                </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_12">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
               </layout>
              </item>
              <item row="2" column="0">
@@ -2530,6 +2781,12 @@
                </property>
                <item row="0" column="3">
                 <widget class="QLabel" name="labelSt130Ico">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>32</width>
@@ -2547,24 +2804,20 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <spacer name="horizontalSpacerSt130">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>160</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="0" column="2">
                 <widget class="QLabel" name="labelSt130Status">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>90</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Disconnected</string>
                  </property>
@@ -2572,6 +2825,12 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBoxSt130_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>209</width>
+                   <height>34</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>7</pointsize>
@@ -2615,7 +2874,7 @@
                    <widget class="QLineEdit" name="lineEditSt130Time">
                     <property name="font">
                      <font>
-                      <pointsize>7</pointsize>
+                      <pointsize>6</pointsize>
                      </font>
                     </property>
                     <property name="readOnly">
@@ -2673,6 +2932,19 @@
                   </item>
                  </layout>
                 </widget>
+               </item>
+               <item row="0" column="1">
+                <spacer name="horizontalSpacer_13">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
@@ -2734,7 +3006,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1300</width>
+     <width>1345</width>
      <height>26</height>
     </rect>
    </property>

@@ -90,6 +90,7 @@ bool Client::makeConnect()
         }
         isConnected = S7Client->Connected();
         emit connectionStatus( isConnected );
+
     }else {
         emit messageText( "Ip address of client is not set" );
         ko++;
@@ -261,7 +262,6 @@ bool Client::_check(int result, const char * function)
         emit messageText( "Something goes wrong with " + QString::fromStdString( function ));
         ko++;
         emit messageKo(ko);
-        makeDisconnect();
     }
     return result==0;
 }

@@ -130,6 +130,7 @@ void MainWindow::setGuiConnection()
 //------------------------------------------------------------------------------
 void MainWindow::setGuiSetup()
 {
+
     int blockCount = 50; // number of lines in plainText window
     // implement here every settings for GUI
 
