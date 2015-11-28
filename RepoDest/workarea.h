@@ -6,7 +6,7 @@
 #include <QApplication>
 #include <QElapsedTimer>
 
-#include "client.h"
+#include "plchandler.h"
 #include "sqlhandler.h"
 
 
@@ -25,39 +25,45 @@ public:
     SqlDataStruct*       sqlDataStruct;
 
 private:
-    QThread*    _thread;
-    Client*     _client;
+    QThread*        _thread;
+    PlcHandler* _plcHandler;
     SqlHandler* _sqlHandler;
 
 
-    QString _name;
-    QElapsedTimer _loopTimer;
-    QElapsedTimer _faultTimer;
-    bool _faultIsDetected;
-    bool _makeWritingPlc;
-    bool _makeWritingSql;
-    int _repeatThreadTime;
+    QString         _name;
+    QElapsedTimer   _loopTimer;
+    QElapsedTimer   _faultTimer;
+    QDate           _date;
+    QTime           _time;
+    bool            _faultIsDetected;
+    bool            _makeWritingPlc;
+    bool            _makeWritingSql;
+    bool            _prepareDataForPartsInLastMinute;
+    int             _repeatThreadTime;
 
-
-    void plcArea();
-    void sqlArea();
     void repeatThread();
 
-    void checkDbStruct(RepoDestDbStruct* dbStruct);
+    void checkDbStruct              (RepoDestDbStruct* dbStruct);
+    void checkDbForFault            (RepoDestDbStruct* dbStruct);
+    void checkDbForPartOk           (RepoDestDbStruct* dbStruct);
+    void checkDbForPartsInLastMinute(RepoDestDbStruct* dbStruct);
+    void checkLoopTime();
+    void sqlHInsertDataPartsInLastMinute();
+    void sqlHInsertDataLastFaultInfo();
 
 signals:
-    void messageText(const QString &, const QString &);
-    void messageOk(const QString &, int );
-    void messageKo(const QString &, int );
-    void connectionStatus(const QString &, bool);
-    void loopTime(const QString &, const QString &);
+    void messageText        (const QString &, const QString &);
+    void messageOk          (const QString &, int );
+    void messageKo          (const QString &, int );
+    void connectionStatus   (const QString &, bool);
+    void loopTime           (const QString &, const QString &);
 
 
 private slots:
-    void messageTextChanged(const QString &arg1);
-    void labelStatus_Changed(bool arg1);
-    void lineEditOk_Changed(int arg1);
-    void lineEditNok_Changed(int arg1);
+    void messageTextChanged     (const QString &arg1);
+    void labelStatus_Changed    (bool arg1);
+    void lineEditOk_Changed     (int arg1);
+    void lineEditNok_Changed    (int arg1);
 
 public slots:
     void mainOperation();

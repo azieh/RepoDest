@@ -6,14 +6,16 @@
 #include <QtSql>
 
 const QDir    DATABASEPATH  ("C:/Baza_przestojow");
-const QString DBFILENAME    ("M1.sqlite");
+const QString DBFILENAME    ("/M1.mdb");
 
 struct SqlDataStruct{    // Struct for SQL data
     QString     stationName;
     QString     date;
     QString     hour;
-    int         faultNumber;
+    QString     reference;
     double      timeElapsed;
+    int         faultNumber;
+    int         partsInLastMinute;
 };
 
 class SqlHandler : public QObject
@@ -27,8 +29,10 @@ public:
     QSqlQuery* query;
 
     bool openDatabase();
-    void createTable(SqlDataStruct* data);
-    void insertValue(SqlDataStruct* data);
+    bool createTable_Breakes(SqlDataStruct* data);
+    bool createTable_PartsInLastMinute(SqlDataStruct* data);
+    bool insertValueInTo_Breakes(SqlDataStruct* data);
+    bool insertValueInTo_PartsInLastMinute(SqlDataStruct* data);
 
 signals:
     void messageText(const QString &, const QString &);

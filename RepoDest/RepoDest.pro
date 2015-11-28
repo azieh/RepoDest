@@ -17,20 +17,20 @@ QTPLUGIN    += qsqloci
 
 SOURCES     +=  main.cpp\
                 mainwindow.cpp \
-                client.cpp \
                 core/snap7.cpp \
                 workarea.cpp \
                 threadmanager.cpp \
-                sqlhandler.cpp
+                sqlhandler.cpp \
+                plchandler.cpp
 
 LIBS        += -L"$(MINGW)/lib" "C:\lib\snap7.lib"
 
 HEADERS     +=  mainwindow.h \
-                client.h \
                 core/snap7.h \
                 workarea.h \
                 threadmanager.h \
-                sqlhandler.h
+                sqlhandler.h \
+                plchandler.h
 
 FORMS       +=  mainwindow.ui
 
