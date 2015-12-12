@@ -281,9 +281,9 @@ int TS7Client::LastError()
     int LastError;
     int Result =Cli_GetLastError(ClientS7, &LastError);
     if (Result==0)
-       return LastError;
+        return LastError;
     else
-       return Result;
+        return Result;
 }
 //---------------------------------------------------------------------------
 int TS7Client::PDULength()
@@ -316,11 +316,11 @@ int TS7Client::PlcStatus()
 //---------------------------------------------------------------------------
 bool TS7Client::Connected()
 {
-	int ClientStatus;
+    int ClientStatus;
     if (Cli_GetConnected(ClientS7 ,&ClientStatus)==0)
-		return ClientStatus!=0;
-	else
-		return false;
+        return ClientStatus!=0;
+    else
+        return false;
 }
 //---------------------------------------------------------------------------
 int TS7Client::SetAsCallback(pfn_CliCompletion pCompletion, void *usrPtr)
@@ -509,9 +509,9 @@ bool TS7Server::PickEvent(TSrvEvent *pEvent)
 {
     int EvtReady;
     if (Srv_PickEvent(Server, pEvent, &EvtReady)==0)
-       return EvtReady!=0;
+        return EvtReady!=0;
     else
-       return false;
+        return false;
 }
 //---------------------------------------------------------------------------
 void TS7Server::ClearEvents()
@@ -584,9 +584,9 @@ int TS7Server::GetCpuStatus()
     int ServerStatus, CpuStatus, ClientsCount;
     int Result =Srv_GetStatus(Server, &ServerStatus, &CpuStatus, &ClientsCount);
     if (Result==0)
-            return CpuStatus;
+        return CpuStatus;
     else
-            return Result;
+        return Result;
 }
 //---------------------------------------------------------------------------
 int TS7Server::ClientsCount()
@@ -750,51 +750,51 @@ TextString SrvEventText(TSrvEvent *Event)
 //==============================================================================
 word SwapWord(pword Value)
 {
-	return ((*Value >> 8) & 0xFF) | ((*Value << 8) & 0xFF00);	
+    return ((*Value >> 8) & 0xFF) | ((*Value << 8) & 0xFF00);
 }
 //---------------------------------------------------------------------------
 longword SwapDWord(plongword Value)
 {
-	return (*Value >> 24) | ((*Value << 8) & 0x00FF0000) | ((*Value >> 8) & 0x0000FF00) | (*Value << 24);
+    return (*Value >> 24) | ((*Value << 8) & 0x00FF0000) | ((*Value >> 8) & 0x0000FF00) | (*Value << 24);
 }
 //---------------------------------------------------------------------------
 bool GetBitAt(void *Buffer, int Pos, int Bit)
 {
-	byte Mask[] = {0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
-	if (Bit < 0) Bit = 0;
+    byte Mask[] = {0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
+    if (Bit < 0) Bit = 0;
     if (Bit > 7) Bit = 7;
     return (*(pbyte(Buffer)+Pos) & Mask[Bit]) != 0;
 }
 //---------------------------------------------------------------------------
 byte GetByteAt(void *Buffer, int Pos)
 {
-	return *(pbyte(Buffer)+Pos);
+    return *(pbyte(Buffer)+Pos);
 }
 //---------------------------------------------------------------------------
 word GetWordAt(void *Buffer, int Pos)
 {
-	return SwapWord(pword(pbyte(Buffer)+Pos));
+    return SwapWord(pword(pbyte(Buffer)+Pos));
 }
 //---------------------------------------------------------------------------
 smallint GetIntAt(void *Buffer, int Pos)
 {
-	return smallint(SwapWord(pword(pbyte(Buffer)+Pos)));
+    return smallint(SwapWord(pword(pbyte(Buffer)+Pos)));
 }
 //---------------------------------------------------------------------------
 longword GetDWordAt(void *Buffer, int Pos)
 {
-	return SwapDWord(plongword(pbyte(Buffer)+Pos));
+    return SwapDWord(plongword(pbyte(Buffer)+Pos));
 }
 //---------------------------------------------------------------------------
 longint GetDIntAt(void *Buffer, int Pos)
 {
-	return longint(SwapDWord(plongword(pbyte(Buffer)+Pos)));
+    return longint(SwapDWord(plongword(pbyte(Buffer)+Pos)));
 }
 //---------------------------------------------------------------------------
 float GetRealAt(void *Buffer, int Pos)
 {
-	longword lw=SwapDWord(plongword(pbyte(Buffer)+Pos));
-	return *pfloat(&lw);
+    longword lw=SwapDWord(plongword(pbyte(Buffer)+Pos));
+    return *pfloat(&lw);
 }
 //---------------------------------------------------------------------------
 byte BCDtoByte(byte B)
@@ -804,9 +804,9 @@ byte BCDtoByte(byte B)
 //---------------------------------------------------------------------------
 struct tm GetDateTimeAt(void *Buffer, int Pos)
 {
-	struct tm DateTime;
-	pbyte p = pbyte(Buffer)+Pos;
-	word Year=BCDtoByte(*p);
+    struct tm DateTime;
+    pbyte p = pbyte(Buffer)+Pos;
+    word Year=BCDtoByte(*p);
 
     if (Year<90) Year+=100;
     DateTime.tm_year=Year;
@@ -816,48 +816,48 @@ struct tm GetDateTimeAt(void *Buffer, int Pos)
     DateTime.tm_min =BCDtoByte(*(p+4));
     DateTime.tm_sec =BCDtoByte(*(p+5));
     DateTime.tm_wday=(*(p+7) & 0x0F)-1;
-	return DateTime;
+    return DateTime;
 }
 //==============================================================================
 // Helper SET routines
 //==============================================================================
 void SetBitAt(void *Buffer, int Pos, int Bit, bool Value)
 {
-	byte Mask[] = {0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
-	pbyte p = pbyte(Buffer)+Pos;
-	if (Bit < 0) Bit = 0;
+    byte Mask[] = {0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
+    pbyte p = pbyte(Buffer)+Pos;
+    if (Bit < 0) Bit = 0;
     if (Bit > 7) Bit = 7;
-	(Value) ? *p |= Mask[Bit] : *p &= ~Mask[Bit];
+    (Value) ? *p |= Mask[Bit] : *p &= ~Mask[Bit];
 }
 //---------------------------------------------------------------------------
 void SetByteAt(void *Buffer, int Pos, byte Value)
 {
-	*(pbyte(Buffer)+Pos)=Value;
+    *(pbyte(Buffer)+Pos)=Value;
 }
 //---------------------------------------------------------------------------
 void SetWordAt(void *Buffer, int Pos, word Value)
 {
-	*(pword(pbyte(Buffer)+Pos))=SwapWord(&Value);
+    *(pword(pbyte(Buffer)+Pos))=SwapWord(&Value);
 }
 //---------------------------------------------------------------------------
 void SetIntAt(void *Buffer, int Pos, smallint Value)
 {
-	*(psmallint(pbyte(Buffer)+Pos))=SwapWord(pword(&Value));
+    *(psmallint(pbyte(Buffer)+Pos))=SwapWord(pword(&Value));
 }
 //---------------------------------------------------------------------------
 void SetDWordAt(void *Buffer, int Pos, longword Value)
 {
-	*(plongword(pbyte(Buffer)+Pos))=SwapDWord(&Value);
+    *(plongword(pbyte(Buffer)+Pos))=SwapDWord(&Value);
 }
 //---------------------------------------------------------------------------
 void SetDIntAt(void *Buffer, int Pos, longint Value)
 {
-	*(plongint(pbyte(Buffer)+Pos))=SwapDWord(plongword(&Value));
+    *(plongint(pbyte(Buffer)+Pos))=SwapDWord(plongword(&Value));
 }
 //---------------------------------------------------------------------------
 void SetRealAt(void *Buffer, int Pos, float Value)
 {
-	*(plongword(pbyte(Buffer)+Pos))=SwapDWord(plongword(&Value));
+    *(plongword(pbyte(Buffer)+Pos))=SwapDWord(plongword(&Value));
 }
 //---------------------------------------------------------------------------
 byte WordToBCD(word Value)
@@ -868,15 +868,15 @@ byte WordToBCD(word Value)
 void SetDateTimeAt(void *Buffer, int Pos, tm Value)
 {
     pbyte p = pbyte(Buffer)+Pos;
-	word Year = Value.tm_year;
+    word Year = Value.tm_year;
     
-	if (Year>99) Year-=100;
-	*p=WordToBCD(Year);
-	*(p+1)=WordToBCD(Value.tm_mon+1);
-	*(p+2)=WordToBCD(Value.tm_mday);
-	*(p+3)=WordToBCD(Value.tm_hour);
-	*(p+4)=WordToBCD(Value.tm_min);
-	*(p+5)=WordToBCD(Value.tm_sec);
-	*(p+6)=0;
-	*(p+7)=Value.tm_wday+1;
+    if (Year>99) Year-=100;
+    *p=WordToBCD(Year);
+    *(p+1)=WordToBCD(Value.tm_mon+1);
+    *(p+2)=WordToBCD(Value.tm_mday);
+    *(p+3)=WordToBCD(Value.tm_hour);
+    *(p+4)=WordToBCD(Value.tm_min);
+    *(p+5)=WordToBCD(Value.tm_sec);
+    *(p+6)=0;
+    *(p+7)=Value.tm_wday+1;
 }

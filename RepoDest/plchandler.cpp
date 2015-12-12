@@ -3,6 +3,7 @@
 |  plcClient Communication class                                                |
 |                                                                              |
 |=============================================================================*/
+
 #include <QDebug>
 
 #include "core/snap7.h"
@@ -31,7 +32,7 @@ PlcHandler::PlcHandler(QObject *parent) :
 
 PlcHandler::~PlcHandler()
 {
-    makeDisconnect();
+    _makeDisconnect();
 
     delete plcClient;
     plcClient = nullptr;
@@ -54,7 +55,7 @@ void PlcHandler::setDbNumber(const int &arg1)
 //------------------------------------------------------------------------------
 // Unit Connection
 //------------------------------------------------------------------------------
-bool PlcHandler::makeConnect()
+bool PlcHandler::_makeConnect()
 {
     _checkOkKo();                       // check OK and KO value - reset to 0 when OK + KO >= 1000
 
@@ -72,22 +73,26 @@ bool PlcHandler::makeConnect()
         plcClient->SetParam( p_i32_RecvTimeout, &timeout );
 
         result = plcClient->ConnectTo(_address,PLCRACK,PLCSLOT);
+        _pduNegotation = plcClient->PDULength();
 
         // checking of connection in time
         if ( ( result ==0 && isConnected == false ) ){
 
             if ( initRun == true || _connectionTryWasFault >= 5 ){
-                emit messageText( "Connected to " +
+                initRun = false;
+                qDebug() <<       "Connected to " +
                                   QString::fromStdString(_address) +
                                   " (Rack=" + QString::number(PLCRACK) +
                                   ", Slot=" + QString::number(PLCSLOT) +
                                   ")"
-                                  );
+                                  ;
 
-                emit messageText( "Execution time : " +
-                                  QString::number(plcClient->ExecTime()) +
-                                  "ms"
-                                  );
+                qDebug() <<        "Execution time : " +
+                                   QString::number(plcClient->ExecTime()) +
+                                   "ms"
+                                   ;
+                qDebug() <<        "PDU : " +
+                                   QString::number(plcClient->PDULength());
             }
             /* A S7 protocol job consists of:
                  Data preparation.
@@ -98,7 +103,7 @@ bool PlcHandler::makeConnect()
                 Each block transmitted is called PDU (protocol data unit) which is the greatest block that can be handled per transmission.
                 The “max pdu size” concept belongs to the IsoTCP protocol and it’s negotiated during the S7 connection
                 We need value at connection negotitation to calculate future multi read/write  PDU*/
-            _pduNegotation = plcClient->PDULength();
+
 
             _connectionTryWasFault = 0;
 
@@ -108,12 +113,12 @@ bool PlcHandler::makeConnect()
             emit messageOk( ok );
 
         } else if ( result != 0 ){
-            currentError = QString::fromStdString(CliErrorText(result).c_str());
-            int compareResoult = QString::compare( currentError, lastErrorMemory, Qt::CaseSensitive );
-            if ( compareResoult != 0 ) {
-                lastErrorMemory = QString::fromStdString(CliErrorText(result).c_str());
-                emit messageText( "Connection NOK" );
-                emit messageText( "Problem is :" + QString::fromStdString(CliErrorText(result).c_str()) );
+            _currentError = QString::fromStdString(CliErrorText(result).c_str());
+            int compareResoult = QString::compare( _currentError, _lastErrorMemory, Qt::CaseSensitive );
+            if ( compareResoult != 0 && _connectionTryWasFault >=3 ) {
+                _lastErrorMemory = QString::fromStdString(CliErrorText(result).c_str());
+                qWarning() << "Connection NOK" ;
+                qWarning() << "Problem is :" + QString::fromStdString(CliErrorText(result).c_str());
             }
             // if we lost connection for a long time (like a 5 time try), we set initRun connection to make an init write to PLC DB
             _connectionTryWasFault++;
@@ -128,6 +133,7 @@ bool PlcHandler::makeConnect()
         }
         emit connectionStatus( isConnected );
     }else {
+        qCritical() << "Ip address of client is not set";
         emit messageText( "Ip address of client is not set" );
         ko++;
         emit messageKo(ko);
@@ -137,7 +143,7 @@ bool PlcHandler::makeConnect()
 //------------------------------------------------------------------------------
 // Unit Disconnection
 //------------------------------------------------------------------------------
-void PlcHandler::makeDisconnect()
+void PlcHandler::_makeDisconnect()
 {
     plcClient->Disconnect();
 }
@@ -147,13 +153,14 @@ void PlcHandler::makeDisconnect()
 bool PlcHandler::makeMultiRead(RepoDestDbStruct* dbStruct)
 {
     int result = 99;
-    if ( makeConnect() ){
+    if ( _makeConnect() ){
         if ( _dbNumber != 0 ){
 
             /* PDU max payload is:
             PDULength-(14+4*Amunt*ItemsLenght), for NumItems=20 of byte it is 146. */
             _pduNegotation = _pduNegotation - ( 14 + 4 * ( 20 + 1 + 2 + 2 ) );
 
+            qDebug() << "PDU negotiation on multiread is: " + QString::number(_pduNegotation);
             plcClient->SetParam( p_i32_PDURequest, &_pduNegotation );
 
             // Prepare struct
@@ -209,35 +216,29 @@ bool PlcHandler::makeMultiRead(RepoDestDbStruct* dbStruct)
                     result = 95;
                 } else {
                     dbStruct->reference = QByteArray((const char*)&referenceBuffer);
+                    dbStruct->reference = dbStruct->reference.left(20);
                     dbStruct->reference = dbStruct->reference.trimmed();
                 }
                 if (Items[1].Result != 0){
                     emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + ".DBB1" );
                     result = 95;
                 } else {
-                    dbStruct->fault         = (bitBuffer[0] & 0x01)!=0;
-                    dbStruct->fault_ack     = (bitBuffer[0] & 0x02)!=0;
-                    dbStruct->part_ok       = (bitBuffer[0] & 0x04)!=0;
-                    dbStruct->part_ok_ack   = (bitBuffer[0] & 0x08)!=0;
-
+                    dbStruct->fault         = GetBitAt( &bitBuffer, 0, 0 );
+                    dbStruct->fault_ack     = GetBitAt( &bitBuffer, 0, 1 );
+                    dbStruct->part_ok       = GetBitAt( &bitBuffer, 0, 2 );
+                    dbStruct->part_ok_ack   = GetBitAt( &bitBuffer, 0, 3 );
                 }
                 if (Items[2].Result != 0){
                     emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + " current fault" );
                     result = 95;
                 } else {
-                    dbStruct->fault_number      = 0;
-                    dbStruct->fault_number     |= faultBuffer[0];
-                    dbStruct->fault_number    <<= 8;
-                    dbStruct->fault_number     |= faultBuffer[1];
+                    dbStruct->fault_number = GetIntAt( &faultBuffer, 0);
                 }
                 if (Items[3].Result != 0){
                     emit messageText( "Problem with reading data from DB" + QString::number( _dbNumber ) + "- partsInLastMinute" );
                     result = 95;
                 } else {
-                    dbStruct->partsInLastMinute     = 0;
-                    dbStruct->partsInLastMinute    |= partsBuffer[0];
-                    dbStruct->partsInLastMinute   <<= 8;
-                    dbStruct->partsInLastMinute    |= partsBuffer[1];
+                    dbStruct->partsInLastMinute     = GetIntAt( &partsBuffer, 0);
                 }
 
                 _check(result,"Multiread Vars"); // check result of reading
@@ -248,7 +249,7 @@ bool PlcHandler::makeMultiRead(RepoDestDbStruct* dbStruct)
             ko++;
             emit messageKo(ko);
         }
-        makeDisconnect();
+        _makeDisconnect();
     }
     return result != 0;
 }
@@ -258,11 +259,12 @@ bool PlcHandler::makeMultiRead(RepoDestDbStruct* dbStruct)
 bool PlcHandler::makeMultiWrite(RepoDestDbStruct* dbStruct)
 {
     int result = 99;
-    if ( makeConnect() ){
+    if ( _makeConnect() ){
         if ( _dbNumber != 0 ){
             /* PDU max payload is:
             PDULength-(14+4*Amunt*ItemsLenght), for NumItems=20 of byte it is 146. */
             _pduNegotation = _pduNegotation - ( 14 + 4 * ( 1 + 2 + 2 ) );
+            qDebug() << "PDU negotiation on multiwrite is: " + QString::number(_pduNegotation);
             plcClient->SetParam( 10, &_pduNegotation );
 
             // Prepare struct
@@ -270,10 +272,10 @@ bool PlcHandler::makeMultiWrite(RepoDestDbStruct* dbStruct)
 
             // NOTE : *AMOUNT IS NOT SIZE* , it's the number of items
             byte bitBuffer [1];
-            if ( dbStruct->fault )      bitBuffer[0] = 1;
-            if ( dbStruct->fault_ack )  bitBuffer[0] = bitBuffer[0] + 2;
-            if ( dbStruct->part_ok )    bitBuffer[0] = bitBuffer[0] + 4;
-            if ( dbStruct->part_ok_ack) bitBuffer[0] = bitBuffer[0] + 8;
+            SetBitAt( &bitBuffer, 0, 0, dbStruct->fault );
+            SetBitAt( &bitBuffer, 0, 1, dbStruct->fault_ack );
+            SetBitAt( &bitBuffer, 0, 2, dbStruct->part_ok );
+            SetBitAt( &bitBuffer, 0, 3, dbStruct->part_ok_ack );
 
             Items[0].Area     = S7AreaDB;
             Items[0].WordLen  = S7WLByte;
@@ -282,10 +284,8 @@ bool PlcHandler::makeMultiWrite(RepoDestDbStruct* dbStruct)
             Items[0].Amount   = 1;
             Items[0].pdata    = &bitBuffer;
 
-
             byte faultBuffer[2];
-            faultBuffer[0] = (dbStruct->fault_number >> 8) & 0xff;
-            faultBuffer[1] = dbStruct->fault_number & 0xff;
+            SetIntAt( &faultBuffer, 0, dbStruct->fault_number);
 
             Items[1].Area     = S7AreaDB;
             Items[1].WordLen  = S7WLByte;
@@ -295,8 +295,8 @@ bool PlcHandler::makeMultiWrite(RepoDestDbStruct* dbStruct)
             Items[1].pdata    = &faultBuffer;
 
             byte partsBuffer[2];
-            partsBuffer[0] = (dbStruct->partsInLastMinute >> 8) & 0xff;
-            partsBuffer[1] = dbStruct->partsInLastMinute & 0xff;
+            SetIntAt( &partsBuffer, 0, dbStruct->fault_number);
+
             Items[2].Area     = S7AreaDB;
             Items[2].WordLen  = S7WLByte;
             Items[2].DBNumber = _dbNumber;
@@ -309,9 +309,10 @@ bool PlcHandler::makeMultiWrite(RepoDestDbStruct* dbStruct)
 
         } else {
             result = 99;
+            qCritical() << "Number of client DB is not set";
             emit messageText( "Number of client DB is not set" );
         }
-        makeDisconnect();
+        _makeDisconnect();
     }
     return result != 0;
 }
@@ -324,7 +325,7 @@ bool PlcHandler::_check(int &result, const char * function)
         ok++;
         emit messageOk(ok);
     } else {
-        emit messageText( "Something goes wrong with " + QString::fromStdString( function ));
+        qWarning() << "Something goes wrong with " + QString::fromStdString( function );
         ko++;
         emit messageKo(ko);
     }
@@ -395,6 +396,7 @@ void PlcHandler::_checkOkKo()
 {
     int okAndKo = ok + ko;
     if ( okAndKo >= 1000 ){
+        _summary();
         ok = 0;
         ko = 0;
         emit messageOk( ok );

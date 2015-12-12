@@ -38,15 +38,14 @@ public:
     bool initRun;
     void setIpAddress(const char* arg1);
     void setDbNumber(const int &arg1);
-    bool makeConnect();
-    void makeDisconnect();
+
     bool makeMultiRead(RepoDestDbStruct* dbStruct);
     bool makeMultiWrite(RepoDestDbStruct* dbStruct);
 
 private:
 
-    QString currentError;
-    QString lastErrorMemory;
+    QString         _currentError;
+    QString         _lastErrorMemory;
 
     const char*     _address;              // PLC IP Address
     int             _dbNumber;             // Number of RepoDest DB
@@ -58,6 +57,8 @@ private:
     void            _unitStatus();
     void            _summary();
     void            _checkOkKo();
+    bool            _makeConnect();
+    void            _makeDisconnect();
 
 signals:
 

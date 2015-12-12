@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QSystemTrayIcon>
 #include "threadmanager.h"
 
 namespace Ui {
@@ -20,14 +20,17 @@ public:
 
 private:
     Ui::MainWindow* ui;
+    QSystemTrayIcon* sysTray;
 
     QPixmap _connectedIcon;
     QPixmap _warningIcon;
 
     void createThreadManager();
-    void setIconAndConnectionTextStatus();
     void setGuiConnection();
     void setGuiSetup();
+    void createTrayIcon();
+
+
 
 private slots:
     void plainTextEdit_textChanged(const QString &stName, const QString &arg1);
@@ -35,8 +38,9 @@ private slots:
     void lineEditOk_Changed(const QString &stName, int arg1);
     void lineEditNok_Changed(const QString &stName, int arg1);
     void lineEditTime_Changed(const QString &stName, const QString &arg1);
-
-    void on_pushButtonQuit_clicked();
+    void closeEvent(QCloseEvent * event);
+    void iconActivated(QSystemTrayIcon::ActivationReason reason);
+    void closeWindow();
 
 signals:
     void startThread();

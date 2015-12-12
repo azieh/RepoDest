@@ -22,7 +22,8 @@ public:
     void setDbNumber    (const int &arg1);
     void setName        (const char* arg1);
     RepoDestDbStruct*    dbStruct;
-    SqlDataStruct*       sqlDataStruct;
+    SqlApuDataStruct*    sqlApuDataStruct;
+    SqlPcsDataStruct*    sqlPcsDataStruct;
 
 private:
     QThread*        _thread;
@@ -33,6 +34,7 @@ private:
     QString         _name;
     QElapsedTimer   _loopTimer;
     QElapsedTimer   _faultTimer;
+    QDateTime       _datetime;
     QDate           _date;
     QTime           _time;
     bool            _faultIsDetected;
@@ -41,8 +43,9 @@ private:
     bool            _prepareDataForPartsInLastMinute;
     int             _repeatThreadTime;
 
+    QString shiftCheck();
+    QString pcsRecIdGenerator();
     void repeatThread();
-
     void checkDbStruct              (RepoDestDbStruct* dbStruct);
     void checkDbForFault            (RepoDestDbStruct* dbStruct);
     void checkDbForPartOk           (RepoDestDbStruct* dbStruct);

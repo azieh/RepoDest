@@ -6,6 +6,13 @@
 #include "workarea.h"
 #include "sqlhandler.h"
 
+struct settingsStruct {
+    QByteArray ipAddress;
+    int dbNumber;
+    QByteArray stationName;
+};
+
+
 class ThreadManager : public QObject
 {
     Q_OBJECT
@@ -14,25 +21,21 @@ public:
     ~ThreadManager();
     SqlHandler* sqlH;
     QThread* thread1;
-    QThread* thread2;
-    QThread* thread3;
-    QThread* thread4;
     WorkArea* st10;
-    WorkArea* st30;
-    WorkArea* st40;
-    WorkArea* st50;
-    WorkArea* st60;
-    WorkArea* st70;
-    WorkArea* st80;
-    WorkArea* st90;
-    WorkArea* st100;
-    WorkArea* st110;
-    WorkArea* st120;
-    WorkArea* st130;
+    QSettings* settings;
+
+    QList<settingsStruct> settingsList;
 
     void createThreads();
     void createClientDeclaration();
+    void loadSettings();
 
+private:
+
+    QDir    _apuDbPath;
+    QString _apuDbName;
+    QDir    _pcsDbPath;
+    QString _pcsDbName;
 
 signals:
 

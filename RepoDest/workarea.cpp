@@ -16,6 +16,7 @@ WorkArea::WorkArea(SqlHandler* sqlHandler, QObject *parent) :
     _faultIsDetected        = false;
     _makeWritingPlc         = true;
     _makeWritingSql         = false;
+    _prepareDataForPartsInLastMinute = false;
     _repeatThreadTime       = 500;
 
     dbStruct = new RepoDestDbStruct;
@@ -28,12 +29,36 @@ WorkArea::WorkArea(SqlHandler* sqlHandler, QObject *parent) :
         dbStruct->partsInLastMinute = 0;
     }
 
-    sqlDataStruct = new SqlDataStruct;
-    if (sqlDataStruct != nullptr ){
+    sqlApuDataStruct = new SqlApuDataStruct;
+    if (sqlApuDataStruct != nullptr ){
         // only intiger value have to be init with 0
-        sqlDataStruct->faultNumber = 0;
-        sqlDataStruct->timeElapsed = 0.0;
-        sqlDataStruct->partsInLastMinute = 0;
+        sqlApuDataStruct->faultNumber = 0;
+        sqlApuDataStruct->timeElapsed = 0.0;
+        sqlApuDataStruct->partsInLastMinute = 0;
+    }
+
+    sqlPcsDataStruct = new SqlPcsDataStruct;
+    if (sqlPcsDataStruct != nullptr ){
+        // only intiger value have to be init with 0
+        sqlPcsDataStruct->modeid    = 0;
+        sqlPcsDataStruct->stoptime  = 0;
+        // QDateTime value have initial value set to start program DateTime
+        sqlPcsDataStruct->crdate    = QDateTime::currentDateTime();
+        sqlPcsDataStruct->endate    = QDateTime::currentDateTime();
+        sqlPcsDataStruct->stdate    = QDateTime::currentDateTime();
+        sqlPcsDataStruct->usertim1  = QDateTime::currentDateTime();
+        sqlPcsDataStruct->usertim2  = QDateTime::currentDateTime();
+        sqlPcsDataStruct->usertim3  = QDateTime::currentDateTime();
+        sqlPcsDataStruct->usertim4  = QDateTime::currentDateTime();
+        // Set fixed initial value
+        sqlPcsDataStruct->plant     = "SK01";
+        sqlPcsDataStruct->modeid    = 99;
+        sqlPcsDataStruct->stoptype  = "M";
+        sqlPcsDataStruct->kimpact   = "I";
+        sqlPcsDataStruct->empid     = "PLC";
+        sqlPcsDataStruct->cruser    = "PLC";
+        sqlPcsDataStruct->recstat   = "A";
+        sqlPcsDataStruct->upload    = 0;
     }
     _plcHandler = new PlcHandler;
 }
@@ -53,6 +78,7 @@ void WorkArea::mainOperation()
     checkLoopTime();
     _date = _date.currentDate();
     _time = _time.currentTime();
+    _datetime = _datetime.currentDateTime();
 
     if ( _makeWritingPlc ) _makeWritingPlc = _plcHandler->makeMultiWrite( dbStruct );
 
@@ -105,7 +131,7 @@ void WorkArea::checkLoopTime()
 void WorkArea::sqlHInsertDataPartsInLastMinute()
 {
     mutex.lock();                              // need to lock this part of code | program can have only one connection to database in one time
-    _sqlHandler->insertValueInTo_PartsInLastMinute( sqlDataStruct );
+    _sqlHandler->insertValueIntoApu_PartsInLastMinute( sqlApuDataStruct );
     mutex.unlock();
 }
 //------------------------------------------------------------------------------
@@ -114,7 +140,8 @@ void WorkArea::sqlHInsertDataPartsInLastMinute()
 void WorkArea::sqlHInsertDataLastFaultInfo()
 {
     mutex.lock();                              // need to lock this part of code | program can have only one connection to database in one time
-    _sqlHandler->insertValueInTo_Breakes( sqlDataStruct );
+    _sqlHandler->insertValueIntoApu_Breakes( sqlApuDataStruct );
+    _sqlHandler->insertValueIntoPcs_GSTOP_DATA( sqlPcsDataStruct );
     mutex.unlock();
 }
 //------------------------------------------------------------------------------
@@ -134,20 +161,33 @@ void WorkArea::checkDbForFault( RepoDestDbStruct* dbStruct )
     if ( dbStruct->fault == true  && _faultIsDetected == false ){
         _faultTimer.start(); // if we have fault on mstation -> start timer
 
-        sqlDataStruct->stationName  = _name;
-        sqlDataStruct->date         = _date.toString("yy-MM-dd");   // get current date of fault
-        sqlDataStruct->hour         = _time.toString("hh:mm");      // get current time of fault
-        sqlDataStruct->faultNumber  = dbStruct->fault_number;       // coppy fault number
-        sqlDataStruct->reference    = dbStruct->reference;          // coppy reference number
 
-        emit messageText( _name,
-                          "Fault on machine number " +
-                          QString::number( sqlDataStruct->faultNumber )
-                          );
-        emit messageText( _name,
-                          "On reference: " +
-                          sqlDataStruct->reference
-                          );
+        /*-----------------------------------------------------------------------------------------
+         *  Preapare SQL APU Datastruct
+         * ---------------------------------------------------------------------------------------*/
+
+        sqlApuDataStruct->stationName  = _name;
+        sqlApuDataStruct->date         = _date.toString("yy-MM-dd"); // get current date of fault
+        sqlApuDataStruct->hour         = _time.toString("hh:mm"); // get current time of fault
+        sqlApuDataStruct->faultNumber  = dbStruct->fault_number; // coppy fault number
+        sqlApuDataStruct->reference    = dbStruct->reference;    // coppy reference number
+
+        /*-----------------------------------------------------------------------------------------
+         *  Preapare SQL PCS Datastruct
+         * ---------------------------------------------------------------------------------------*/
+
+        sqlPcsDataStruct->cellid       = _name;
+        sqlPcsDataStruct->recid        = pcsRecIdGenerator();
+        sqlPcsDataStruct->stopid       = _name + "0" + QString::number( dbStruct->fault_number );
+        sqlPcsDataStruct->partnb       = dbStruct->reference;
+        sqlPcsDataStruct->refend       = dbStruct->reference;
+        sqlPcsDataStruct->shiftid      = shiftCheck();
+        sqlPcsDataStruct->stdate       = _datetime;
+        sqlPcsDataStruct->level1       = _name + "0" + QString::number( dbStruct->fault_number );
+
+        emit messageText( _name, _date.toString("yy-MM-dd") + "       " + _time.toString("hh:mm") );
+        emit messageText( _name, "Fault on machine number " + QString::number( sqlApuDataStruct->faultNumber ) );
+        emit messageText( _name, "On reference: " + sqlApuDataStruct->reference );
 
         // after read problem data, set ack bit for PLC
         dbStruct->fault         = false;
@@ -171,17 +211,34 @@ void WorkArea::checkDbForPartOk( RepoDestDbStruct* dbStruct )
         int _faultTimeElapsedMemory         =  _faultTimer.elapsed(); // if we have first good part after fault, read time since start timer
 
         /* IF WE WANT RESULT IN mm:ss we need to start this part of code */
-//        int _faultTimeElapsedMemoryMinutes  =   _faultTimeElapsedMemory / 60000; // coppy time from ms to minute
-//        int _faultTimeElapsedMemorySeconds  = ( _faultTimeElapsedMemory % 60000 ) / 1000; // coppy time from ms to seconds
-//        // change prepared time value to double in format [min.ss]
-//        sqlDataStruct->timeElapsed          = (double)_faultTimeElapsedMemoryMinutes + ( (double)_faultTimeElapsedMemorySeconds / 100.0 );
-//        emit messageText( _name, "Fault time = " + ( QString::number( _faultTimeElapsedMemoryMinutes) + " min ") + ( QString::number ( _faultTimeElapsedMemorySeconds ) + " sec") );
-
+        /*
+        int _faultTimeElapsedMemoryMinutes  =   _faultTimeElapsedMemory / 60000; // coppy time from ms to minute
+        int _faultTimeElapsedMemorySeconds  = ( _faultTimeElapsedMemory % 60000 ) / 1000; // coppy time from ms to seconds
+        // change prepared time value to double in format [min.ss]
+        sqlDataStruct->timeElapsed          = (double)_faultTimeElapsedMemoryMinutes + ( (double)_faultTimeElapsedMemorySeconds / 100.0 );
+        emit messageText( _name, "Fault time = " + ( QString::number( _faultTimeElapsedMemoryMinutes) + " min ") + ( QString::number ( _faultTimeElapsedMemorySeconds ) + " sec") );
+        */
         /* IF WE WANT RESULT IN seconds we need to start this part of code */
         int _faultTimeElapsedMemorySeconds  = ( _faultTimeElapsedMemory ) / 1000; // coppy time from ms to seconds
         // change prepared time value to double in format [ss.ms] but we use just seconds format in that moment
-        sqlDataStruct->timeElapsed          =  (double)_faultTimeElapsedMemorySeconds;
+
+        /*-----------------------------------------------------------------------------------------
+         *  Preapare SQL APU Datastruct
+         * ---------------------------------------------------------------------------------------*/
+        sqlApuDataStruct->timeElapsed          =  (double)_faultTimeElapsedMemorySeconds;
+        /*-----------------------------------------------------------------------------------------
+         *  Preapare PCS APU Datastruct
+         * ---------------------------------------------------------------------------------------*/
+        sqlPcsDataStruct->endate               = _datetime;
+        sqlPcsDataStruct->stoptime             = _faultTimeElapsedMemorySeconds;
+        sqlPcsDataStruct->crdate               = _datetime;
+        sqlPcsDataStruct->usertim1             = _datetime;
+        sqlPcsDataStruct->usertim2             = _datetime;
+        sqlPcsDataStruct->usertim3             = _datetime;
+        sqlPcsDataStruct->usertim4             = _datetime;
+
         emit messageText( _name, "Fault time = " + ( QString::number ( _faultTimeElapsedMemorySeconds ) + " sec") );
+        emit messageText( _name, "_____________________________________");
 
         // after read ok product data, set ack bit for PLC
         dbStruct->fault         = false;
@@ -206,12 +263,13 @@ void WorkArea::checkDbForPartsInLastMinute(RepoDestDbStruct* dbStruct)
     if ( _prepareDataForPartsInLastMinute == false ){
         if ( _time.second() == 0) _prepareDataForPartsInLastMinute = true;
     }
+
     if ( _prepareDataForPartsInLastMinute && _time.second() != 0 ){
-        sqlDataStruct->stationName          = _name;
-        sqlDataStruct->date                 = _date.toString("yy-MM-dd"); // get current date of fault
-        sqlDataStruct->hour                 = _time.toString("hh:mm"); // get current time of fault
-        sqlDataStruct->reference            = dbStruct->reference;    // coppy reference number
-        sqlDataStruct->partsInLastMinute    = dbStruct->partsInLastMinute;
+        sqlApuDataStruct->stationName          = _name;
+        sqlApuDataStruct->date                 = _date.toString("yy-MM-dd"); // get current date of fault
+        sqlApuDataStruct->hour                 = _time.toString("hh:mm"); // get current time of fault
+        sqlApuDataStruct->reference            = dbStruct->reference;    // coppy reference number
+        sqlApuDataStruct->partsInLastMinute    = dbStruct->partsInLastMinute;
 
         dbStruct->partsInLastMinute = 0;
 
@@ -221,6 +279,36 @@ void WorkArea::checkDbForPartsInLastMinute(RepoDestDbStruct* dbStruct)
 
         _prepareDataForPartsInLastMinute = false;
     }
+}
+//------------------------------------------------------------------------------
+// Shift check
+//------------------------------------------------------------------------------
+QString WorkArea::shiftCheck()
+{
+    QString shiftName;
+
+    if ( _time.hour() >= 6 && _time.hour() < 14 ){
+        shiftName = "ZM1";
+    }
+    else if ( _time.hour() >= 14 && _time.hour() < 22 ){
+        shiftName = "ZM2";
+    }
+    else if ( _time.hour() >= 22 && _time.hour() < 6 ){
+        shiftName = "ZM3";
+    }
+
+    return shiftName;
+}
+//------------------------------------------------------------------------------
+// PCS RECID generator
+//------------------------------------------------------------------------------
+QString WorkArea::pcsRecIdGenerator()
+{
+    QString recId;
+
+    recId = "PLC" + QString::number( _date.dayOfYear() ) + _time.toString("HH") + _time.toString("mm");
+
+    return recId;
 }
 //------------------------------------------------------------------------------
 // Signals and slot area
